@@ -6,6 +6,10 @@ Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'nvie/vim-flake8'
+Plug 'ThePrimeagen/vim-be-good'
+Plug 'jeetsukumaran/vim-pythonsense'
+Plug 'ghifarit53/tokyonight-vim'
+Plug 'itchyny/lightline.vim'
 call plug#end()
 
 if filereadable($LOCALVIMRC)
@@ -76,14 +80,12 @@ let &t_EI = "\e[2 q"
 set noswapfile
 set nobackup
 
-" Unified color scheme (default: dark)
-color seoul256
+let g:tokyonight_style = "storm"
+let g:tokyonight_enable_italic = 1
+let g:tokyonight_transparent_background = 1
+let g:lightline = {'colorscheme' : 'tokyonight'}
 
-" Light color scheme
-color seoul256-light
-
-" Switch
-set background=dark
+colorscheme tokyonight
 
 nnoremap <C-j> :m .+1<CR>==
 nnoremap <C-k> :m .-2<CR>==
