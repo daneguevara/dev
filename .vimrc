@@ -1,4 +1,5 @@
 call plug#begin()
+
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'tpope/vim-sensible'
 Plug 'junegunn/seoul256.vim'
@@ -10,19 +11,27 @@ Plug 'ThePrimeagen/vim-be-good'
 Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'itchyny/lightline.vim'
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'jremmen/vim-ripgrep'
+Plug 'zbirenbaum/copilot.lua'
+
 call plug#end()
 
 if filereadable($LOCALVIMRC)
     source $LOCALVIMRC
 endif
 
-set nocompatible
 syntax on
+
+set clipboard=unnamedplus
+set mouse=a
+
+set nocompatible
 set modelines=0
 set wildignore+=*/node_modules
 set expandtab
 set tabstop=2
-set softtabstop=2 
+set softtabstop=2
 set encoding=utf-8
 set autoindent
 set showmode
@@ -37,9 +46,6 @@ set backspace=indent,eol,start
 set laststatus=2
 set number
 set relativenumber
-
-let mapleader = ","
-
 set ignorecase
 set smartcase
 set gdefault
@@ -47,56 +53,185 @@ set incsearch
 set showmatch
 set hlsearch
 
-nnoremap <LEADER>p "0p
-nnoremap <LEADER>P "0P
-nnoremap <LEADER><SPACE> :noh<CR>
+let mapleader = ","
+
+" === NORMAL + VISUAL + OPERATOR MODE REMAPS ===
+
+" file search, change buffer, yank to local shortcuts
+noremap <leader>f :Rg <space>
+noremap <leader>p :FZF /mnt/code.capitalrx.com/
+noremap <leader>e :NERDTreeToggle<cr>
+noremap <leader>b :buffers<cr>:b
+noremap <leader>y :w! /vagrant/yeet<cr>
+
+" === NORMAL MODE REMAPS ===
+
+" fast commands
 nnoremap ; :
-nnoremap <C-j> j
-nnoremap <C-k> k
-nnoremap <C-h> ^
-nnoremap <C-l> $
-noremap <LEADER>f :FZF<CR>
-noremap <LEADER>e :NERDTreeToggle<CR>
+nnoremap q; q:
 
-inoremap ;; <ESC>`^
-inoremap <C-j> <Down>
-inoremap <C-k> <Up>
-inoremap <C-h> <C-o>^
-inoremap <C-l> <C-o>$
+" ctrl enter, ctrl shift enter new lines - stay in normal mode
+nnoremap <c-cr> o<esc>
+nnoremap <c-s-cr> O<esc>
 
-vnoremap ;; <ESC>
-vnoremap <C-j> :m '>-2<CR>
-vnoremap <C-k> :m '<-2<CR>
-vnoremap <C-h> ^
-vnoremap <C-l> $
+" ctrl bs, ctrl shift bs to remove new lines
+nnoremap <c-bs> jddk
+nnoremap <c-s-bs> kdd
 
-set mouse=a
-set notimeout ttimeout ttimeoutlen=200
-set pastetoggle=<f12>
+" ez search highlighting and clearing
+nnoremap <leader><leader> *``;
+nnoremap <leader><space> :noh<cr>
 
-let &t_SI = "\e[5 q"
-let &t_EI = "\e[2 q"
+" shift tab to pair reverse jumplist with tab-jumplist
+nnoremap <s-tab> <c-o>
 
+" quick indents
+nnoremap > >>
+nnoremap < <<
+
+" ctrl hl side jumps, single line jumps
+nnoremap <c-h> <home>
+nnoremap <c-j> j<c-e>
+nnoremap <c-k> k<c-y>
+nnoremap <c-l> <end>
+
+" ctrl arrow 4-D jumps
+nnoremap <c-left> <home>
+nnoremap <c-down> G
+nnoremap <c-up> gg
+nnoremap <c-right> <end>
+
+" meta (alt) hl side word jumps, jk line swapping
+nnoremap <m-h> b
+nnoremap <m-j> :m .+1<cr>==
+nnoremap <m-k> :m .-2<cr>==
+nnoremap <m-l> e
+
+" arrow keys side word jumps, line swapping
+nnoremap <m-left> b
+nnoremap <m-down> :m .+1<cr>==
+nnoremap <m-up> :m .-2<cr>==
+nnoremap <m-right> e
+
+" === INSERT MODE REMAPS ===
+
+" alternate escapes insert mode
+inoremap ;; <esc>`^
+inoremap jk <esc>`^
+inoremap kj <esc>
+
+" intellisense/autocomplete
+inoremap <c-tab> <c-x><c-o>
+
+" ctrl hjkl insert movements
+inoremap <c-h> <home>
+inoremap <c-j> <c-g>j
+inoremap <c-k> <c-g>k
+inoremap <c-l> <end>
+
+inoremap <c-left> <home>
+inoremap <c-down> <c-o>G
+inoremap <c-up> <c-o>gg
+inoremap <c-right> <end>
+
+inoremap <m-h> <c-o>b
+inoremap <m-j> <esc>:m .+1<cr>==gi
+inoremap <m-k> <esc>:m .-2<cr>==gi
+inoremap <m-l> <c-o>e<right>
+
+inoremap <m-left> <c-o>b
+inoremap <m-down> <esc>:m .+1<cr>==gi
+inoremap <m-up> <esc>:m .-2<cr>==gi
+inoremap <m-right> <c-o>e<right>
+
+" === VISUAL MODE REMAPS ===
+
+vnoremap ; :
+
+" ctrl hjkl movements visual mode
+vnoremap <c-h> ^
+vnoremap <c-j> jzz
+vnoremap <c-k> kzz
+vnoremap <c-l> $
+
+vnoremap <c-left> <home>
+vnoremap <c-down> G
+vnoremap <c-up> gg
+vnoremap <c-right> <end>
+
+" selection hl shift indents, jk line swaps
+vnoremap < <gv
+vnoremap > >gv
+
+vnoremap <m-h> b
+vnoremap <m-j> :m '>+1<cr>gv=gv
+vnoremap <m-k> :m '<-2<cr>gv=gv
+vnoremap <m-l> e
+
+vnoremap <m-left> b
+vnoremap <m-down> :m '>+1<cr>gv=gv
+vnoremap <m-up> :m '<-2<cr>gv=gv
+vnoremap <m-right> e
+
+" === EMULATE SHIFT SELECT REMAPS (SELECT MODE) ===
+
+nnoremap <s-left> v<c-g><left>
+nnoremap <s-down> v<c-g><down>
+nnoremap <s-up> v<c-g><up>
+nnoremap <s-right> v<c-g><right>
+
+nnoremap <c-s-left> v<c-g><home>
+nnoremap <c-s-down> v<c-g>G
+nnoremap <c-s-up> v<c-g>gg
+nnoremap <c-s-right> v<c-g><end>
+
+nnoremap <m-s-left> v<c-g><s-left>
+nnoremap <m-s-right> v<c-g><s-right>
+
+" nbd if non shift arrows don't leave
+" snoremap <left> <left><esc>
+" snoremap <down> <down><esc>
+" snoremap <up> <up><esc>
+" snoremap <right> <right><esc>
+
+snoremap <s-left> <left>
+snoremap <s-down> <down>
+snoremap <s-up> <up>
+snoremap <s-right> <right>
+
+snoremap <c-s-left> <home>
+snoremap <c-s-down> <c-o>G
+snoremap <c-s-up> <c-o>gg
+snoremap <c-s-right> <end>
+
+snoremap <m-s-left> <s-left>
+snoremap <m-s-down> <down>
+snoremap <m-s-up> <up>
+snoremap <m-s-right> <s-right>
+
+" === TERMINAL MODE REMAPS ===
+
+" alternate escape for fzf
+tnoremap jk <esc>
+
+" unlimited time for multi-keybinds
+set notimeout ttimeout
+
+" stay tidy
 set noswapfile
 set nobackup
 
+" cursor modes
+let &t_SI = "\e[5 q"
+let &t_EI = "\e[2 q"
+
+" weeeeebin out
 let g:tokyonight_style = "storm"
-let g:tokyonight_enable_italic = 1
+let g:tokykonight_enable_italic = 1
 let g:tokyonight_transparent_background = 1
 let g:lightline = {'colorscheme' : 'tokyonight'}
 
 colorscheme tokyonight
-
-nnoremap <C-j> :m .+1<CR>==
-nnoremap <C-k> :m .-2<CR>==
-inoremap <C-j> <Esc>:m .+1<CR>==gi
-inoremap <C-k> <Esc>:m .-2<CR>==gi
-vnoremap <C-j> :m '>+1<CR>gv=gv
-vnoremap <C-k> :m '<-2<CR>gv=gv
-nnoremap > >>
-nnoremap < <<
-vnoremap > >gv
-vnoremap < <gv
 
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
@@ -111,7 +246,7 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> <leader>rn <plug>(lsp-rename)
     nmap <buffer> [g <plug>(lsp-previous-diagnostic)
     nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-    nmap <buffer> K <plug>(lsp-hover)
+    nmap <buffer> ,k <plug>(lsp-hover)
 
     let g:lsp_format_sync_timeout = 1000
     autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
@@ -125,6 +260,17 @@ augroup lsp_install
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
+function Toggle_current_buffer_diagnostics()
+    let buffer_id = buffer_number()
+
+    if lsp#internal#diagnostics#state#_is_enabled_for_buffer(buffer_id)
+        call lsp#disable_diagnostics_for_buffer(buffer_id)
+    else
+        call lsp#enable_diagnostics_for_buffer(buffer_id)
+    endif
+endfunction
+
+noremap <f2> :call Toggle_current_buffer_diagnostics()<cr>
 
 " Initialize configuration dictionary
 let g:fzf_vim = {}
@@ -134,8 +280,15 @@ let g:lsp_settings = {
 \   'pylsp-all': {
 \     'workspace_config': {
 \       'pylsp': {
-\         'configurationSources': ['flake8']
-\       }
-\     }
+\         'configurationSources': ['flake8'],
+\         'plugins': {
+\           'flake8': {
+\             'hangClosing': v:true,
+\           },
+\         },
+\       },
+\     },
 \   },
 \}
+
+let g:pyindent_open_paren = 'shiftwidth()'
