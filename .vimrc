@@ -242,7 +242,7 @@ smap <right> <s-right><c-g>
 smap <c-left> <c-s-left><c-g>
 smap <c-down> <c-s-down><c-g>
 smap <c-up> <c-s-up><c-g>
-smap <c-right><c-s-right><c-g>
+smap <c-right> <c-s-right><c-g>
 
 smap <m-left> <m-s-left><c-g>
 smap <m-down> <m-s-down><c-g>
