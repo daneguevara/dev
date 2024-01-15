@@ -13,7 +13,8 @@ Plug 'ghifarit53/tokyonight-vim'
 Plug 'itchyny/lightline.vim'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'jremmen/vim-ripgrep'
-Plug 'zbirenbaum/copilot.lua'
+" Plug 'zbirenbaum/copilot.lua'
+Plug 'itchyny/vim-gitbranch'
 
 call plug#end()
 
@@ -95,17 +96,17 @@ nnoremap <c-j> j<c-e>
 nnoremap <c-k> k<c-y>
 nnoremap <c-l> <end>
 
-" ctrl arrow 4-D jumps
-nnoremap <c-left> <home>
-nnoremap <c-down> G
-nnoremap <c-up> gg
-nnoremap <c-right> <end>
-
 " meta (alt) hl side word jumps, jk line swapping
 nnoremap <m-h> b
 nnoremap <m-j> :m .+1<cr>==
 nnoremap <m-k> :m .-2<cr>==
 nnoremap <m-l> e
+
+" ctrl arrow 4-D jumps
+nnoremap <c-left> <home>
+nnoremap <c-down> G
+nnoremap <c-up> gg
+nnoremap <c-right> <end>
 
 " arrow keys side word jumps, line swapping
 nnoremap <m-left> b
@@ -116,12 +117,10 @@ nnoremap <m-right> e
 " === INSERT MODE REMAPS ===
 
 " alternate escapes insert mode
-inoremap ;; <esc>`^
 inoremap jk <esc>`^
-inoremap kj <esc>
 
 " intellisense/autocomplete
-inoremap <c-tab> <c-x><c-o>
+inoremap <s-tab> <c-x><c-o>
 
 " ctrl hjkl insert movements
 inoremap <c-h> <home>
@@ -129,15 +128,15 @@ inoremap <c-j> <c-g>j
 inoremap <c-k> <c-g>k
 inoremap <c-l> <end>
 
-inoremap <c-left> <home>
-inoremap <c-down> <c-o>G
-inoremap <c-up> <c-o>gg
-inoremap <c-right> <end>
-
 inoremap <m-h> <c-o>b
 inoremap <m-j> <esc>:m .+1<cr>==gi
 inoremap <m-k> <esc>:m .-2<cr>==gi
 inoremap <m-l> <c-o>e<right>
+
+inoremap <c-left> <home>
+inoremap <c-down> <c-o>G
+inoremap <c-up> <c-o>gg
+inoremap <c-right> <end>
 
 inoremap <m-left> <c-o>b
 inoremap <m-down> <esc>:m .+1<cr>==gi
@@ -148,51 +147,78 @@ inoremap <m-right> <c-o>e<right>
 
 vnoremap ; :
 
+" selection hl shift indents, jk line swaps
+vnoremap < <gv
+vnoremap > >gv
+
 " ctrl hjkl movements visual mode
 vnoremap <c-h> ^
 vnoremap <c-j> jzz
 vnoremap <c-k> kzz
 vnoremap <c-l> $
 
-vnoremap <c-left> <home>
-vnoremap <c-down> G
-vnoremap <c-up> gg
-vnoremap <c-right> <end>
-
-" selection hl shift indents, jk line swaps
-vnoremap < <gv
-vnoremap > >gv
-
 vnoremap <m-h> b
 vnoremap <m-j> :m '>+1<cr>gv=gv
 vnoremap <m-k> :m '<-2<cr>gv=gv
 vnoremap <m-l> e
+
+vnoremap <c-left> <home>
+vnoremap <c-down> G
+vnoremap <c-up> gg
+vnoremap <c-right> <end>
 
 vnoremap <m-left> b
 vnoremap <m-down> :m '>+1<cr>gv=gv
 vnoremap <m-up> :m '<-2<cr>gv=gv
 vnoremap <m-right> e
 
-" === EMULATE SHIFT SELECT REMAPS (SELECT MODE) ===
+" === EMULATE SHIFT select remaps (select mode) ===
 
-nnoremap <s-left> v<c-g><left>
-nnoremap <s-down> v<c-g><down>
-nnoremap <s-up> v<c-g><up>
-nnoremap <s-right> v<c-g><right>
+" normal mode cursor move keys enter select mode
+nmap <s-left> v<c-g><left>
+nmap <s-down> v<c-g><down>
+nmap <s-up> v<c-g><up>
+nmap <s-right> v<c-g><right>
 
-nnoremap <c-s-left> v<c-g><home>
-nnoremap <c-s-down> v<c-g>G
-nnoremap <c-s-up> v<c-g>gg
-nnoremap <c-s-right> v<c-g><end>
+nmap <c-s-left> v<c-g><c-left>
+nmap <c-s-down> v<c-g><c-down>
+nmap <c-s-up> v<c-g><c-up>
+nmap <c-s-right> v<c-g><c-right>
 
-nnoremap <m-s-left> v<c-g><s-left>
-nnoremap <m-s-right> v<c-g><s-right>
+nmap <m-s-left> v<c-g><m-left>
+nmap <m-s-down> yym`P``
+nmap <m-s-up> yym`P``k
+nmap <m-s-right> v<c-g><m-right>
 
-" nbd if non shift arrows don't leave
-" snoremap <left> <left><esc>
-" snoremap <down> <down><esc>
-" snoremap <up> <up><esc>
-" snoremap <right> <right><esc>
+imap <s-left> jk<s-left>
+imap <s-down> jk<s-down>
+imap <s-up> jk<s-up>
+imap <s-right> jk<s-right>
+
+imap <c-s-left> jk<c-s-left>
+imap <c-s-down> jk<c-s-down>
+imap <c-s-up> jk<c-s-up>
+imap <c-s-right> jk<c-s-right>
+
+imap <m-s-left> jk<m-s-left>
+imap <m-s-down> jk<m-s-down>i
+imap <m-s-up> jk<m-s-up>i
+imap <m-s-right> jk<m-s-right>
+
+vnoremap <s-left> <c-g><left>
+vnoremap <s-down> <c-g><down>
+vnoremap <s-up> <c-g><up>
+vnoremap <s-right> <c-g><right>
+
+vnoremap <c-s-left> <c-g><home>
+vnoremap <c-s-down> <c-g>G
+vnoremap <c-s-up> <c-g>gg
+vnoremap <c-s-right> <c-g><end>
+
+vnoremap <m-s-left> <c-g><s-left>
+vnoremap <m-s-down> m`YP``gv
+vnoremap <m-s-up> m`Y:lock normal P<cr>``gv
+vnoremap <m-s-right> <c-g><s-right>
 
 snoremap <s-left> <left>
 snoremap <s-down> <down>
@@ -205,9 +231,23 @@ snoremap <c-s-up> <c-o>gg
 snoremap <c-s-right> <end>
 
 snoremap <m-s-left> <s-left>
-snoremap <m-s-down> <down>
-snoremap <m-s-up> <up>
 snoremap <m-s-right> <s-right>
+
+" stop selection without shift key
+smap <left> <s-left><c-g>
+smap <down> <s-down><c-g>
+smap <up> <s-up><c-g>
+smap <right> <s-right><c-g>
+
+smap <c-left> <c-s-left><c-g>
+smap <c-down> <c-s-down><c-g>
+smap <c-up> <c-s-up><c-g>
+smap <c-right><c-s-right><c-g>
+
+smap <m-left> <m-s-left><c-g>
+smap <m-down> <m-s-down><c-g>
+smap <m-up> <m-s-up><c-g>
+smap <m-right> <m-s-right><c-g>
 
 " === TERMINAL MODE REMAPS ===
 
@@ -288,6 +328,19 @@ let g:lsp_settings = {
 \         },
 \       },
 \     },
+\   },
+\}
+
+let g:lightline = {
+\   'colorscheme': 'wombat',
+\   'active': {
+\     'left': [
+\       [ 'mode', 'paste' ],
+\       [ 'gitbranch', 'readonly', 'filename', 'modified' ],
+\     ],
+\   },
+\   'component_function': {
+\     'gitbranch': 'FugitiveHead',
 \   },
 \}
 
