@@ -1,20 +1,46 @@
 call plug#begin()
 
+" file searching
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'jremmen/vim-ripgrep'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+" default settings
 Plug 'tpope/vim-sensible'
-Plug 'junegunn/seoul256.vim'
+
+" vim language server protocol
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'nvie/vim-flake8'
-Plug 'ThePrimeagen/vim-be-good'
+
+" async autocomplete general
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+" async autocomplete ts
+Plug 'runoshun/tscompletejob'
+Plug 'prabirshrestha/asyncomplete-tscompletejob.vim'
+
+" python linting, formatting
 Plug 'jeetsukumaran/vim-pythonsense'
+Plug 'nvie/vim-flake8'
+Plug 'Vimjas/vim-python-pep8-indent'
+
+" theme and colors
 Plug 'ghifarit53/tokyonight-vim'
 Plug 'itchyny/lightline.vim'
-Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'jremmen/vim-ripgrep'
-" Plug 'zbirenbaum/copilot.lua'
+
+" git
 Plug 'itchyny/vim-gitbranch'
+
+" undo tree history
+Plug 'mbbill/undotree'
+
+" snippets
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+" github copilot - need to upgrade nvim
+" Plug 'zbirenbaum/copilot.lua'
 
 call plug#end()
 
@@ -24,12 +50,10 @@ endif
 
 syntax on
 
-set clipboard=unnamedplus
 set mouse=a
-
-set nocompatible
 set modelines=0
 set wildignore+=*/node_modules
+set wildmode=list
 set expandtab
 set tabstop=2
 set softtabstop=2
@@ -38,21 +62,22 @@ set autoindent
 set showmode
 set showcmd
 set hidden
-set wildmenu
-set wildmode=list:longest
 set visualbell
-set ttyfast
 set ruler
-set backspace=indent,eol,start
-set laststatus=2
 set number
 set relativenumber
 set ignorecase
 set smartcase
 set gdefault
-set incsearch
 set showmatch
 set hlsearch
+
+" unlimited time for multi-keybinds
+set notimeout ttimeout
+
+" stay tidy
+set noswapfile
+set nobackup
 
 let mapleader = ","
 
@@ -64,6 +89,7 @@ noremap <leader>p :FZF /mnt/code.capitalrx.com/
 noremap <leader>e :NERDTreeToggle<cr>
 noremap <leader>b :buffers<cr>:b
 noremap <leader>y :w! /vagrant/yeet<cr>
+noremap <leader>u :UndotreeToggle<cr>
 
 " === NORMAL MODE REMAPS ===
 
@@ -72,8 +98,8 @@ nnoremap ; :
 nnoremap q; q:
 
 " ctrl enter, ctrl shift enter new lines - stay in normal mode
-nnoremap <c-cr> o<esc>
-nnoremap <c-s-cr> O<esc>
+nnoremap <c-cr> o<esc>d0
+nnoremap <c-s-cr> O<esc>d0
 
 " ctrl bs, ctrl shift bs to remove new lines
 nnoremap <c-bs> jddk
@@ -81,7 +107,7 @@ nnoremap <c-s-bs> kdd
 
 " ez search highlighting and clearing
 nnoremap <leader><leader> *``;
-nnoremap <leader><space> :noh<cr>
+nnoremap <leader><space> :noh<cr>:echo ''<cr>
 
 " shift tab to pair reverse jumplist with tab-jumplist
 nnoremap <s-tab> <c-o>
@@ -118,9 +144,6 @@ nnoremap <m-right> e
 
 " alternate escapes insert mode
 inoremap jk <esc>`^
-
-" intellisense/autocomplete
-inoremap <s-tab> <c-x><c-o>
 
 " ctrl hjkl insert movements
 inoremap <c-h> <home>
@@ -254,16 +277,15 @@ smap <m-right> <m-s-right><c-g>
 " alternate escape for fzf
 tnoremap jk <esc>
 
-" unlimited time for multi-keybinds
-set notimeout ttimeout
-
-" stay tidy
-set noswapfile
-set nobackup
+" === THEME SETTINGS ===
 
 " cursor modes
 let &t_SI = "\e[5 q"
 let &t_EI = "\e[2 q"
+
+" fzf settings
+let g:fzf_vim = {}
+let g:fzf_vim.preview_wigdow = ['right,50%', 'ctrl-/']
 
 " weeeeebin out
 let g:tokyonight_style = "storm"
@@ -273,6 +295,39 @@ let g:lightline = {'colorscheme' : 'tokyonight'}
 
 colorscheme tokyonight
 
+let g:lightline = {
+\   'colorscheme': 'wombat',
+\   'active': {
+\     'left': [
+\       [ 'mode', 'paste' ],
+\       [ 'gitbranch', 'readonly', 'filename', 'modified' ],
+\     ],
+\   },
+\   'component_function': {
+\     'gitbranch': 'FugitiveHead',
+\   },
+\}
+
+" === VIM LSP SETTINGS ===
+
+" register python async autocomplete
+if executable('pylsp')
+    " pip install python-lsp-server
+    au User lsp_setup call lsp#register_server({
+    \  'name': 'pylsp',
+    \  'cmd': {server_info->['pylsp']},
+    \  'allowlist': ['python'],
+    \})
+endif
+
+" register ts async autocomplete
+call asyncomplete#register_source(asyncomplete#sources#tscompletejob#get_source_options({
+\  'name': 'tscompletejob',
+\  'allowlist': ['typescript'],
+\  'completor': function('asyncomplete#sources#tscompletejob#completor'),
+\}))
+
+" vim-lsp autocomplete setup, keybinds
 function! s:on_lsp_buffer_enabled() abort
     setlocal omnifunc=lsp#complete
     setlocal signcolumn=yes
@@ -286,7 +341,9 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> <leader>rn <plug>(lsp-rename)
     nmap <buffer> [g <plug>(lsp-previous-diagnostic)
     nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-    nmap <buffer> ,k <plug>(lsp-hover)
+    nmap <buffer> gk <plug>(lsp-hover)
+    " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+    " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
     let g:lsp_format_sync_timeout = 1000
     autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
@@ -300,22 +357,16 @@ augroup lsp_install
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
-function Toggle_current_buffer_diagnostics()
-    let buffer_id = buffer_number()
+" autocomplete keybinds
+inoremap <expr> <tab>   pumvisible() ? "\<c-n>" : "\<tab>"
+inoremap <expr> <s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
-    if lsp#internal#diagnostics#state#_is_enabled_for_buffer(buffer_id)
-        call lsp#disable_diagnostics_for_buffer(buffer_id)
-    else
-        call lsp#enable_diagnostics_for_buffer(buffer_id)
-    endif
-endfunction
+imap <c-space> <Plug>(asyncomplete_force_refresh)
+" For Vim 8 (<c-@> corresponds to <c-space>):
+" imap <c-@> <Plug>(asyncomplete_force_refresh)
 
-noremap <f2> :call Toggle_current_buffer_diagnostics()<cr>
-
-" Initialize configuration dictionary
-let g:fzf_vim = {}
-let g:fzf_vim.preview_window = ['right,50%', 'ctrl-/']
-
+" vim-lsp general settings
 let g:lsp_settings = {
 \   'pylsp-all': {
 \     'workspace_config': {
@@ -331,17 +382,36 @@ let g:lsp_settings = {
 \   },
 \}
 
-let g:lightline = {
-\   'colorscheme': 'wombat',
-\   'active': {
-\     'left': [
-\       [ 'mode', 'paste' ],
-\       [ 'gitbranch', 'readonly', 'filename', 'modified' ],
-\     ],
-\   },
-\   'component_function': {
-\     'gitbranch': 'FugitiveHead',
-\   },
-\}
-
 let g:pyindent_open_paren = 'shiftwidth()'
+let g:python_host_prog = '/home/vagrant/.pyenv/versions/py2nvim/bin/python'
+let g:python3_host_prog = '/home/vagrant/.pyenv/versions/py3nvim/bin/python'
+
+" === CUSTOM FUNCTIONS ===
+function Toggle_current_buffer_diagnostics()
+    let buffer_id = buffer_number()
+
+    if lsp#internal#diagnostics#state#_is_enabled_for_buffer(buffer_id)
+        call lsp#disable_diagnostics_for_buffer(buffer_id)
+
+        return "Diagnostics disabled for buffer " . buffer_id
+    else
+        call lsp#enable_diagnostics_for_buffer(buffer_id)
+
+        return "Diagnostics enabled for buffer " . buffer_id
+    endif
+endfunction
+
+function Toggle_mouse()
+    if &mouse == 'a'
+        set mouse=
+
+        return "Mouse disabled, terminal c/p enabled"
+    endif
+
+    set mouse=a
+
+    return "Mouse enabled, terminal c/p disabled"
+endfunction
+
+noremap <f2> :echo Toggle_current_buffer_diagnostics()<cr>
+noremap <f3> :echo Toggle_mouse()<cr>
