@@ -1,5 +1,8 @@
 call plug#begin()
 
+" treesitter
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
 " file searching
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'jremmen/vim-ripgrep'
@@ -42,6 +45,11 @@ Plug 'honza/vim-snippets'
 " github copilot - need to upgrade nvim
 " Plug 'zbirenbaum/copilot.lua'
 
+" telescope
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
+Plug 'nvim-telescope/telescope-fzf-native.nvim'
+
 call plug#end()
 
 if filereadable($LOCALVIMRC)
@@ -53,7 +61,7 @@ syntax on
 set mouse=a
 set modelines=0
 set wildignore+=*/node_modules
-set wildmode=list
+set wildmode=list:longest
 set expandtab
 set tabstop=2
 set softtabstop=2
@@ -84,11 +92,13 @@ let mapleader = ","
 " === NORMAL + VISUAL + OPERATOR MODE REMAPS ===
 
 " file search, change buffer, yank to local shortcuts
-noremap <leader>f :Rg <space>
-noremap <leader>p :FZF /mnt/code.capitalrx.com/
+noremap <leader>g :Rg <space>
+noremap <leader>t :FZF<cr>
 noremap <leader>e :NERDTreeToggle<cr>
+noremap <leader>cn :NERDTreeCWD<cr>
+noremap <leader>cd :cd %:p:h<cr>
 noremap <leader>b :buffers<cr>:b
-noremap <leader>y :w! /vagrant/yeet<cr>
+noremap <leader>y :w! $YEET_FILE<cr>
 noremap <leader>u :UndotreeToggle<cr>
 
 " === NORMAL MODE REMAPS ===
@@ -383,8 +393,8 @@ let g:lsp_settings = {
 \}
 
 let g:pyindent_open_paren = 'shiftwidth()'
-let g:python_host_prog = '/home/vagrant/.pyenv/versions/py2nvim/bin/python'
-let g:python3_host_prog = '/home/vagrant/.pyenv/versions/py3nvim/bin/python'
+let g:python_host_prog = $HOME . '/.pyenv/versions/py2nvim/bin/python'
+let g:python3_host_prog = $HOME . '/.pyenv/versions/py3nvim/bin/python'
 
 " === CUSTOM FUNCTIONS ===
 function Toggle_current_buffer_diagnostics()
@@ -415,3 +425,13 @@ endfunction
 
 noremap <f2> :echo Toggle_current_buffer_diagnostics()<cr>
 noremap <f3> :echo Toggle_mouse()<cr>
+
+" Find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files layout_strategy=vertical<cr>
+nnoremap <leader>fo <cmd>Telescope oldfiles layout_strategy=vertical<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep layout_strategy=vertical<cr>
+nnoremap <leader>fb <cmd>Telescope buffers layout_strategy=vertical<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags layout_strategy=vertical<cr>
+nnoremap <leader>ft <cmd>Telescope treesitter layout_strategy=vertical<cr>
+
+let g:UltiSnipsExpandTrigger="<c-cr>"
