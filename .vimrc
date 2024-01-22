@@ -1,15 +1,18 @@
 call plug#begin()
 
-" treesitter
+" treesitter - enable better syntax highlighting, text objects, code folding
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
-" file searching
-Plug 'preservim/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'jremmen/vim-ripgrep'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 " default settings
 Plug 'tpope/vim-sensible'
+
+" theme and colors
+Plug 'ghifarit53/tokyonight-vim'
+Plug 'itchyny/lightline.vim'
+
+" fuzzy searching
+Plug 'jremmen/vim-ripgrep'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 " vim language server protocol
 Plug 'prabirshrestha/vim-lsp'
@@ -28,12 +31,9 @@ Plug 'jeetsukumaran/vim-pythonsense'
 Plug 'nvie/vim-flake8'
 Plug 'Vimjas/vim-python-pep8-indent'
 
-" theme and colors
-Plug 'ghifarit53/tokyonight-vim'
-Plug 'itchyny/lightline.vim'
-
 " git
 Plug 'itchyny/vim-gitbranch'
+Plug 'tpope/vim-fugitive'
 
 " undo tree history
 Plug 'mbbill/undotree'
@@ -43,12 +43,15 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " github copilot - need to upgrade nvim
-" Plug 'zbirenbaum/copilot.lua'
+Plug 'zbirenbaum/copilot.lua'
 
 " telescope
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
 Plug 'nvim-telescope/telescope-fzf-native.nvim'
+
+" comments
+Plug 'tpope/vim-commentary'
 
 call plug#end()
 
@@ -87,21 +90,67 @@ set notimeout ttimeout
 set noswapfile
 set nobackup
 
+" set indents
+augroup rainerdane_indent
+  autocmd!
+  autocmd BufNewFile,BufRead *.vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
+augroup END
+
+" remove trailing whitespace
+augroup rainerdane_whitespace
+  autocmd!
+  autocmd BufRead,BufWrite *.vim :%s/\s\+$//e
+augroup END
+
 let mapleader = ","
 
-" === NORMAL + VISUAL + OPERATOR MODE REMAPS ===
+" remap so tab can be used for autocomplete confirmation
+let g:UltiSnipsExpandTrigger="<c-cr>"
 
-" file search, change buffer, yank to local shortcuts
-noremap <leader>g :Rg <space>
+" raw ripgrep
+noremap <leader>g :Rg<space>
+
+" raw fzf
 noremap <leader>t :FZF<cr>
-noremap <leader>e :NERDTreeToggle<cr>
-noremap <leader>cn :NERDTreeCWD<cr>
-noremap <leader>cd :cd %:p:h<cr>
+
+" list, select buffer
 noremap <leader>b :buffers<cr>:b
+
+" write selection/current buffer to proxy file used as remote clipboard
 noremap <leader>y :w! $YEET_FILE<cr>
-noremap <leader>u :UndotreeToggle<cr>
+
+" write (SQL) selection/current file to proxy sql client as sql runner
+noremap <leader>q :w !psql capitalrx_formulary<cr>
+
+" write python file to python debugger with breakpoint at current line
+nnoremap <leader>pdb :execute "terminal ! python -m pdb " . line(".")<cr>
+
+" toggle undo tree
+nnoremap <leader>u :UndotreeToggle<cr>
+
+" force write
+nnoremap <leader>w <cmd>w!<cr>
+noremap <c-s> <cmd>w!<cr>
+inoremap <c-s> <cmd>w!<cr>
+
+" insert mode left, right movements
+inoremap <c-f> <right>
+inoremap <c-b> <left>
 
 " === NORMAL MODE REMAPS ===
+
+" find files using Telescope command-line sugar.
+nnoremap <leader>ff <cmd>Telescope find_files layout_strategy=vertical<cr>
+nnoremap <leader>fo <cmd>Telescope oldfiles layout_strategy=vertical<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep layout_strategy=vertical<cr>
+nnoremap <leader>fb <cmd>Telescope buffers layout_strategy=vertical<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags layout_strategy=vertical<cr>
+nnoremap <leader>ft <cmd>Telescope treesitter layout_strategy=vertical<cr>
+nnoremap <leader>fa <cmd>Telescope autocommands layout_strategy=vertical<cr>
+nnoremap <leader>fc <cmd>Telescope commands layout_strategy=vertical<cr>
+nnoremap <leader>fk <cmd>Telescope keymaps layout_strategy=vertical<cr>
+nnoremap <leader>fv <cmd>Telescope vim_options layout_strategy=vertical<cr>
+nnoremap <leader>fr <cmd>Telescope registers layout_strategy=vertical<cr>
 
 " fast commands
 nnoremap ; :
@@ -111,12 +160,13 @@ nnoremap q; q:
 nnoremap <c-cr> o<esc>d0
 nnoremap <c-s-cr> O<esc>d0
 
-" ctrl bs, ctrl shift bs to remove new lines
-nnoremap <c-bs> jddk
-nnoremap <c-s-bs> kdd
+" search word under cursor
+nnoremap <leader>/ *N;
 
-" ez search highlighting and clearing
-nnoremap <leader><leader> *``;
+" search for trailing whitespace
+nnoremap <leader><c-/> :%s/\s\+$//e<cr>
+
+" clear search highlight
 nnoremap <leader><space> :noh<cr>:echo ''<cr>
 
 " shift tab to pair reverse jumplist with tab-jumplist
@@ -162,8 +212,8 @@ inoremap <c-k> <c-g>k
 inoremap <c-l> <end>
 
 inoremap <m-h> <c-o>b
-inoremap <m-j> <esc>:m .+1<cr>==gi
-inoremap <m-k> <esc>:m .-2<cr>==gi
+inoremap <m-j> <esc>`^:m .+1<cr>==gi
+inoremap <m-k> <esc>`^:m .-2<cr>==gi
 inoremap <m-l> <c-o>e<right>
 
 inoremap <c-left> <home>
@@ -178,7 +228,19 @@ inoremap <m-right> <c-o>e<right>
 
 " === VISUAL MODE REMAPS ===
 
+" range ex command
 vnoremap ; :
+
+" gate visual selection lowercase, uppercase behind modifier key
+vnoremap <c-u> u
+vnoremap <c-s-u> U
+
+" use default case keys to exit visual mode
+vnoremap u v
+vnoremap U v
+
+" search selection
+vnoremap // y/<c-r>"<cr>N
 
 " selection hl shift indents, jk line swaps
 vnoremap < <gv
@@ -223,6 +285,9 @@ nmap <m-s-down> yym`P``
 nmap <m-s-up> yym`P``k
 nmap <m-s-right> v<c-g><m-right>
 
+nmap <m-J> yym`P``
+nmap <m-K> yym`P``k
+
 imap <s-left> jk<s-left>
 imap <s-down> jk<s-down>
 imap <s-up> jk<s-up>
@@ -238,6 +303,9 @@ imap <m-s-down> jk<m-s-down>i
 imap <m-s-up> jk<m-s-up>i
 imap <m-s-right> jk<m-s-right>
 
+imap <m-J> <m-s-down>
+imap <m-K> <m-s-up>
+
 vnoremap <s-left> <c-g><left>
 vnoremap <s-down> <c-g><down>
 vnoremap <s-up> <c-g><up>
@@ -252,6 +320,9 @@ vnoremap <m-s-left> <c-g><s-left>
 vnoremap <m-s-down> m`YP``gv
 vnoremap <m-s-up> m`Y:lock normal P<cr>``gv
 vnoremap <m-s-right> <c-g><s-right>
+
+vmap <m-J> <m-s-down>
+vmap <m-K> <m-s-up>
 
 snoremap <s-left> <left>
 snoremap <s-down> <down>
@@ -281,11 +352,6 @@ smap <m-left> <m-s-left><c-g>
 smap <m-down> <m-s-down><c-g>
 smap <m-up> <m-s-up><c-g>
 smap <m-right> <m-s-right><c-g>
-
-" === TERMINAL MODE REMAPS ===
-
-" alternate escape for fzf
-tnoremap jk <esc>
 
 " === THEME SETTINGS ===
 
@@ -396,7 +462,6 @@ let g:pyindent_open_paren = 'shiftwidth()'
 let g:python_host_prog = $HOME . '/.pyenv/versions/py2nvim/bin/python'
 let g:python3_host_prog = $HOME . '/.pyenv/versions/py3nvim/bin/python'
 
-" === CUSTOM FUNCTIONS ===
 function Toggle_current_buffer_diagnostics()
     let buffer_id = buffer_number()
 
@@ -426,12 +491,6 @@ endfunction
 noremap <f2> :echo Toggle_current_buffer_diagnostics()<cr>
 noremap <f3> :echo Toggle_mouse()<cr>
 
-" Find files using Telescope command-line sugar.
-nnoremap <leader>ff <cmd>Telescope find_files layout_strategy=vertical<cr>
-nnoremap <leader>fo <cmd>Telescope oldfiles layout_strategy=vertical<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep layout_strategy=vertical<cr>
-nnoremap <leader>fb <cmd>Telescope buffers layout_strategy=vertical<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags layout_strategy=vertical<cr>
-nnoremap <leader>ft <cmd>Telescope treesitter layout_strategy=vertical<cr>
+autocmd FileChangedShell * let v:fcs_choice = 'reload'
 
-let g:UltiSnipsExpandTrigger="<c-cr>"
+autocmd FileType sql setlocal commentstring=--\ %s
