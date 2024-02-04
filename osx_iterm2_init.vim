@@ -53,6 +53,9 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim'
 " comments
 Plug 'tpope/vim-commentary'
 
+" terraform
+Plug 'hashivim/vim-terraform'
+
 call plug#end()
 
 if filereadable($LOCALVIMRC)
@@ -117,10 +120,19 @@ noremap <leader>t :FZF<cr>
 noremap <leader>b :buffers<cr>:b
 
 " write selection/current buffer to proxy file used as remote clipboard
-noremap <leader>y :w! $YEET_FILE<cr>
+nnoremap <leader>y :w! $YEET_FILE<cr>
+vnoremap <leader>y y:call writefile(getreg("0", 1, 1), $YEET_FILE)<cr>
 
 " write (SQL) selection/current file to proxy sql client as sql runner
-noremap <leader>q :w !psql capitalrx_formulary<cr>
+" print output
+noremap <leader>qp :w !psql capitalrx_formulary<cr>
+
+" output written to sql.out file
+noremap <leader>qo :<c-u>silent *w !psql capitalrx_formulary > $SQL_OUT_FILE<cr>gv
+
+" open sql.out in horizontal or vertical split window
+nmap <leader>qs <c-w>s<c-w>j:view $SQL_OUT_FILE<cr><f4><c-w>k
+nmap <leader>qv <c-w>v<c-w>l:view $SQL_OUT_FILE<cr><f4><c-w>h
 
 " write python file to python debugger with breakpoint at current line
 nnoremap <leader>pdb :execute "terminal ! python -m pdb " . line(".")<cr>
@@ -463,33 +475,42 @@ let g:python_host_prog = $HOME . '/.pyenv/versions/py2nvim/bin/python'
 let g:python3_host_prog = $HOME . '/.pyenv/versions/py3nvim/bin/python'
 
 function Toggle_current_buffer_diagnostics()
-    let buffer_id = buffer_number()
+  let buffer_id = buffer_number()
 
-    if lsp#internal#diagnostics#state#_is_enabled_for_buffer(buffer_id)
-        call lsp#disable_diagnostics_for_buffer(buffer_id)
+  if lsp#internal#diagnostics#state#_is_enabled_for_buffer(buffer_id)
+    call lsp#disable_diagnostics_for_buffer(buffer_id)
 
-        return "Diagnostics disabled for buffer " . buffer_id
-    else
-        call lsp#enable_diagnostics_for_buffer(buffer_id)
+    return "Diagnostics disabled for buffer " . buffer_id
+  else
+    call lsp#enable_diagnostics_for_buffer(buffer_id)
 
-        return "Diagnostics enabled for buffer " . buffer_id
-    endif
+    return "Diagnostics enabled for buffer " . buffer_id
+  endif
 endfunction
 
 function Toggle_mouse()
-    if &mouse == 'a'
-        set mouse=
+  if &mouse == 'a'
+    set mouse=
 
-        return "Mouse disabled, terminal c/p enabled"
-    endif
+    return "Mouse disabled, terminal c/p enabled"
+  endif
 
-    set mouse=a
+  set mouse=a
 
-    return "Mouse enabled, terminal c/p disabled"
+  return "Mouse enabled, terminal c/p disabled"
+endfunction
+
+function Disable_diagnostics()
+  let buffer_id = buffer_number()
+
+  call lsp#disable_diagnostics_for_buffer(buffer_number())
+
+  return "Diagnostics disabled for buffer " . buffer_id
 endfunction
 
 noremap <f2> :echo Toggle_current_buffer_diagnostics()<cr>
 noremap <f3> :echo Toggle_mouse()<cr>
+noremap <f4> :echo Disable_diagnostics()<cr>
 
 autocmd FileChangedShell * let v:fcs_choice = 'reload'
 
