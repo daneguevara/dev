@@ -515,3 +515,5 @@ noremap <f4> :echo Disable_diagnostics()<cr>
 autocmd FileChangedShell * let v:fcs_choice = 'reload'
 
 autocmd FileType sql setlocal commentstring=--\ %s
+
+lua require("init")
