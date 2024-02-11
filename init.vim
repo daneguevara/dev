@@ -42,9 +42,6 @@ Plug 'mbbill/undotree'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
-" github copilot - need to upgrade nvim
-Plug 'zbirenbaum/copilot.lua'
-
 " telescope
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.5' }
@@ -63,6 +60,8 @@ if filereadable($LOCALVIMRC)
 endif
 
 syntax on
+
+set clipboard+=unnamedplus
 
 set mouse=a
 set modelines=0
@@ -119,16 +118,28 @@ noremap <leader>t :FZF<cr>
 " list, select buffer
 noremap <leader>b :buffers<cr>:b
 
-" write selection/current buffer to proxy file used as remote clipboard
-nnoremap <leader>y :w! $YEET_FILE<cr>
-vnoremap <leader>y y:call writefile(getreg("0", 1, 1), $YEET_FILE)<cr>
+" use system clipboard
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nnoremap <leader>p "+p
+nnoremap <leader>P "+P
+vnoremap <leader>p "+p
+vnoremap <leader>P "+P
+
+let g:capitalrx_db = "capitalrx_formulary"
+
+function Set_capitalrx_db()
+  let g:capitalrx_db = input("Enter database name: ")
+endfunction
+
+noremap <leader>qd :call Set_capitalrx_db()<cr>
 
 " write (SQL) selection/current file to proxy sql client as sql runner
 " print output
-noremap <leader>qp :w !psql capitalrx_formulary<cr>
+noremap <leader>qp :<c-u>execute "*w !psql " . g:capitalrx_db<cr>
 
 " output written to sql.out file
-noremap <leader>qo :<c-u>silent *w !psql capitalrx_formulary > $SQL_OUT_FILE<cr>gv
+noremap <leader>qo :<c-u>execute "silent *w !psql " . g:capitalrx_db . " &> $SQL_OUT_FILE"<cr>gv
 
 " open sql.out in horizontal or vertical split window
 nmap <leader>qs <c-w>s<c-w>j:view $SQL_OUT_FILE<cr><f4><c-w>k
@@ -195,7 +206,7 @@ nnoremap <c-k> k<c-y>
 nnoremap <c-l> <end>
 
 " meta (alt) hl side word jumps, jk line swapping
-nnoremap <m-h> b
+nnoremap <m-h> bwrite selection/current buffer to proxy file used as remote clipboard
 nnoremap <m-j> :m .+1<cr>==
 nnoremap <m-k> :m .-2<cr>==
 nnoremap <m-l> e
@@ -515,5 +526,3 @@ noremap <f4> :echo Disable_diagnostics()<cr>
 autocmd FileChangedShell * let v:fcs_choice = 'reload'
 
 autocmd FileType sql setlocal commentstring=--\ %s
-
-lua require("init")
