@@ -206,7 +206,7 @@ nnoremap <c-k> k<c-y>
 nnoremap <c-l> <end>
 
 " meta (alt) hl side word jumps, jk line swapping
-nnoremap <m-h> bwrite selection/current buffer to proxy file used as remote clipboard
+nnoremap <m-h> b
 nnoremap <m-j> :m .+1<cr>==
 nnoremap <m-k> :m .-2<cr>==
 nnoremap <m-l> e
