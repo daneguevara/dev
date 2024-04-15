@@ -126,6 +126,21 @@ nnoremap <leader>P "+P
 vnoremap <leader>p "+p
 vnoremap <leader>P "+P
 
+" save original current dir
+let g:base_dir = expand("%:p:h")
+
+" open file explorer in current dir
+nnoremap <leader>e :E<cr>
+
+" open file explorer in original current dir
+nnoremap <leader>E :exe "E " . g:base_dir<cr>
+
+" set current dir to current file
+nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
+
+" set current dir to original current dir
+nnoremap <leader>cr :cd <c-r>=g:base_dir<cr><cr>:pwd<cr>
+
 let g:capitalrx_db = "capitalrx_formulary"
 
 function Set_capitalrx_db()
@@ -162,7 +177,7 @@ inoremap <c-b> <left>
 
 " === NORMAL MODE REMAPS ===
 
-" find files using Telescope command-line sugar.
+" telescope commands
 nnoremap <leader>ff <cmd>Telescope find_files layout_strategy=vertical<cr>
 nnoremap <leader>fo <cmd>Telescope oldfiles layout_strategy=vertical<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep layout_strategy=vertical<cr>
@@ -174,6 +189,9 @@ nnoremap <leader>fc <cmd>Telescope commands layout_strategy=vertical<cr>
 nnoremap <leader>fk <cmd>Telescope keymaps layout_strategy=vertical<cr>
 nnoremap <leader>fv <cmd>Telescope vim_options layout_strategy=vertical<cr>
 nnoremap <leader>fr <cmd>Telescope registers layout_strategy=vertical<cr>
+
+" TODO: switch from vim-lsp to lua lsp - this uses lua lsp
+nnoremap <leader>fd <cmd>Telescope diagnostics layout_strategy=vertical<cr>
 
 " fast commands
 nnoremap ; :
@@ -222,6 +240,9 @@ nnoremap <m-left> b
 nnoremap <m-down> :m .+1<cr>==
 nnoremap <m-up> :m .-2<cr>==
 nnoremap <m-right> e
+
+" terminal mode remaps
+tnoremap <c-esc> <c-\><c-n>
 
 " === INSERT MODE REMAPS ===
 
@@ -419,7 +440,7 @@ if executable('pylsp')
     \})
 endif
 
-" register ts async autocomplete
+" " register ts async autocomplete
 call asyncomplete#register_source(asyncomplete#sources#tscompletejob#get_source_options({
 \  'name': 'tscompletejob',
 \  'allowlist': ['typescript'],
@@ -441,8 +462,8 @@ function! s:on_lsp_buffer_enabled() abort
     nmap <buffer> [g <plug>(lsp-previous-diagnostic)
     nmap <buffer> ]g <plug>(lsp-next-diagnostic)
     nmap <buffer> gk <plug>(lsp-hover)
-    " nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-    " nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+    nnoremap <buffer> <expr><c-s-f> lsp#scroll(+4)
+    nnoremap <buffer> <expr><c-s-d> lsp#scroll(-4)
 
     let g:lsp_format_sync_timeout = 1000
     autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
@@ -479,7 +500,14 @@ let g:lsp_settings = {
 \       },
 \     },
 \   },
+\   'typescript': {
+\     'workspace_config': {
+\       'tsserver': {},
+\     },
+\   },
 \}
+
+let g:lsp_semantic_enabled = 1
 
 let g:pyindent_open_paren = 'shiftwidth()'
 let g:python_host_prog = $HOME . '/.pyenv/versions/py2nvim/bin/python'
@@ -523,6 +551,8 @@ noremap <f2> :echo Toggle_current_buffer_diagnostics()<cr>
 noremap <f3> :echo Toggle_mouse()<cr>
 noremap <f4> :echo Disable_diagnostics()<cr>
 
-autocmd FileChangedShell * let v:fcs_choice = 'reload'
-
 autocmd FileType sql setlocal commentstring=--\ %s
+
+let g:editorconfig = v:false
+
+" lua require("init")
