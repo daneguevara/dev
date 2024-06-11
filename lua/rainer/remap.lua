@@ -83,18 +83,6 @@ vim.api.nvim_set_keymap('n', '<m-j>', ':m .+1<cr>==', { noremap = true })
 vim.api.nvim_set_keymap('n', '<m-k>', ':m .-2<cr>==', { noremap = true })
 vim.api.nvim_set_keymap('n', '<m-l>', 'e', { noremap = true })
 
--- ctrl arrow 4-D jumps
-vim.api.nvim_set_keymap('n', '<c-left>', '<home>', { noremap = true })
--- vim.api.nvim_set_keymap('n', '<c-down>', 'G', { noremap = true })
--- vim.api.nvim_set_keymap('n', '<c-up>', 'gg', { noremap = true })
-vim.api.nvim_set_keymap('n', '<c-right>', '<end>', { noremap = true })
-
--- arrow keys side word jumps, line swapping
-vim.api.nvim_set_keymap('n', '<m-left>', 'b', { noremap = true })
-vim.api.nvim_set_keymap('n', '<m-up>', ':m .-2<cr>==', { noremap = true })
-vim.api.nvim_set_keymap('n', '<m-down>', ':m .+1<cr>==', { noremap = true })
-vim.api.nvim_set_keymap('n', '<m-right>', 'e', { noremap = true })
-
 -- TERMINAL MODE REMAPS
 vim.api.nvim_set_keymap('t', '<c-esc>', '<c-\\><c-n>', { noremap = true })
 
@@ -132,16 +120,6 @@ vim.api.nvim_set_keymap('i', '<m-j>', '<esc>`^:m .+1<cr>==gi', { noremap = true 
 vim.api.nvim_set_keymap('i', '<m-k>', '<esc>`^:m .-2<cr>==gi', { noremap = true })
 vim.api.nvim_set_keymap('i', '<m-l>', '<c-o>e<right>', { noremap = true })
 
-vim.api.nvim_set_keymap('i', '<c-left>', '<home>', { noremap = true })
--- vim.api.nvim_set_keymap('i', '<c-down>', '<c-o>G', { noremap = true })
--- vim.api.nvim_set_keymap('i', '<c-up>', '<c-o>gg', { noremap = true })
-vim.api.nvim_set_keymap('i', '<c-right>', '<end>', { noremap = true })
-
-vim.api.nvim_set_keymap('i', '<m-left>', '<c-o>b', { noremap = true })
-vim.api.nvim_set_keymap('i', '<m-down>', '<esc>:m .+1<cr>==gi', { noremap = true })
-vim.api.nvim_set_keymap('i', '<m-up>', '<esc>:m .-2<cr>==gi', { noremap = true })
-vim.api.nvim_set_keymap('i', '<m-right>', '<c-o>e<right>', { noremap = true })
-
 -- VISUAL MODE REMAPS
 
 -- use q to quit visual mode
@@ -165,16 +143,6 @@ vim.api.nvim_set_keymap('v', '<m-j>', ':m \'>+1<cr>==gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '<m-k>', ':m \'<-2<cr>==gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '<m-l>', 'e', { noremap = true })
 
-vim.api.nvim_set_keymap('v', '<c-left>', '<home>', { noremap = true })
--- vim.api.nvim_set_keymap('v', '<c-down>', 'G', { noremap = true })
--- vim.api.nvim_set_keymap('v', '<c-up>', 'gg', { noremap = true })
-vim.api.nvim_set_keymap('v', '<c-right>', '<end>', { noremap = true })
-
-vim.api.nvim_set_keymap('v', '<m-left>', 'b', { noremap = true })
-vim.api.nvim_set_keymap('v', '<m-down>', ':m \'>+1<cr>==gv', { noremap = true })
-vim.api.nvim_set_keymap('v', '<m-up>', ':m \'<-2<cr>==gv', { noremap = true })
-vim.api.nvim_set_keymap('v', '<m-right>', 'e', { noremap = true })
-
 -- git bindings
 vim.keymap.set('n', '<leader>gs', function() vim.cmd('Git status') end, { desc = '[G]it [S]tatus' })
 vim.keymap.set('n', '<leader>gd', function() vim.cmd('Git diff') end, { desc = '[G]it [D]iff' })
@@ -186,3 +154,11 @@ vim.api.nvim_set_keymap('n', '<s-cr>', ':set wrap! | set wrap?<cr>', { noremap =
 -- window scroll bind, off
 vim.api.nvim_set_keymap('n', '<leader>sb', ':windo set scrollbind<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>so', ':windo set noscrollbind<cr>', { noremap = true })
+
+-- window tab left, right
+vim.api.nvim_set_keymap('n', '<c-9>', '<c-w>h', { noremap = true })
+vim.api.nvim_set_keymap('n', '<c-0>', '<c-w>l', { noremap = true })
+
+-- close buffer in window (but switch to prev buffer first to keep window)j
+vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>silent bp | silent bd#<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<c-8>', '<cmd>silent bp | silent bd#<cr>', { noremap = true })

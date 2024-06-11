@@ -1,64 +1,51 @@
--- task done - [x] lfg
--- task todo - [ ] rip
--- memo note - kekw
+-- add a new task: - [ ] task name
+vim.api.nvim_buf_set_keymap(0, 'n', 'tT', 'O- [ ] ', { noremap = true, silent = true })
+vim.api.nvim_buf_set_keymap(0, 'n', 'tt', 'o- [ ] ', { noremap = true, silent = true })
 
-local task_before = 'O- [ ] '
-local task_after = 'o- [ ] '
-local memo_before = 'O- '
-local memo_after = 'o- '
+-- add a new item: - item name
+vim.api.nvim_buf_set_keymap(0, 'n', 'tM', 'O- ', { noremap = true, silent = true })
+vim.api.nvim_buf_set_keymap(0, 'n', 'ti', 'o- ', { noremap = true, silent = true })
 
--- keymaps to add a new task: - [ ] task name
-vim.api.nvim_buf_set_keymap(0, 'n', 'ti', task_before, { noremap = true, silent = true })
-vim.api.nvim_buf_set_keymap(0, 'n', 'ta', task_after, { noremap = true, silent = true })
+-- add a new header: ## header name
+vim.api.nvim_buf_set_keymap(0, 'n', 'tH', 'O## ', { noremap = true, silent = true })
+vim.api.nvim_buf_set_keymap(0, 'n', 'th', 'o## ', { noremap = true, silent = true })
 
--- keymaps to add a new memo item
-vim.api.nvim_buf_set_keymap(0, 'n', 'mi', memo_before, { noremap = true, silent = true })
-vim.api.nvim_buf_set_keymap(0, 'n', 'ma', memo_after, { noremap = true, silent = true })
+local function line_prefix(line)
+  if string.match(line, '- %[.%] ') then
+    return '- [ ] '
+  end
+
+  if string.match(line, '- ') then
+    return '- '
+  end
+
+  if string.match(line, '## ') then
+    return '## '
+  end
+
+  return ''
+end
 
 -- smart indent
 vim.keymap.set('i', '<cr>', function()
   local line = vim.fn.getline('.')
-  local is_task = string.match(line, '- %[.%] ')
-  local is_note_item = string.match(line, '- ')
+  local prefix = line_prefix(line)
 
-  -- to normal mode
-  vim.api.nvim_input('<c-o>')
-
-  if is_task then
-    vim.api.nvim_input(task_after)
-  elseif is_note_item then
-    vim.api.nvim_input(memo_after)
-  else
-    vim.api.nvim_input('o')
-  end
+  vim.api.nvim_input('<c-o>o' .. prefix)
 end, { noremap = true, buffer = 0 })
 
-vim.keymap.set('n', 'i', function()
+vim.keymap.set('n', 'O', function()
   local line = vim.fn.getline('.')
-  local is_task = string.match(line, '- %[.%] ')
-  local is_note_item = string.match(line, '- ')
+  local prefix = line_prefix(line)
 
-  if is_task then
-    vim.api.nvim_input(task_before)
-  elseif is_note_item then
-    vim.api.nvim_input(memo_before)
-  else
-    vim.api.nvim_input('i')
-  end
+  vim.api.nvim_input('O' .. prefix)
 end, { noremap = true, buffer = 0 })
 
-vim.keymap.set('n', 'a', function()
+vim.keymap.set('n', 'o', function()
   local line = vim.fn.getline('.')
-  local is_task = string.match(line, '- %[.%] ')
-  local is_note_item = string.match(line, '- ')
+  local prefix = line_prefix(line)
 
-  if is_task then
-    vim.api.nvim_input(task_after)
-  elseif is_note_item then
-    vim.api.nvim_input(memo_after)
-  else
-    vim.api.nvim_input('a')
-  end
+  vim.api.nvim_input('o' .. prefix)
 end, { noremap = true, buffer = 0 })
 
 -- keymap to mark/unmark task on current line as done: - [x] task name

@@ -42,14 +42,24 @@ telescope.setup({
         ['<c-a>'] = function()
           local selected_entry = state.get_selected_entry()
 
-          harpoon:list():add({
-            value = selected_entry.value,
-            context = {
-              row = 1,
-              col = 0,
-            },
-          })
-          harpoon:sync()
+          -- check if the selected entry is a file
+          local file = io.open(selected_entry.value, 'r')
+          if file then
+            file:close()
+
+            print('setting on 󰈸: ' .. selected_entry.value)
+
+            harpoon:list():add({
+              value = selected_entry.value,
+              context = {
+                row = 1,
+                col = 0,
+              },
+            })
+            harpoon:sync()
+          else
+            print('cannot set on 󰈸: ' .. selected_entry.value)
+          end
         end,
       },
       n = {
@@ -81,27 +91,27 @@ vim.keymap.set('n', '<leader>fl', function()
   })
 end, { desc = '[F]ind [L]ua Config' })
 
--- project files (git)
-vim.keymap.set('n', '<leader>pf', function()
-  builtin.git_files({
-    prompt_title = 'Project Files (' .. vim.cmd('pwd') .. ')',
-  })
-end, { desc = '[P]roject [F]iles' })
-
--- project search (ripgrep)
+-- project ls (git)
 vim.keymap.set('n', '<leader>ps', function()
-  builtin.live_grep({
-    prompt_title = 'Project Search (' .. vim.cmd('pwd') .. ')',
+  builtin.git_files({
+    prompt_title = 'Files (' .. vim.cmd('pwd') .. ')',
   })
-end, { desc = '[P]roject [S]earch' })
+end, { desc = '[P]roject L[s]' })
+
+-- project grep (ripgrep)
+vim.keymap.set('n', '<leader>pg', function()
+  builtin.live_grep({
+    prompt_title = 'Grep (' .. vim.cmd('pwd') .. ')',
+  })
+end, { desc = '[P]roject [G]rep' })
 
 -- local ls
 vim.keymap.set('n', '<leader>ls', function()
   builtin.find_files({
-    prompt_title = 'List Files (' .. utils.buffer_dir() .. ')',
+    prompt_title = 'Files (' .. utils.buffer_dir() .. ')',
     cwd = utils.buffer_dir(),
   })
-end, { desc = '[L]ist File[s]' })
+end, { desc = '[L]i[s]t Dir' })
 
 -- local grep (ripgrep)
 vim.keymap.set('n', '<c-/>', function()
@@ -117,22 +127,24 @@ vim.keymap.set('n', '<leader>/', function()
 end, { desc = 'Grep Cursor Word' })
 
 -- buffer manager
-vim.keymap.set('n', '<leader>b', function()
+vim.keymap.set('n', '<c-b>', function()
   builtin.buffers({
-    show_all_buffers = true,
-    sort_lastused = true,
     attach_mappings = function(_, map)
       map('i', '<c-d>', 'delete_buffer')
+      map('i', '<c-8>', 'delete_buffer')
       map('n', 'd', 'delete_buffer')
 
       return true
     end,
   })
-end, { desc = '[B]uffers' })
+end, { desc = 'Buffers' })
 
 -- halp
 vim.keymap.set('n', '<leader>h', function()
   builtin.help_tags({
+    cache_picker = {
+      num_pickers = 1,
+    },
     layout_strategy = 'flex',
     layout_config = {
       width = 0.9,

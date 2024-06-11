@@ -99,7 +99,7 @@ settings = {
     title = 'Commands',
     margin = 5,
     content = {
-      { ' Colorschemes', 'Telescope colorscheme', '<leader>cs' },
+      { ' Colorschemes', 'Telescope colorscheme enable_preview=true', '<leader>cs' },
     },
     highlight = 'String',
     oldfiles_amount = 0,
@@ -120,7 +120,7 @@ settings = {
     mapping_keys = true,
     cursor_column = 0.5,
     empty_lines_between_mappings = true,
-    disable_statuslines = true,
+    disable_statuslines = false,
     paddings = { 1, 3, 3, 3, 0 },
     after = function()
       local startup_window_id = vim.api.nvim_get_current_win()
@@ -174,18 +174,19 @@ settings = {
       -- girl bye q.q
       vim.keymap.set('n', 'qq', function()
         print('Girl bye!')
+        vim.cmd('bd')
         vim.cmd('q')
       end, { noremap = true, silent = true, buffer = true })
 
       -- hide statuslines when switching to startup buffer (startup plugin unsets when leaving)
-      vim.api.nvim_create_autocmd('BufEnter', {
-        buffer = 0,
-        desc = 'Hide startup statuslines',
-        callback = function()
-          vim.opt.laststatus = 0
-          vim.opt.showtabline = 0
-        end,
-      })
+      -- vim.api.nvim_create_autocmd('BufEnter', {
+      --   buffer = 0,
+      --   desc = 'Hide startup statuslines',
+      --   callback = function()
+      --     vim.opt.laststatus = 0
+      --     vim.opt.showtabline = 0
+      --   end,
+      -- })
 
       -- resize startup window on width change
       local redraw_id = vim.api.nvim_create_autocmd('WinResized', {

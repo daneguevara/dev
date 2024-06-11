@@ -76,3 +76,6 @@ require('lualine').setup {
 }
 
 vim.cmd [[colorscheme tokyonight]]
+
+-- turn off in favor of lualine
+vim.opt.showmode = false

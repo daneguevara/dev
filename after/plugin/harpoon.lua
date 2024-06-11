@@ -1,6 +1,5 @@
 local harpoon = require('harpoon')
 local action = require('telescope.actions')
-local state = require('telescope.actions.state')
 
 -- REQUIRED
 harpoon:setup({})
@@ -16,27 +15,9 @@ local function toggle_telescope(harpoon_files)
 
   require('telescope.pickers').new({
     attach_mappings = function(prompt_bufnr, map)
-
-      ---@diagnostic disable: unused-local,unused-function
-      local remove = function()
-        local selection = state.get_selected_entry()
-        local picker = state.get_current_picker(prompt_bufnr)
-
-        harpoon:list():remove(selection)
-        harpoon:sync()
-
-        picker:delete_selection(function(s)
-          return s == selection
-        end)
-      end
-
-      -- use quick menu to delete marks until harpoon remove api is cleaner
-      -- map('i', '<c-d>', remove)
-      -- map('n', '<c-d>', remove)
-
       map('i', '<c-e>', 'close')
       map('n', '<c-e>', 'close')
-      map('i', '<c-a>', function(prompt_bufnr)
+      map('i', '<c-a>', function()
         action.close(prompt_bufnr)
 
         harpoon.ui:toggle_quick_menu(harpoon:list(), { title = '󰈸 󰈸 󰈸 󰈸 󰈸' })
@@ -64,12 +45,6 @@ vim.keymap.set('n', '<leader>1', function() harpoon:list():select(1) end)
 vim.keymap.set('n', '<leader>2', function() harpoon:list():select(2) end)
 vim.keymap.set('n', '<leader>3', function() harpoon:list():select(3) end)
 vim.keymap.set('n', '<leader>4', function() harpoon:list():select(4) end)
-
-vim.keymap.set('n', '<c-9>', function() harpoon:list():prev() end)
-vim.keymap.set('n', '<c-0>', function() harpoon:list():next() end)
-
--- reset the harpoon marks
-vim.keymap.set('n', '<leader>d', function() harpoon:list():clear() end)
 
 -- fast navigation!!
 vim.keymap.set('n', '<c-p>', function() harpoon:list():prev() end)
