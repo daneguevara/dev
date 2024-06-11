@@ -110,23 +110,18 @@ alias gs="git status"
 alias go="git checkout"
 alias gcb="git checkout -b"
 alias gl="git log --oneline --decorate"
-alias gd="GIT_PAGER="less -F -X" git diff"
-alias gdc="GIT_PAGER="less -F -X" git diff --cached"
+alias gd="GIT_PAGER='less -F -X' git diff"
+alias gdc="GIT_PAGER='less -F -X' git diff --cached"
 alias j="z"
-
-alias woof="git diff -z --name-only --diff-filter=ACMR origin/master... -- '*.py' ':(exclude)*/alembic_*' | xargs -0r -- ruff check"
-
-alias y="yeet"
-alias y20 ="yeet20"
 alias vim="nvim"
 
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
-export YEET_FILE=$HOME/code.capitalrx.com/dev.capitalrx.com/vm/box/virtualbox/yeet
-export YEET_FILE20=$HOME/code.capitalrx.com/dev.capitalrx.com/vm/box/virtualbox20/yeet
-
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# osx user bin
+export PATH=$PATH:$HOME/bin

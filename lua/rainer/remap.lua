@@ -7,42 +7,6 @@ vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = '[P]roject [V]iew' })
 vim.api.nvim_set_keymap('n', '<c-q>', 'q', { noremap = true })
 vim.api.nvim_set_keymap('n', 'q', '<nop>', { noremap = true })
 
--- ctrl-tab to switch windows
-vim.api.nvim_set_keymap('n', '<c-tab>', '<c-w>w', { noremap = true })
-
--- set default pg db
-vim.g.pgdb = 'capitalrx_dev_aws'
-
--- PGSQL TOOLING MAPS
--- TODO: move query output and scratch buffers locations to lua config
-
-local set_pbdb = function()
-  local db = vim.fn.input('Set PgSQL Database (' .. vim.g.pgdb .. ') : ')
-
-  if db ~= '' then
-    vim.g.pgdb = db
-  end
-
-  vim.print('PgSQL database set to ' .. vim.g.pgdb)
-end
-vim.keymap.set('n', '<leader>qd', set_pbdb, { desc = '[Q]uery [D]atabase', noremap = true })
-
--- run inline sql query, display results
-vim.api.nvim_set_keymap('v', '<leader>qp', ':<c-u>execute "*w !psql " .. g:capitalrx_db<cr>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>qp', ':execute ".!psql " .. g:capitalrx_db<cr>u"', { noremap = true })
-
--- run inline sql query, save results
-vim.api.nvim_set_keymap('v', '<leader>qo', ':<c-u>execute "silent *w !psql " .. g:capitalrx_db .. " &> $SQL_OUT_FILE"<cr>gv', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>qo', ':execute ".!psql " .. g:capitalrx_db .. " &> $SQL_OUT_FILE"<cr>u', { noremap = true })
-
--- TODO: prob better to just keep a log of queries executed
-vim.api.nvim_set_keymap('n', '<leader>qs', ':e $SQL_SCRATCH_FILE<cr>', { noremap = true })
-
--- open/close results buffer
-vim.api.nvim_set_keymap('n', '<leader>qx', '<c-w>s<c-w>j:view $SQL_OUT_FILE<cr><c-w>k', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>qv', '<c-w>v<c-w>l:view $SQL_OUT_FILE<cr><c-w>h', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>qc', ':bd out.sql<cr>', { noremap = true })
-
 -- execute python debugger on current file with breakpoint at current line
 vim.api.nvim_set_keymap('n', '<leader>xpd', ':execute "terminal ! python -m pdb " .. line(".")<cr>', { noremap = true })
 
@@ -191,6 +155,9 @@ vim.keymap.set('n', '<c-0>', function() local count = window_count()
     vim.cmd('b#')
   end
 end, { desc = 'Move to right window or move single window right' })
+
+-- ctrl-tab to switch windows
+vim.api.nvim_set_keymap('n', '<c-tab>', '<c-w>w', { noremap = true })
 
 -- vim.keymap.set("c", "<S-Enter>", function()
 --   require("noice").redirect(vim.fn.getcmdline())
