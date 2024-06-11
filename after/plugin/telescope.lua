@@ -23,7 +23,9 @@ telescope.setup({
       flex = {
         flip_columns = 160
       },
+      prompt_position = 'top',
     },
+    sorting_strategy = 'ascending',
     mappings = {
       i = {
         ['<c-/>'] = 'close',
@@ -133,6 +135,8 @@ vim.keymap.set('n', '<c-b>', function()
       map('i', '<c-d>', 'delete_buffer')
       map('i', '<c-8>', 'delete_buffer')
       map('n', 'd', 'delete_buffer')
+      map('i', '<c-b>', 'close')
+      map('n', '<c-b>', 'close')
 
       return true
     end,
@@ -147,7 +151,7 @@ vim.keymap.set('n', '<leader>h', function()
     },
     layout_strategy = 'flex',
     layout_config = {
-      width = 0.9,
+      width = 0.75,
       height = 0.9,
       flex = {
         flip_columns = 160

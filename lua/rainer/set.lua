@@ -92,18 +92,18 @@ vim.api.nvim_exec([[
 ]], false)
 
 -- dynamically open help window based on window height and width
--- vim.api.nvim_create_autocmd('BuffWinEnter', {
---   group = vim.api.nvim_create_group('help_window', {}),
---   pattern = { '*.txt' },
---   callback = function()
---     local width = vim.api.nvim_win_get_width(0)
---     local height = vim.api.nvim_win_get_height(0)
+vim.api.nvim_create_autocmd('BufWinEnter', {
+  group = vim.api.nvim_create_augroup('help_window', {}),
+  pattern = { '*.txt' },
+  callback = function()
+    local width = vim.api.nvim_win_get_width(0)
+    local height = vim.api.nvim_win_get_height(0)
 
---     if width > 2 * height and vim.o.filetype == 'help' then
---       vim.cmd.wincmd('L')
---     end
---   end,
--- })
+    if width > 2 * height and vim.o.filetype == 'help' then
+      vim.cmd.wincmd('L')
+    end
+  end,
+})
 
 vim.g.python_host_prog = os.getenv('HOME') .. '/.pyenv/versions/py2nvim/bin/python'
 vim.g.python3_host_prog = os.getenv('HOME') .. '/.pyenv/versions/py3nvim/bin/python'

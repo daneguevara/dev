@@ -334,8 +334,24 @@ cmp.setup({
     end, {
       'i',
     }),
-    ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-d>'] = cmp.mapping.scroll_docs(4),
+    ['<C-u>'] = cmp.mapping(function(fallback)
+      if not require('noice.lsp').scroll(-4) then
+        fallback()
+      end
+    end, {
+      'n',
+      'i',
+      's',
+    }),
+    ['<C-d>'] = cmp.mapping(function(fallback)
+      if not require('noice.lsp').scroll(4) then
+        fallback()
+      end
+    end, {
+      'n',
+      'i',
+      's',
+    }),
   },
   formatting = {
     fields = { 'kind', 'abbr', 'menu' },

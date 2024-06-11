@@ -66,7 +66,10 @@ vim.api.nvim_set_keymap('n', '<c-s>', ':%s/\\s\\+$//e<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>/', '*N', { noremap = true })
 
 -- clear search highlight, echo
-vim.api.nvim_set_keymap('n', '<leader><space>', ':noh<cr>:echo \'\'<cr>', { noremap = true })
+vim.keymap.set('n', '<leader><space>', function()
+  vim.cmd('nohlsearch')
+  print('Search highlight cleared')
+end, { desc = '[C]lear [H]ighlight' })
 
 -- shift tab to pair reverse jumplist with tab-jumplist
 vim.api.nvim_set_keymap('n', '<s-tab>', '<c-o>', { noremap = true })
@@ -149,16 +152,46 @@ vim.keymap.set('n', '<leader>gd', function() vim.cmd('Git diff') end, { desc = '
 vim.keymap.set('n', '<leader>gb', function() vim.cmd('Git blame') end, { desc = '[G]it [B]lame' })
 
 -- toggle wrap
-vim.api.nvim_set_keymap('n', '<s-cr>', ':set wrap! | set wrap?<cr>', { noremap = true })
+vim.keymap.set('n', '<s-cr>', function()
+  vim.cmd('set wrap!')
+  print('Wrap ' .. (vim.opt.wrap:get() and 'enabled' or 'disabled'))
+end, { desc = 'Toggle Wrap' })
 
 -- window scroll bind, off
 vim.api.nvim_set_keymap('n', '<leader>sb', ':windo set scrollbind<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>so', ':windo set noscrollbind<cr>', { noremap = true })
 
--- window tab left, right
-vim.api.nvim_set_keymap('n', '<c-9>', '<c-w>h', { noremap = true })
-vim.api.nvim_set_keymap('n', '<c-0>', '<c-w>l', { noremap = true })
+-- window/buffer management stuff
+local window_count = function()
+  local windows = vim.api.nvim_list_wins()
+  local count = 0
 
--- close buffer in window (but switch to prev buffer first to keep window)j
-vim.api.nvim_set_keymap('n', '<leader>q', '<cmd>silent bp | silent bd#<cr>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<c-8>', '<cmd>silent bp | silent bd#<cr>', { noremap = true })
+  for _, window in ipairs(windows) do
+    if vim.api.nvim_win_get_config(window).relative == '' then
+      count = count + 1
+    end
+  end
+
+  return count
+end
+
+-- close buffer in window (but switch to alt buffer first to keep window)
+vim.api.nvim_set_keymap('n', '<c-8>', ':bp<cr>:bd#<cr>', { noremap = true })
+
+-- move to left window
+vim.keymap.set('n', '<c-9>', function() return '<c-w>h' end, { expr = true })
+
+-- move to right window or move single window right
+vim.keymap.set('n', '<c-0>', function() local count = window_count()
+  if window_count() > 1 then
+    vim.cmd('wincmd l')
+  else
+    vim.cmd('bd')
+    vim.cmd('vsplit')
+    vim.cmd('b#')
+  end
+end, { desc = 'Move to right window or move single window right' })
+
+-- vim.keymap.set("c", "<S-Enter>", function()
+--   require("noice").redirect(vim.fn.getcmdline())
+-- end, { desc = "Redirect Cmdline" })
