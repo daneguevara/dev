@@ -126,18 +126,18 @@ vim.api.nvim_set_keymap('n', '<leader>so', ':windo set noscrollbind<cr>', { nore
 -- ctrl-tab to switch windows
 vim.api.nvim_set_keymap('n', '<c-tab>', '<c-w>w', { noremap = true })
 
--- count layout windows (non floating/relative)
-local window_count = function()
-  local windows = vim.api.nvim_list_wins()
-  local count = 0
+-- layout windows (non floating/relative)
+local windows = function()
+  return vim.tbl_filter(function(win)
+    return vim.api.nvim_win_get_config(win).relative == ''
+  end, vim.api.nvim_list_wins())
+end
 
-  for _, window in ipairs(windows) do
-    if vim.api.nvim_win_get_config(window).relative == '' then
-      count = count + 1
-    end
-  end
-
-  return count
+-- loaded buffers
+local buffers = function()
+  return vim.tbl_filter(function(buf)
+    return vim.api.nvim_buf_is_loaded(buf)
+  end, vim.api.nvim_list_bufs())
 end
 
 --256 on 27" 1440p
@@ -154,29 +154,32 @@ end, { desc = 'Clear window' })
 vim.keymap.set('n', '<c-9>', function() return '<c-w>h' end, { expr = true })
 
 -- move to right window or move vertical split single window to the right (useful for wide screen)
-vim.keymap.set('n', '<c-0>', function() local count = window_count()
-  -- just move right if the window is small
-  if current_window_width() < 200 then
+vim.keymap.set('n', '<c-0>', function()
+  if current_window_width() < 200 or #windows() > 1 then
     vim.cmd('wincmd l')
+    return
   end
 
-  if window_count() > 1 then
-    vim.cmd('wincmd l')
-  else
-    vim.cmd('silent! bp')
+  -- split the display between previous (or new) buffer and current buffer
+  if #buffers() > 1 then
+    vim.cmd('bp')
     vim.cmd('vsplit')
     vim.cmd('silent! b#')
+  else
+    vim.cmd('vnew')
+    vim.cmd('wincmd H')
+    vim.cmd('wincmd l')
   end
 end, { desc = 'Move to right window or move single window right' })
 
--- edit new vertical split
+-- vsplit current window
 vim.keymap.set('n', '<c-.>', function()
   vim.cmd('vnew')
 end, { desc = 'Edit new vertical split' })
 
 -- like q except on the last window, start closing buffers
 vim.keymap.set('n', '<c-q>', function()
-  if window_count() == 1 then
+  if #windows() == 1 then
     vim.cmd('silent! bd')
   else
     vim.cmd('q')
