@@ -88,7 +88,9 @@ local function in_place_edit()
     end
   end
 
-  vim.cmd('startreplace')
+  vim.cmd([[.s/\(.*[#-] \).*/\1/g]])
+  vim.cmd('noh')
+  vim.cmd('startinsert!')
 end
 
 -- keymap to edit (change) the task on current line

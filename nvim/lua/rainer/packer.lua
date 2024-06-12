@@ -14,10 +14,14 @@ return require('packer').startup(function(use)
     branch = 'harpoon2',
     requires = { { 'nvim-lua/plenary.nvim' } }
   })
+
   use({
     'nvim-telescope/telescope.nvim',
     tag = '0.1.6',
-    requires = { { 'nvim-lua/plenary.nvim' } }
+    requires = {
+      { 'nvim-lua/plenary.nvim' },
+      { "angkeith/telescope-terraform-doc.nvim" },
+    },
   })
 
   use({
@@ -28,6 +32,7 @@ return require('packer').startup(function(use)
   })
 
   use({ 'nvim-tree/nvim-web-devicons' })
+
   use({
     'nvim-lualine/lualine.nvim',
     requires = { 'nvim-tree/nvim-web-devicons', opt = true }
@@ -42,6 +47,7 @@ return require('packer').startup(function(use)
   })
 
   use('nvim-treesitter/nvim-treesitter', { run = ':TSUpdate' })
+
   use({
     'nvim-treesitter/nvim-treesitter-textobjects',
     after = 'nvim-treesitter',
@@ -96,7 +102,9 @@ return require('packer').startup(function(use)
 
   use('jmbuhr/otter.nvim')
   use('lucasprag/simpleblack')
-  use({ "catppuccin/nvim", as = "catppuccin" })
+  use({
+    "catppuccin/nvim", as = "catppuccin"
+  })
   use("MunifTanjim/nui.nvim")
   use("rcarriga/nvim-notify")
 
@@ -110,5 +118,16 @@ return require('packer').startup(function(use)
       --   If not available, we use `mini` as the fallback
       "rcarriga/nvim-notify",
     }
+  })
+  use({
+    'pwntester/octo.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function()
+      require("octo").setup()
+    end
   })
 end)

@@ -2,8 +2,8 @@ require('lualine').setup {
   options = {
     icons_enabled = true,
     theme = 'auto',
-    component_separators = { left = '', right = ''},
-    section_separators = { left = '', right = ''},
+    section_separators = { left = '', right = '' },
+    component_separators = { left = '', right = '' },
     disabled_filetypes = {
       statusline = {},
       winbar = {},
@@ -38,6 +38,34 @@ require('lualine').setup {
   inactive_winbar = {},
   extensions = {}
 }
+
+require('catppuccin').setup({
+
+  term_colors = true,
+  transparent_background = true,
+  color_overrides = {
+    mocha = {
+      base = "#0b0b12",
+      mantle = "#11111a",
+      crust = "#14191e",
+    },
+  },
+  integrations = {
+    cmp = true,
+    treesitter = true,
+    notify = true,
+    harpoon = true,
+    native_lsp = {
+      enabled = true,
+      inlay_hints = {
+        background = true,
+      },
+    },
+    telescope = {
+      enabled = true,
+    },
+  }
+})
 
 vim.cmd [[colorscheme catppuccin]]
 

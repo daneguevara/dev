@@ -7,9 +7,6 @@ vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = '[P]roject [V]iew' })
 vim.api.nvim_set_keymap('n', '<c-q>', 'q', { noremap = true })
 vim.api.nvim_set_keymap('n', 'q', '<nop>', { noremap = true })
 
--- execute python debugger on current file with breakpoint at current line
-vim.api.nvim_set_keymap('n', '<leader>xpd', ':execute "terminal ! python -m pdb " .. line(".")<cr>', { noremap = true })
-
 -- force write (only needed for nfs shared drive wonkiness)
 vim.api.nvim_set_keymap('n', '<leader>w', '<cmd>w!<cr>', { noremap = true })
 

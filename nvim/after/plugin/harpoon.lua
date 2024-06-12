@@ -20,13 +20,13 @@ local function toggle_telescope(harpoon_files)
       map('i', '<c-a>', function()
         action.close(prompt_bufnr)
 
-        harpoon.ui:toggle_quick_menu(harpoon:list(), { title = '󰈸 󰈸 󰈸 󰈸 󰈸' })
+        harpoon.ui:toggle_quick_menu(harpoon:list(), { title = ' 󰈸 󰈸 fires 󰈸 󰈸 ' })
       end)
 
       return true
     end,
   }, {
-    prompt_title = '󰈸 󰈸 󰈸 󰈸 󰈸',
+    prompt_title = '󰈸 this is fine 󰈸',
     sorting_strategy = 'ascending',
     finder = require('telescope.finders').new_table({
       results = file_paths,
@@ -39,7 +39,7 @@ end
 vim.keymap.set('n', '<leader>a', function() harpoon:list():add() end)
 vim.keymap.set('n', '<c-e>', function()
   toggle_telescope(harpoon:list())
-end, { desc = '󰈸 󰈸 󰈸 󰈸 󰈸' })
+end, { desc = '󰈸 this is fine 󰈸' })
 
 vim.keymap.set('n', '<leader>1', function() harpoon:list():select(1) end)
 vim.keymap.set('n', '<leader>2', function() harpoon:list():select(2) end)
@@ -50,5 +50,5 @@ vim.keymap.set('n', '<leader>4', function() harpoon:list():select(4) end)
 vim.keymap.set('n', '<c-p>', function() harpoon:list():prev() end)
 vim.keymap.set('n', '<c-n>', function() harpoon:list():next() end)
 vim.keymap.set('n', '<c-a>', function()
-  harpoon.ui:toggle_quick_menu(harpoon:list(), { title = '󰈸 󰈸 󰈸 󰈸 󰈸' })
+  harpoon.ui:toggle_quick_menu(harpoon:list(), { title = ' 󰈸 󰈸 fires 󰈸 󰈸 ' })
 end)
