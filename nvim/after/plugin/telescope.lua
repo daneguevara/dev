@@ -131,6 +131,7 @@ end, { desc = 'Grep Cursor Word' })
 -- buffer manager
 vim.keymap.set('n', '<c-b>', function()
   builtin.buffers({
+    sort_mru = true,
     attach_mappings = function(_, map)
       map('i', '<c-d>', 'delete_buffer')
       map('i', '<c-8>', 'delete_buffer')

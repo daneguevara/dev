@@ -3,8 +3,7 @@ vim.g.mapleader = ','
 -- open explorer for current buffer
 vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = '[P]roject [V]iew' })
 
--- use ctrl-q for macro q and unbind q
-vim.api.nvim_set_keymap('n', '<c-q>', 'q', { noremap = true })
+-- note: configure a new macro keybind before this if i ever decide to use them
 vim.api.nvim_set_keymap('n', 'q', '<nop>', { noremap = true })
 
 -- force write (only needed for nfs shared drive wonkiness)
@@ -164,11 +163,25 @@ vim.keymap.set('n', '<c-0>', function() local count = window_count()
   if window_count() > 1 then
     vim.cmd('wincmd l')
   else
-    vim.cmd('silent! bd')
+    vim.cmd('silent! bp')
     vim.cmd('vsplit')
     vim.cmd('silent! b#')
   end
 end, { desc = 'Move to right window or move single window right' })
+
+-- edit new vertical split
+vim.keymap.set('n', '<c-.>', function()
+  vim.cmd('vnew')
+end, { desc = 'Edit new vertical split' })
+
+-- like q except on the last window, start closing buffers
+vim.keymap.set('n', '<c-q>', function()
+  if window_count() == 1 then
+    vim.cmd('silent! bd')
+  else
+    vim.cmd('q')
+  end
+end, { desc = 'Close window or buffer' })
 
 -- vim.keymap.set("c", "<S-Enter>", function()
 --   require("noice").redirect(vim.fn.getcmdline())

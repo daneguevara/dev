@@ -386,6 +386,9 @@ cmp.setup({
 		documentation = {
 			border = { '╭', '─', '╮', '│', '╯', '─', '╰', '│' },
 		},
+    completion = {
+      border = 'rounded',
+    },
 	},
   docs = {
     auto_open = true,
