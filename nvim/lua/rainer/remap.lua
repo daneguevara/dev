@@ -118,11 +118,16 @@ vim.keymap.set('n', '<s-cr>', function()
   print('Wrap ' .. (vim.opt.wrap:get() and 'enabled' or 'disabled'))
 end, { desc = 'Toggle Wrap' })
 
+-- WINDOW MANAGEMEMENT
+
 -- window scroll bind, off
 vim.api.nvim_set_keymap('n', '<leader>sb', ':windo set scrollbind<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>so', ':windo set noscrollbind<cr>', { noremap = true })
 
--- window/buffer management stuff
+-- ctrl-tab to switch windows
+vim.api.nvim_set_keymap('n', '<c-tab>', '<c-w>w', { noremap = true })
+
+-- count layout windows (non floating/relative)
 local window_count = function()
   local windows = vim.api.nvim_list_wins()
   local count = 0
@@ -136,25 +141,34 @@ local window_count = function()
   return count
 end
 
--- close buffer in window (but switch to alt buffer first to keep window)
-vim.api.nvim_set_keymap('n', '<c-8>', ':bp<cr>:bd#<cr>', { noremap = true })
+--256 on 27" 1440p
+local current_window_width = function()
+  return vim.api.nvim_win_get_width(0)
+end
+
+-- "clear" window by editing a new buffer
+vim.keymap.set('n', '<c-8>', function()
+  vim.cmd('enew')
+end, { desc = 'Clear window' })
 
 -- move to left window
 vim.keymap.set('n', '<c-9>', function() return '<c-w>h' end, { expr = true })
 
--- move to right window or move single window right
+-- move to right window or move vertical split single window to the right (useful for wide screen)
 vim.keymap.set('n', '<c-0>', function() local count = window_count()
+  -- just move right if the window is small
+  if current_window_width() < 200 then
+    vim.cmd('wincmd l')
+  end
+
   if window_count() > 1 then
     vim.cmd('wincmd l')
   else
-    vim.cmd('bd')
+    vim.cmd('silent! bd')
     vim.cmd('vsplit')
-    vim.cmd('b#')
+    vim.cmd('silent! b#')
   end
 end, { desc = 'Move to right window or move single window right' })
-
--- ctrl-tab to switch windows
-vim.api.nvim_set_keymap('n', '<c-tab>', '<c-w>w', { noremap = true })
 
 -- vim.keymap.set("c", "<S-Enter>", function()
 --   require("noice").redirect(vim.fn.getcmdline())
