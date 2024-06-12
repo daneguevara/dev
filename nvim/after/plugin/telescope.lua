@@ -89,7 +89,7 @@ vim.keymap.set('n', '<leader>fq', builtin.quickfix, { desc = '[F]ind [Q]uickfix'
 vim.keymap.set('n', '<leader>fl', function()
   builtin.find_files({
     prompt_title = 'Find Lua Config',
-    cwd = '/home/vagrant/.config/nvim',
+    cwd = '~/.config/nvim',
   })
 end, { desc = '[F]ind [L]ua Config' })
 
