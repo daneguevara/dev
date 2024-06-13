@@ -44,9 +44,10 @@ telescope.setup({
         ['<c-a>'] = function()
           local selected_entry = state.get_selected_entry()
 
-          -- check if the selected entry is a file
-          local file = io.open(selected_entry.value, 'r')
-          if file then
+          -- -- check if the selected entry is a file
+          -- local file = io.open(selected_entry.value, 'r')
+          -- if file then
+          if selected_entry then
             file:close()
 
             print('setting on 󰈸: ' .. selected_entry.value)

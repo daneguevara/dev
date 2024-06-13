@@ -112,16 +112,16 @@ vim.keymap.set('n', '<leader>gd', function() vim.cmd('Git diff') end, { desc = '
 vim.keymap.set('n', '<leader>gb', function() vim.cmd('Git blame') end, { desc = '[G]it [B]lame' })
 
 -- toggle wrap
-vim.keymap.set('n', '<s-cr>', function()
+vim.keymap.set('n', '<leader>twr', function()
   vim.cmd('set wrap!')
   print('Wrap ' .. (vim.opt.wrap:get() and 'enabled' or 'disabled'))
 end, { desc = 'Toggle Wrap' })
 
 -- WINDOW MANAGEMEMENT
 
--- window scroll bind, off
-vim.api.nvim_set_keymap('n', '<leader>sb', ':windo set scrollbind<cr>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>so', ':windo set noscrollbind<cr>', { noremap = true })
+-- window scroll bind, unbind
+vim.api.nvim_set_keymap('n', '<leader>tsb', ':windo set scrollbind<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>tso', ':windo set noscrollbind<cr>', { noremap = true })
 
 -- ctrl-tab to switch windows
 vim.api.nvim_set_keymap('n', '<c-tab>', '<c-w>w', { noremap = true })
@@ -186,6 +186,6 @@ vim.keymap.set('n', '<c-q>', function()
   end
 end, { desc = 'Close window or buffer' })
 
--- vim.keymap.set("c", "<S-Enter>", function()
---   require("noice").redirect(vim.fn.getcmdline())
--- end, { desc = "Redirect Cmdline" })
+vim.keymap.set("c", "<S-Enter>", function()
+  require("noice").redirect(vim.fn.getcmdline())
+end, { desc = "Redirect Cmdline" })

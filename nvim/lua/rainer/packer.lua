@@ -91,7 +91,7 @@ return require('packer').startup(function(use)
 
   use('Vimjas/vim-python-pep8-indent')
 
-  use('Vigemus/iron.nvim')
+  -- use('Vigemus/iron.nvim')
 
   use('tpope/vim-commentary')
   use('tpope/vim-fugitive')

@@ -37,7 +37,7 @@ require('mason-lspconfig').setup({
       lspconfig.lua_ls.setup({
         on_init = function(client)
           local path = client.workspace_folders[1].name
-          if vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc') then
+          if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
             return
           end
 
@@ -52,35 +52,32 @@ require('mason-lspconfig').setup({
               checkThirdParty = false,
               library = {
                 vim.env.VIMRUNTIME,
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/LuaSnip',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/harpoon',
-                -- '/home/vagrant/.local/share/nvim/site/pack/packer/start/iron.nvim',
-                -- '/home/vagrant/.local/share/nvim/site/pack/packer/start/lsp-zero.nvim',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/lualine.nvim',
-                -- '/home/vagrant/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim',
-                -- '/home/vagrant/.local/share/nvim/site/pack/packer/start/mason.nvim',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/nvim-cmp',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/nvim-intro',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/nvim-lspconfig',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/nvim-treesitter',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/nvim-web-devicons',
-                -- '/home/vagrant/.local/share/nvim/site/pack/packer/start/packer.nvim',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/playground',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/plenary.nvim',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/telescope.nvim',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/tokyonight.nvim',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/undotree',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/vim-commentary',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/vim-fugitive',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/vim-python-pep8-indent',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/vim-repeat',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/start/vim-surround',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/opt/copilot-cmp',
-                '/home/vagrant/.local/share/nvim/site/pack/packer/opt/copilot.lua',
-                -- '/home/vagrant/.local/share/nvim/site/pack/packer/opt/nvim-treesitter-textobjects',
+                -- '~/.local/share/nvim/site/pack/packer/start/LuaSnip',
+                '~/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp',
+                '~/.local/share/nvim/site/pack/packer/start/harpoon',
+                -- '~/.local/share/nvim/site/pack/packer/start/lsp-zero.nvim',
+                -- '~/.local/share/nvim/site/pack/packer/start/lualine.nvim',
+                -- '~/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim',
+                -- '~/.local/share/nvim/site/pack/packer/start/mason.nvim',
+                '~/.local/share/nvim/site/pack/packer/start/nvim-cmp',
+                '~/.local/share/nvim/site/pack/packer/start/nvim-lspconfig',
+                '~/.local/share/nvim/site/pack/packer/start/nvim-treesitter',
+                -- '~/.local/share/nvim/site/pack/packer/start/nvim-web-devicons',
+                -- '~/.local/share/nvim/site/pack/packer/start/packer.nvim',
+                '~/.local/share/nvim/site/pack/packer/start/playground',
+                '~/.local/share/nvim/site/pack/packer/start/plenary.nvim',
+                '~/.local/share/nvim/site/pack/packer/start/telescope.nvim',
+                -- '~/.local/share/nvim/site/pack/packer/start/undotree',
+                -- '~/.local/share/nvim/site/pack/packer/start/vim-commentary',
+                -- '~/.local/share/nvim/site/pack/packer/start/vim-fugitive',
+                '~/.local/share/nvim/site/pack/packer/start/vim-python-pep8-indent',
+                '~/.local/share/nvim/site/pack/packer/start/vim-repeat',
+                '~/.local/share/nvim/site/pack/packer/start/vim-surround',
+                '~/.local/share/nvim/site/pack/packer/opt/copilot-cmp',
+                '~/.local/share/nvim/site/pack/packer/opt/copilot.lua',
+                -- '~/.local/share/nvim/site/pack/packer/opt/nvim-treesitter-textobjects',
                 -- '/usr/local/lib/nvim',
-                '/home/vagrant/.config/nvim/after',
+                '~/.config/nvim/after',
                 -- Depending on the usage, you might want to add additional paths here.
                 -- "${3rd}/luv/library"
                 -- "${3rd}/busted/library",
@@ -104,16 +101,16 @@ require('mason-lspconfig').setup({
       lspconfig.tsserver.setup({})
     end,
 
-    ['terraformls'] = function()
-      lspconfig.terraformls.setup({})
+    -- ['terraformls'] = function()
+    --   lspconfig.terraformls.setup({})
 
-      vim.api.nvim_create_autocmd({'BufWritePre'}, {
-        pattern = {'*.tf', '*.tfvars'},
-        callback = function()
-          vim.lsp.buf.format()
-        end,
-      })
-    end,
+    --   vim.api.nvim_create_autocmd({'BufWritePre'}, {
+    --     pattern = {'*.tf', '*.tfvars'},
+    --     callback = function()
+    --       vim.lsp.buf.format()
+    --     end,
+    --   })
+    -- end,
 
     -- ['tflint'] = function()
     --   lspconfig.tflint.setup({})

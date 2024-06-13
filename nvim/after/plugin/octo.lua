@@ -1,4 +1,7 @@
-require"octo".setup({
+require("octo").setup({
+  suppress_missing_scope = {
+    projects_v2 = true,
+  },
   use_local_fs = false,                    -- use local files on right side of reviews
   enable_builtin = false,                  -- shows a list of builtin actions when no action is provided
   default_remote = {"upstream", "origin"}; -- order to try remotes
@@ -8,7 +11,7 @@ require"octo".setup({
   picker_config = {
     use_emojis = false,                    -- only used by "fzf-lua" picker for now
     mappings = {                           -- mappings for the pickers
-      open_in_browser = { lhs = "<leader>gx", desc = "open issue in browser" },
+      open_in_browser = { lhs = "<leader>px", desc = "open issue in browser" },
       copy_url = { lhs = "<C-y>", desc = "copy url to system clipboard" },
       checkout_pr = { lhs = "<C-o>", desc = "checkout pull request" },
       -- merge_pr = { lhs = "<C-r>", desc = "merge pull request" },
@@ -78,7 +81,7 @@ require"octo".setup({
       -- create_label = { lhs = "<leader>lc", desc = "create label" },
       add_label = { lhs = "<leader>la", desc = "add label" },
       remove_label = { lhs = "<leader>ld", desc = "remove label" },
-      goto_issue = { lhs = "<leader>gi", desc = "navigate to a local repo issue" },
+      -- goto_issue = { lhs = "<leader>gi", desc = "navigate to a local repo issue" },
       add_comment = { lhs = "<leader>ca", desc = "add comment" },
       delete_comment = { lhs = "<leader>cd", desc = "delete comment" },
       next_comment = { lhs = "]n", desc = "go to next comment" },
@@ -86,7 +89,7 @@ require"octo".setup({
       react_hooray = { lhs = "<leader>rp", desc = "add/remove 🎉 reaction" },
       react_heart = { lhs = "<leader>rh", desc = "add/remove ❤️ reaction" },
       react_eyes = { lhs = "<leader>re", desc = "add/remove 👀 reaction" },
-      react_thumbs_up = { lhs = "<leader>ry", desc = "add/remove 👍 reaction" },
+      react_thumbs_up = { lhs = "<leader>r+", desc = "add/remove 👍 reaction" },
       react_thumbs_down = { lhs = "<leader>r-", desc = "add/remove 👎 reaction" },
       react_rocket = { lhs = "<leader>rr", desc = "add/remove 🚀 reaction" },
       react_laugh = { lhs = "<leader>rl", desc = "add/remove 😄 reaction" },
@@ -102,19 +105,19 @@ require"octo".setup({
       show_pr_diff = { lhs = "<leader>pd", desc = "show PR diff" },
       add_reviewer = { lhs = "<leader>va", desc = "add reviewer" },
       remove_reviewer = { lhs = "<leader>vd", desc = "remove reviewer request" },
-      close_issue = { lhs = "<leader>ic", desc = "close PR" },
-      reopen_issue = { lhs = "<leader>io", desc = "reopen PR" },
+      -- close_issue = { lhs = "<leader>ic", desc = "close PR" },
+      -- reopen_issue = { lhs = "<leader>io", desc = "reopen PR" },
       list_issues = { lhs = "<leader>il", desc = "list open issues on same repo" },
       reload = { lhs = "<C-r>", desc = "reload PR" },
-      open_in_browser = { lhs = "<leader>gx", desc = "open PR in browser" },
+      open_in_browser = { lhs = "<leader>px", desc = "open PR in browser" },
       copy_url = { lhs = "<C-y>", desc = "copy url to system clipboard" },
       goto_file = { lhs = "gf", desc = "go to file" },
-      add_assignee = { lhs = "<leader>aa", desc = "add assignee" },
-      remove_assignee = { lhs = "<leader>ad", desc = "remove assignee" },
-      create_label = { lhs = "<leader>lc", desc = "create label" },
-      add_label = { lhs = "<leader>la", desc = "add label" },
-      remove_label = { lhs = "<leader>ld", desc = "remove label" },
-      goto_issue = { lhs = "<leader>gi", desc = "navigate to a local repo issue" },
+      -- add_assignee = { lhs = "<leader>aa", desc = "add assignee" },
+      -- remove_assignee = { lhs = "<leader>ad", desc = "remove assignee" },
+      -- create_label = { lhs = "<leader>lc", desc = "create label" },
+      -- add_label = { lhs = "<leader>la", desc = "add label" },
+      -- remove_label = { lhs = "<leader>ld", desc = "remove label" },
+      -- goto_issue = { lhs = "<leader>gi", desc = "navigate to a local repo issue" },
       add_comment = { lhs = "<leader>ca", desc = "add comment" },
       delete_comment = { lhs = "<leader>cd", desc = "delete comment" },
       next_comment = { lhs = "]c", desc = "go to next comment" },
@@ -131,7 +134,7 @@ require"octo".setup({
       review_resume = { lhs = "<leader>vr", desc = "resume a pending review for the current PR" },
     },
     review_thread = {
-      goto_issue = { lhs = "<leader>gi", desc = "navigate to a local repo issue" },
+      -- goto_issue = { lhs = "<leader>gi", desc = "navigate to a local repo issue" },
       add_comment = { lhs = "<leader>ca", desc = "add comment" },
       add_suggestion = { lhs = "<leader>sa", desc = "add suggestion" },
       delete_comment = { lhs = "<leader>cd", desc = "delete comment" },
@@ -141,7 +144,7 @@ require"octo".setup({
       select_prev_entry = { lhs = "[q", desc = "move to next changed file" },
       select_first_entry = { lhs = "[Q", desc = "move to first changed file" },
       select_last_entry = { lhs = "]Q", desc = "move to last changed file" },
-      close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
+      close_review_tab = { lhs = "<C-q>", desc = "close review tab" },
       react_hooray = { lhs = "<leader>rp", desc = "add/remove 🎉 reaction" },
       react_heart = { lhs = "<leader>rh", desc = "add/remove ❤️ reaction" },
       react_eyes = { lhs = "<leader>re", desc = "add/remove 👀 reaction" },
@@ -155,7 +158,7 @@ require"octo".setup({
       approve_review = { lhs = "<C-a>", desc = "approve review" },
       comment_review = { lhs = "<C-m>", desc = "comment review" },
       request_changes = { lhs = "<C-r>", desc = "request changes review" },
-      close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
+      close_review_tab = { lhs = "<C-q>", desc = "close review tab" },
     },
     review_diff = {
       submit_review = { lhs = "<leader>vs", desc = "submit review" },
@@ -170,15 +173,15 @@ require"octo".setup({
       select_prev_entry = { lhs = "[q", desc = "move to next changed file" },
       select_first_entry = { lhs = "[Q", desc = "move to first changed file" },
       select_last_entry = { lhs = "]Q", desc = "move to last changed file" },
-      close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
+      close_review_tab = { lhs = "<C-q>", desc = "close review tab" },
       -- toggle_viewed = { lhs = "<leader><leader>", desc = "toggle viewer viewed state" },
       goto_file = { lhs = "gf", desc = "go to file" },
     },
     file_panel = {
       submit_review = { lhs = "<leader>vs", desc = "submit review" },
       discard_review = { lhs = "<leader>vd", desc = "discard review" },
-      next_entry = { lhs = "j", desc = "move to next changed file" },
-      prev_entry = { lhs = "k", desc = "move to previous changed file" },
+      next_entry = { lhs = "<c-n>", desc = "move to next changed file" },
+      prev_entry = { lhs = "<c-p>", desc = "move to previous changed file" },
       select_entry = { lhs = "<cr>", desc = "show selected changed file diffs" },
       refresh_files = { lhs = "R", desc = "refresh changed files panel" },
       focus_files = { lhs = "<leader>e", desc = "move focus to changed file panel" },
@@ -187,10 +190,10 @@ require"octo".setup({
       select_prev_entry = { lhs = "[q", desc = "move to next changed file" },
       select_first_entry = { lhs = "[Q", desc = "move to first changed file" },
       select_last_entry = { lhs = "]Q", desc = "move to last changed file" },
-      close_review_tab = { lhs = "<C-c>", desc = "close review tab" },
+      close_review_tab = { lhs = "<C-q>", desc = "close review tab" },
       -- toggle_viewed = { lhs = "<leader><leader>", desc = "toggle viewer viewed state" },
     },
   },
 })
 
-vim.api.nvim_set_keymap("n", "<leader>prs", "<cmd>Octo pr search is:open label:unicorn<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>pr", "<cmd>Octo pr search is:open label:unicorn<CR>", { noremap = true, silent = true })
