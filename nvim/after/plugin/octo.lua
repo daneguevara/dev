@@ -96,7 +96,7 @@ require("octo").setup({
       react_confused = { lhs = "<leader>rc", desc = "add/remove 😕 reaction" },
     },
     pull_request = {
-      checkout_pr = { lhs = "<leader>po", desc = "checkout PR" },
+      checkout_pr = { lhs = "<C-o>", desc = "checkout PR" },
       merge_pr = { lhs = "<leader>pm", desc = "merge commit PR" },
       -- squash_and_merge_pr = { lhs = "<leader>psm", desc = "squash and merge PR" },
       -- rebase_and_merge_pr = { lhs = "<leader>prm", desc = "rebase and merge PR" },
