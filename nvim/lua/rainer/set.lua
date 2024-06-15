@@ -14,7 +14,7 @@ vim.opt.modelines = 0
 vim.opt.wildignore:append("*/node_modules")
 
 -- set wildmenu to display longest match
-vim.opt.wildmode = "list:longest"
+vim.opt.wildmode = "list,full"
 
 -- use spaces instead of tabs
 vim.opt.expandtab = true
