@@ -136,7 +136,14 @@ end
 -- loaded buffers
 local buffers = function()
   return vim.tbl_filter(function(buf)
-    return vim.api.nvim_buf_is_loaded(buf)
+    if 1 ~= vim.fn.buflisted(buf) then
+      return false
+    end
+    if not vim.api.nvim_buf_is_loaded(buf) then
+      return false
+    end
+
+    return true
   end, vim.api.nvim_list_bufs())
 end
 
@@ -145,10 +152,10 @@ local current_window_width = function()
   return vim.api.nvim_win_get_width(0)
 end
 
--- "clear" window by editing a new buffer
+-- next buffer
 vim.keymap.set('n', '<c-8>', function()
-  vim.cmd('enew')
-end, { desc = 'Clear window' })
+  vim.cmd('bn')
+end, { desc = 'Next Buffer' })
 
 -- move to left window
 vim.keymap.set('n', '<c-9>', function() return '<c-w>h' end, { expr = true })
@@ -160,28 +167,41 @@ vim.keymap.set('n', '<c-0>', function()
     return
   end
 
-  -- split the display between previous (or new) buffer and current buffer
-  if #buffers() > 1 then
-    vim.cmd('bp')
-    vim.cmd('vsplit')
-    vim.cmd('silent! b#')
+  -- local bufnrs = vim.tbl_filter(function(bufnr)
+  --   if 1 ~= vim.fn.buflisted(bufnr) then
+  --     return false
+  --   end
+  --   if not vim.api.nvim_buf_is_loaded(bufnr) then
+  --     return false
+  --   end
+
+  --   return true
+  -- end, vim.api.nvim_list_bufs())
+
+  if #buffers() == 1 then
+    vim.cmd('enew')
   else
-    vim.cmd('vnew')
-    vim.cmd('wincmd H')
-    vim.cmd('wincmd l')
+    vim.cmd('bp')
   end
+
+  vim.cmd('vert sbn')
 end, { desc = 'Move to right window or move single window right' })
 
--- vsplit current window
+-- edit new buffer, with vertical split if single window and wide screen
 vim.keymap.set('n', '<c-.>', function()
-  vim.cmd('vnew')
-end, { desc = 'Edit new vertical split' })
-
--- like q except on the last window, start closing buffers
-vim.keymap.set('n', '<c-q>', function()
-  if #windows() == 1 then
-    vim.cmd('silent! bd')
+  if current_window_width() > 200 then
+    vim.cmd('vnew')
   else
-    vim.cmd('q')
+    vim.cmd('enew')
   end
-end, { desc = 'Close window or buffer' })
+end, { desc = 'Edit new (vsplit if space)' })
+
+-- close windows or buffers
+vim.keymap.set('n', '<c-q>', function()
+  if #windows() > 1 then
+    vim.cmd('q')
+  else
+    vim.cmd('bd')
+  end
+
+end, { desc = 'Close windows or buffers' })

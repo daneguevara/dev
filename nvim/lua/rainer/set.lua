@@ -1,20 +1,20 @@
 -- set clipboard
-vim.opt.clipboard:append("unnamedplus")
+vim.opt.clipboard:append('unnamedplus')
 
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
 -- set mouse
-vim.opt.mouse = "a"
+vim.opt.mouse = 'a'
 
 -- disable modelines
 vim.opt.modelines = 0
 
 -- ignore node_modules directory in wildmenu
-vim.opt.wildignore:append("*/node_modules")
+vim.opt.wildignore:append('*/node_modules')
 
 -- set wildmenu to display longest match
-vim.opt.wildmode = "list,full"
+vim.opt.wildmode = 'list:full'
 
 -- use spaces instead of tabs
 vim.opt.expandtab = true
@@ -25,7 +25,7 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 
 -- set encoding to utf-8
-vim.opt.encoding = "utf-8"
+vim.opt.encoding = 'utf-8'
 
 -- enable autoindent
 vim.opt.autoindent = true
