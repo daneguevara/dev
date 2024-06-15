@@ -94,12 +94,16 @@ vim.api.nvim_exec([[
 -- dynamically open help window based on window height and width
 vim.api.nvim_create_autocmd('BufWinEnter', {
   group = vim.api.nvim_create_augroup('help_window', {}),
-  pattern = { '*.txt' },
+  pattern = 'help,*.txt',
   callback = function()
     local width = vim.api.nvim_win_get_width(0)
     local height = vim.api.nvim_win_get_height(0)
 
-    if width > 2 * height and vim.o.filetype == 'help' then
+    if vim.o.buftype == 'help' then
+      vim.cmd.set('filetype=help')
+    end
+
+    if width > 120 and vim.o.buftype == 'help' then
       vim.cmd.wincmd('L')
     end
   end,

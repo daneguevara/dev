@@ -31,16 +31,11 @@ vim.keymap.set('n', '<leader><space>', function()
   print('Search highlight cleared')
 end, { desc = '[C]lear [H]ighlight' })
 
--- clear toast alerts
-vim.keymap.set('n', '<leader>q', function()
-  vim.cmd('NoiceDismiss')
-end, { desc = '[Q]uiet' })
-
 -- shift tab to pair reverse jumplist with tab-jumplist
 vim.api.nvim_set_keymap('n', '<s-tab>', '<c-o>', { noremap = true })
 
 -- ctrl hl side jumps, single line jumps
-vim.api.nvim_set_keymap('n', '<c-h>', '<home>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<c-h>', '^', { noremap = true })
 vim.api.nvim_set_keymap('n', '<c-j>', 'j<c-e>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<c-k>', 'k<c-y>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<c-l>', '<end>', { noremap = true })
@@ -74,7 +69,7 @@ vim.api.nvim_set_keymap('i', '<c-f>', '<right>', { noremap = true })
 vim.api.nvim_set_keymap('i', '<c-b>', '<left>', { noremap = true })
 
 -- ctrl hjkl movements insert mode
-vim.api.nvim_set_keymap('i', '<c-h>', '<home>', { noremap = true })
+vim.api.nvim_set_keymap('i', '<c-h>', '<cmd>normal ^<cr>', { noremap = true })
 vim.api.nvim_set_keymap('i', '<c-j>', '<down>', { noremap = true })
 vim.api.nvim_set_keymap('i', '<c-k>', '<up>', { noremap = true })
 vim.api.nvim_set_keymap('i', '<c-l>', '<end>', { noremap = true })
@@ -110,6 +105,11 @@ vim.api.nvim_set_keymap('v', '<m-h>', 'b', { noremap = true })
 vim.api.nvim_set_keymap('v', '<m-j>', ':m \'>+1<cr>==gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '<m-k>', ':m \'<-2<cr>==gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '<m-l>', 'e', { noremap = true })
+
+-- git bindings
+vim.keymap.set('n', '<leader>gs', function() vim.cmd('Git status') end, { desc = '[G]it [S]tatus' })
+vim.keymap.set('n', '<leader>gd', function() vim.cmd('Git diff') end, { desc = '[G]it [D]iff' })
+vim.keymap.set('n', '<leader>gb', function() vim.cmd('Git blame') end, { desc = '[G]it [B]lame' })
 
 -- toggle wrap
 vim.keymap.set('n', '<leader>twr', function()
@@ -185,7 +185,3 @@ vim.keymap.set('n', '<c-q>', function()
     vim.cmd('q')
   end
 end, { desc = 'Close window or buffer' })
-
-vim.keymap.set("c", "<S-Enter>", function()
-  require("noice").redirect(vim.fn.getcmdline())
-end, { desc = "Redirect Cmdline" })

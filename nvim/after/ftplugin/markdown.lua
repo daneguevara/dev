@@ -39,7 +39,7 @@ vim.keymap.set('i', '<cr>', function()
   local line = vim.fn.getline('.')
   local prefix = line_prefix(line)
 
-  return '<c-o>o' .. prefix
+  return '<cr>' .. prefix
 end, { noremap = true, expr = true, buffer = 0 })
 
 vim.keymap.set('n', 'O', function()
@@ -109,36 +109,32 @@ local skeleton = {
 -- TEMPLATE
 
 -- lfg
-vim.keymap.set('n', '<leader>lfg', function()
+vim.keymap.set('n', '<leader>gg', function()
   vim.fn.append(0, skeleton)
 
   print("LET'S F*CKING GO!")
 end, { noremap = true, silent = true, buffer = 0 })
 
 -- search without highlights
-
-vim.keymap.set('n', 'n', function()
-  vim.fn.search('- \\[.\\] ', 'eW')
-end, { noremap = true, silent = true, buffer = 0 })
-
-vim.keymap.set('n', 'p', function()
-  vim.fn.search('- \\[.\\] ', 'beW')
-end, { noremap = true, silent = true, buffer = 0 })
-
--- search with highlights
+vim.api.nvim_set_keymap('n', 'n', 'n:noh<cr>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'N', 'N:noh<cr>', { noremap = true, silent = true })
 
 vim.keymap.set('n', 'tn', function()
-  vim.cmd([[/- \[.\] \zs\(.*\)]])
+  vim.cmd([[silent! /- \[.\] \zs\(.*\)]])
+  vim.cmd([[noh]])
 end, { noremap = true, silent = true, buffer = 0 })
 
-vim.keymap.set('n', 'tp', function()
-  vim.cmd([[?- \[.\] \zs\(.*\)]])
+vim.keymap.set('n', 'tN', function()
+  vim.cmd([[silent! ?- \[.\] \zs\(.*\)]])
+  vim.cmd([[noh]])
 end, { noremap = true, silent = true, buffer = 0 })
 
 vim.keymap.set('n', 'mn', function()
-  vim.cmd([[/- \zs\([^[].*\)]])
+  vim.cmd([[silent! /^\s*- \zs[^[]\(.*\)]])
+  vim.cmd([[noh]])
 end, { noremap = true, silent = true, buffer = 0 })
 
-vim.keymap.set('n', 'mp', function()
-  vim.cmd([[?- \zs\([^[].*\)]])
+vim.keymap.set('n', 'mN', function()
+  vim.cmd([[silent! ?^\s*- \zs[^[]\(.*\)]])
+  vim.cmd([[noh]])
 end, { noremap = true, silent = true, buffer = 0 })

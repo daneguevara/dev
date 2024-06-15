@@ -1,4 +1,6 @@
-require("noice").setup({
+local noice = require('noice')
+
+noice.setup({
   lsp = {
     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
     override = {
@@ -38,3 +40,7 @@ require("noice").setup({
     },
   },
 })
+
+vim.keymap.set("c", "<s-cr>", function()
+  noice.redirect(vim.fn.getcmdline())
+end, { desc = "Redirect Cmdline" })

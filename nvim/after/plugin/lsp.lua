@@ -131,7 +131,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- Jump to the definition of the word under your cursor.
     --  This is where a variable was first declared, or where a function is defined, etc.
-    --  To jump back, press <C-t>.
+    --  To jump back, press <c-t>.
     nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
     -- Find references for the word under your cursor.
@@ -165,7 +165,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- Opens a popup that displays documentation about the word under your cursor
     --  See `:help K` for why this keymap.
     nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-    imap('<C-s>', vim.lsp.buf.signature_help, 'Signature Help')
+    imap('<c-s>', vim.lsp.buf.signature_help, 'Signature Help')
 
     -- WARN: This is not Goto Definition, this is Goto Declaration.
     --  For example, in C this would take you to the header.
@@ -231,9 +231,9 @@ cmp.setup({
     end,
   },
   mapping = {
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-w>'] = cmp.mapping(function(fallback)
+    ['<c-p>'] = cmp.mapping.select_prev_item(),
+    ['<c-n>'] = cmp.mapping.select_next_item(),
+    ['<c-w>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.abort()
       else
@@ -242,7 +242,7 @@ cmp.setup({
     end, {
       'i',
     }),
-    ['<C-y>'] = cmp.mapping(function(fallback)
+    ['<c-y>'] = cmp.mapping(function(fallback)
       local suggestion = require('copilot.suggestion')
 
       if suggestion.is_visible() then
@@ -253,7 +253,7 @@ cmp.setup({
     end, {
       'i',
     }),
-    ['<C-h>'] = cmp.mapping(function(fallback)
+    ['<c-h>'] = cmp.mapping(function(fallback)
       local suggestion = require('copilot.suggestion')
 
       if suggestion.is_visible() then
@@ -264,7 +264,7 @@ cmp.setup({
     end, {
       'i',
     }),
-    ['<C-l>'] = cmp.mapping(function(fallback)
+    ['<c-l>'] = cmp.mapping(function(fallback)
       local suggestion = require('copilot.suggestion')
 
       if suggestion.is_visible() then
@@ -275,7 +275,7 @@ cmp.setup({
     end, {
       'i',
     }),
-    ['<CR>'] = cmp.mapping(function(fallback)
+    ['<cr>'] = cmp.mapping(function(fallback)
       if cmp.visible() and cmp.get_active_entry() then
         cmp.confirm({
           behavior = cmp.ConfirmBehavior.Insert,
@@ -287,7 +287,7 @@ cmp.setup({
     end, {
       'i',
     }),
-    ['<C-CR>'] = cmp.mapping(function(fallback)
+    ['<c-cr>'] = cmp.mapping(function(fallback)
       local suggestion = require('copilot.suggestion')
 
       if suggestion.is_visible() then
@@ -298,7 +298,7 @@ cmp.setup({
     end, {
       'i',
     }),
-    ['<Tab>'] = cmp.mapping(function(fallback)
+    ['<tab>'] = cmp.mapping(function(fallback)
       if luasnip.expandable() then
         luasnip.expand()
       elseif luasnip.jumpable(1) then
@@ -310,7 +310,7 @@ cmp.setup({
       'i',
       's',
     }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
+    ['<s-tab>'] = cmp.mapping(function(fallback)
       if luasnip.jumpable(-1) then
         luasnip.jump(-1)
       else
@@ -320,7 +320,7 @@ cmp.setup({
       'i',
       's',
     }),
-    ['<C-Tab>'] = cmp.mapping(function(fallback)
+    ['<c-tab>'] = cmp.mapping(function(fallback)
       local suggestion = require('copilot.suggestion')
 
       if suggestion.is_visible() then
@@ -331,7 +331,7 @@ cmp.setup({
     end, {
       'i',
     }),
-    ['<C-u>'] = cmp.mapping(function(fallback)
+    ['<c-u>'] = cmp.mapping(function(fallback)
       if not require('noice.lsp').scroll(-4) then
         fallback()
       end
@@ -340,7 +340,7 @@ cmp.setup({
       'i',
       's',
     }),
-    ['<C-d>'] = cmp.mapping(function(fallback)
+    ['<c-d>'] = cmp.mapping(function(fallback)
       if not require('noice.lsp').scroll(4) then
         fallback()
       end

@@ -12,9 +12,9 @@ require("octo").setup({
     use_emojis = false,                    -- only used by "fzf-lua" picker for now
     mappings = {                           -- mappings for the pickers
       open_in_browser = { lhs = "<leader>px", desc = "open issue in browser" },
-      copy_url = { lhs = "<C-y>", desc = "copy url to system clipboard" },
-      checkout_pr = { lhs = "<C-o>", desc = "checkout pull request" },
-      -- merge_pr = { lhs = "<C-r>", desc = "merge pull request" },
+      copy_url = { lhs = "<c-y>", desc = "copy url to system clipboard" },
+      checkout_pr = { lhs = "<c-o>", desc = "checkout pull request" },
+      -- merge_pr = { lhs = "<c-r>", desc = "merge pull request" },
     },
   },
   comment_icon = "▎",                      -- comment marker
@@ -26,36 +26,36 @@ require("octo").setup({
   timeline_indent = "2";                   -- timeline indentation
   right_bubble_delimiter = "";            -- bubble delimiter
   left_bubble_delimiter = "";             -- bubble delimiter
-  github_hostname = "";                    -- GitHub Enterprise host
+  github_hostname = "";                    -- github enterprise host
   snippet_context_lines = 4;               -- number or lines around commented lines
-  gh_cmd = "gh",                           -- Command to use when calling Github CLI
-  gh_env = {},                             -- extra environment variables to pass on to GitHub CLI, can be a table or function returning a table
+  gh_cmd = "gh",                           -- command to use when calling github cli
+  gh_env = {},                             -- extra environment variables to pass on to github cli, can be a table or function returning a table
   timeout = 5000,                          -- timeout for requests between the remote server
-  default_to_projects_v2 = false,          -- use projects v2 for the `Octo card ...` command by default. Both legacy and v2 commands are available under `Octo cardlegacy ...` and `Octo cardv2 ...` respectively.
+  default_to_projects_v2 = false,          -- use projects v2 for the `octo card ...` command by default. both legacy and v2 commands are available under `octo cardlegacy ...` and `octo cardv2 ...` respectively.
   ui = {
     use_signcolumn = false,                -- show "modified" marks on the sign column
     use_signstatus = true,                 -- show "modified" marks on the status column
   },
   issues = {
-    order_by = {                           -- criteria to sort results of `Octo issue list`
-      field = "CREATED_AT",                -- either COMMENTS, CREATED_AT or UPDATED_AT (https://docs.github.com/en/graphql/reference/enums#issueorderfield)
-      direction = "DESC"                   -- either DESC or ASC (https://docs.github.com/en/graphql/reference/enums#orderdirection)
+    order_by = {                           -- criteria to sort results of `octo issue list`
+      field = "created_at",                -- either comments, created_at or updated_at (https://docs.github.com/en/graphql/reference/enums#issueorderfield)
+      direction = "desc"                   -- either desc or asc (https://docs.github.com/en/graphql/reference/enums#orderdirection)
     }
   },
   pull_requests = {
-    order_by = {                           -- criteria to sort the results of `Octo pr list`
-      field = "COMMENTS",
-      direction = "DESC"                   -- either DESC or ASC (https://docs.github.com/en/graphql/reference/enums#orderdirection)
+    order_by = {                           -- criteria to sort the results of `octo pr list`
+      field = "comments",
+      direction = "desc"                   -- either desc or asc (https://docs.github.com/en/graphql/reference/enums#orderdirection)
     },
-    always_select_remote_on_create = false -- always give prompt to select base remote repo when creating PRs
+    always_select_remote_on_create = false -- always give prompt to select base remote repo when creating prs
   },
   file_panel = {
     size = 10,                             -- changed files panel rows
     use_icons = true                       -- use web-devicons in file panel (if false, nvim-web-devicons does not need to be installed)
   },
-  colors = {                               -- used for highlight groups (see Colors section below)
+  colors = {                               -- used for highlight groups (see colors section below)
     white = "#ffffff",
-    grey = "#2A354C",
+    grey = "#2a354c",
     black = "#000000",
     red = "#fdb8c0",
     dark_red = "#da3633",
@@ -63,7 +63,7 @@ require("octo").setup({
     dark_green = "#238636",
     yellow = "#d3c846",
     dark_yellow = "#735c0f",
-    blue = "#58A6FF",
+    blue = "#58a6ff",
     dark_blue = "#0366d6",
     purple = "#6f42c1",
   },
@@ -73,9 +73,9 @@ require("octo").setup({
       -- close_issue = { lhs = "<leader>ic", desc = "close issue" },
       -- reopen_issue = { lhs = "<leader>io", desc = "reopen issue" },
       list_issues = { lhs = "<leader>il", desc = "list open issues on same repo" },
-      reload = { lhs = "<C-r>", desc = "reload issue" },
+      reload = { lhs = "<c-r>", desc = "reload issue" },
       open_in_browser = { lhs = "<leader>x", desc = "open issue in browser" },
-      copy_url = { lhs = "<C-y>", desc = "copy url to system clipboard" },
+      copy_url = { lhs = "<c-y>", desc = "copy url to system clipboard" },
       -- add_assignee = { lhs = "<leader>aa", desc = "add assignee" },
       -- remove_assignee = { lhs = "<leader>ad", desc = "remove assignee" },
       -- create_label = { lhs = "<leader>lc", desc = "create label" },
@@ -96,7 +96,7 @@ require("octo").setup({
       react_confused = { lhs = "<leader>rc", desc = "add/remove 😕 reaction" },
     },
     pull_request = {
-      checkout_pr = { lhs = "<C-o>", desc = "checkout PR" },
+      checkout_pr = { lhs = "<leader>po", desc = "checkout PR" },
       merge_pr = { lhs = "<leader>pm", desc = "merge commit PR" },
       -- squash_and_merge_pr = { lhs = "<leader>psm", desc = "squash and merge PR" },
       -- rebase_and_merge_pr = { lhs = "<leader>prm", desc = "rebase and merge PR" },
@@ -108,9 +108,9 @@ require("octo").setup({
       -- close_issue = { lhs = "<leader>ic", desc = "close PR" },
       -- reopen_issue = { lhs = "<leader>io", desc = "reopen PR" },
       list_issues = { lhs = "<leader>il", desc = "list open issues on same repo" },
-      reload = { lhs = "<C-r>", desc = "reload PR" },
+      reload = { lhs = "<c-r>", desc = "reload pr" },
       open_in_browser = { lhs = "<leader>px", desc = "open PR in browser" },
-      copy_url = { lhs = "<C-y>", desc = "copy url to system clipboard" },
+      copy_url = { lhs = "<c-y>", desc = "copy url to system clipboard" },
       goto_file = { lhs = "gf", desc = "go to file" },
       -- add_assignee = { lhs = "<leader>aa", desc = "add assignee" },
       -- remove_assignee = { lhs = "<leader>ad", desc = "remove assignee" },
@@ -144,7 +144,7 @@ require("octo").setup({
       select_prev_entry = { lhs = "[q", desc = "move to next changed file" },
       select_first_entry = { lhs = "[Q", desc = "move to first changed file" },
       select_last_entry = { lhs = "]Q", desc = "move to last changed file" },
-      close_review_tab = { lhs = "<C-q>", desc = "close review tab" },
+      close_review_tab = { lhs = "<c-q>", desc = "close review tab" },
       react_hooray = { lhs = "<leader>rp", desc = "add/remove 🎉 reaction" },
       react_heart = { lhs = "<leader>rh", desc = "add/remove ❤️ reaction" },
       react_eyes = { lhs = "<leader>re", desc = "add/remove 👀 reaction" },
@@ -155,10 +155,10 @@ require("octo").setup({
       react_confused = { lhs = "<leader>rc", desc = "add/remove 😕 reaction" },
     },
     submit_win = {
-      approve_review = { lhs = "<C-a>", desc = "approve review" },
-      comment_review = { lhs = "<C-m>", desc = "comment review" },
-      request_changes = { lhs = "<C-r>", desc = "request changes review" },
-      close_review_tab = { lhs = "<C-q>", desc = "close review tab" },
+      approve_review = { lhs = "<c-a>", desc = "approve review" },
+      comment_review = { lhs = "<c-m>", desc = "comment review" },
+      request_changes = { lhs = "<c-r>", desc = "request changes review" },
+      close_review_tab = { lhs = "<c-q>", desc = "close review tab" },
     },
     review_diff = {
       submit_review = { lhs = "<leader>vs", desc = "submit review" },
@@ -173,7 +173,7 @@ require("octo").setup({
       select_prev_entry = { lhs = "[q", desc = "move to next changed file" },
       select_first_entry = { lhs = "[Q", desc = "move to first changed file" },
       select_last_entry = { lhs = "]Q", desc = "move to last changed file" },
-      close_review_tab = { lhs = "<C-q>", desc = "close review tab" },
+      close_review_tab = { lhs = "<c-q>", desc = "close review tab" },
       -- toggle_viewed = { lhs = "<leader><leader>", desc = "toggle viewer viewed state" },
       goto_file = { lhs = "gf", desc = "go to file" },
     },
@@ -190,10 +190,10 @@ require("octo").setup({
       select_prev_entry = { lhs = "[q", desc = "move to next changed file" },
       select_first_entry = { lhs = "[Q", desc = "move to first changed file" },
       select_last_entry = { lhs = "]Q", desc = "move to last changed file" },
-      close_review_tab = { lhs = "<C-q>", desc = "close review tab" },
+      close_review_tab = { lhs = "<c-q>", desc = "close review tab" },
       -- toggle_viewed = { lhs = "<leader><leader>", desc = "toggle viewer viewed state" },
     },
   },
 })
 
-vim.api.nvim_set_keymap("n", "<leader>pr", "<cmd>Octo pr search is:open label:unicorn<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>pr", "<cmd>Octo pr search is:open label:unicorn<cr>", { noremap = true, silent = true })
