@@ -6,5 +6,3 @@
   (#set! injection.language "terraform")
   (#set! injection.combined)
   (#set! injection.include-children))
-
-;; some random change

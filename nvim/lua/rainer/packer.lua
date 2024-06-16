@@ -127,7 +127,7 @@ return require('packer').startup(function(use)
       'nvim-tree/nvim-web-devicons',
     },
     config = function()
-      require("octo").setup()
+      -- require("octo").setup()
     end
   })
 end)
