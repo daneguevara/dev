@@ -99,7 +99,7 @@ settings = {
     title = 'Commands',
     margin = 5,
     content = {
-      { ' Colorschemes', 'Telescope colorscheme enable_preview=true', '<leader>cs' },
+      { ' Colorschemes', 'Telescope colorscheme enable_preview=true', '<c-c>' },
     },
     highlight = 'String',
     oldfiles_amount = 0,
