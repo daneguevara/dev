@@ -1,7 +1,7 @@
 vim.g.mapleader = ','
 
 -- open explorer for current buffer
-vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = '[P]roject [V]iew' })
+vim.keymap.set('n', '<leader>ls', vim.cmd.Ex, { desc = '[L]isting[s] View' })
 
 -- note: configure a new macro keybind before this if i ever decide to use them
 vim.api.nvim_set_keymap('n', 'q', '<nop>', { noremap = true })

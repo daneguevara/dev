@@ -94,29 +94,25 @@ vim.keymap.set('n', '<leader>fl', function()
   })
 end, { desc = '[F]ind [L]ua Config' })
 
--- project ls (git)
-vim.keymap.set('n', '<leader>ps', function()
-  builtin.git_files({
-    prompt_title = 'Files (' .. vim.cmd('pwd') .. ')',
-  })
-end, { desc = '[P]roject L[s]' })
+-- git files
+vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = '[G]it [F]iles' })
 
--- project grep (ripgrep)
-vim.keymap.set('n', '<leader>pg', function()
+-- global grep (ripgrep)
+vim.keymap.set('n', '<leader>gg', function()
   builtin.live_grep({
     prompt_title = 'Grep (' .. vim.cmd('pwd') .. ')',
   })
-end, { desc = '[P]roject [G]rep' })
+end, { desc = '[G]lobal [G]rep' })
 
--- local ls
-vim.keymap.set('n', '<leader>ls', function()
+-- find files (local)
+vim.keymap.set('n', '<leader>ff', function()
   builtin.find_files({
     prompt_title = 'Files (' .. utils.buffer_dir() .. ')',
     cwd = utils.buffer_dir(),
   })
-end, { desc = '[L]i[s]t Dir' })
+end, { desc = '[F]ind [F]iles' })
 
--- local grep (ripgrep)
+-- grep (local)
 vim.keymap.set('n', '<c-/>', function()
   builtin.live_grep({
     prompt_title = 'Grep (' .. utils.buffer_dir() .. ')',

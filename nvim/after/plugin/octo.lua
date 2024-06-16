@@ -196,4 +196,9 @@ require("octo").setup({
   },
 })
 
+-- last pr
+vim.api.nvim_set_keymap("n", "<leader>pp", "<cmd>Octo pr<cr>", { noremap = true, silent = true })
+-- pr search
+vim.api.nvim_set_keymap("n", "<leader>ps", ":Octo pr search is:open ", { noremap = true })
+-- team pr
 vim.api.nvim_set_keymap("n", "<leader>pr", "<cmd>Octo pr search is:open label:unicorn<cr>", { noremap = true, silent = true })
