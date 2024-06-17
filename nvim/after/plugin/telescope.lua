@@ -3,6 +3,7 @@ local builtin = require('telescope.builtin')
 local utils = require('telescope.utils')
 local layout = require('telescope.actions.layout')
 local state = require('telescope.actions.state')
+local actions = require('telescope.actions')
 local harpoon = require('harpoon')
 
 local preview_scroll = function(n)
@@ -12,6 +13,18 @@ local preview_scroll = function(n)
   if previewer and previewer.scroll_fn then
     previewer:scroll_fn(n)
   end
+end
+
+local preview_scroll_j = function()
+  preview_scroll(1)
+end
+
+local preview_scroll_k = function()
+  preview_scroll(-1)
+end
+
+local toggle_preview = function()
+  layout.toggle_preview(vim.api.nvim_get_current_buf())
 end
 
 telescope.setup({
@@ -32,15 +45,12 @@ telescope.setup({
         ['<c-e>'] = 'close',
         ['<c-f>'] = 'close',
         ['<c-l>'] = false,
-        ['<c-s>'] = function()
-          layout.toggle_preview(vim.api.nvim_get_current_buf())
-        end,
-        ['<c-j>'] = function()
-          preview_scroll(1)
-        end,
-        ['<c-k>'] = function()
-          preview_scroll(-1)
-        end,
+        ['<c-x>'] = false,
+        ['<c-s>'] = toggle_preview,
+        ['<c-j>'] = preview_scroll_j,
+        ['<c-k>'] = preview_scroll_k,
+        ['<m-q>'] = false,
+        ['<c-q>'] = actions.smart_send_to_qflist,
         ['<c-a>'] = function()
           local selected_entry = state.get_selected_entry()
 
@@ -77,6 +87,20 @@ telescope.setup({
   },
 })
 
+-- quickfix bindings
+vim.keymap.set('n', '<c-q>', function()
+  builtin.quickfix({
+    attach_mappings = function(_, map)
+      map('i', '<c-q>', 'close')
+      map('n', '<c-q>', 'close')
+
+      return true
+    end,
+  })
+end, { desc = '[F]ind [Q]uickfix' })
+vim.keymap.set('n', 'qn', function() vim.cmd('cnext') end, { desc = '[Q]uickfix [N]ext' })
+vim.keymap.set('n', 'qp', function() vim.cmd('cprev') end, { desc = '[Q]uickfix [P]rev' })
+
 -- general searches
 vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = '[F]ind [O]ld' })
 vim.keymap.set('n', '<leader>ft', builtin.treesitter, { desc = '[F]ind [T]reesitter' })
@@ -86,7 +110,6 @@ vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [K]eymaps' }
 vim.keymap.set('n', '<leader>fv', builtin.vim_options, { desc = '[F]ind [V]im Options' })
 vim.keymap.set('n', '<leader>fr', builtin.registers, { desc = '[F]ind [R]egisters' })
 vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]ind [D]iagnostics' })
-vim.keymap.set('n', '<leader>fq', builtin.quickfix, { desc = '[F]ind [Q]uickfix' })
 vim.keymap.set('n', '<leader>fl', function()
   builtin.find_files({
     prompt_title = 'Find Lua Config',

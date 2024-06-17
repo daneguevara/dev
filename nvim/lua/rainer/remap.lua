@@ -147,10 +147,15 @@ local current_window_width = function()
   return vim.api.nvim_win_get_width(0)
 end
 
--- next buffer
+-- previous buffer
 vim.keymap.set('n', '<c-8>', function()
-  vim.cmd('bn')
+  vim.cmd('bp')
 end, { desc = 'Next Buffer' })
+
+-- next buffer
+vim.keymap.set('n', '<c-*>', function()
+  vim.cmd('bn')
+end, { desc = 'Previous Buffer' })
 
 -- move to left window
 vim.keymap.set('n', '<c-9>', function() return '<c-w>h' end, { expr = true })
@@ -192,7 +197,7 @@ vim.keymap.set('n', '<c-.>', function()
 end, { desc = 'Edit new (vsplit if space)' })
 
 -- close windows or buffers
-vim.keymap.set('n', '<c-q>', function()
+vim.keymap.set('n', 'qq', function()
   if #windows() > 1 then
     vim.cmd('q')
   else
@@ -202,7 +207,7 @@ vim.keymap.set('n', '<c-q>', function()
 end, { desc = 'Close windows or buffers' })
 
 -- close current buffer after switching to previous buffer
-vim.keymap.set('n', "<c-'>", function()
+vim.keymap.set('n', "qb", function()
   vim.cmd('silent! bp')
   vim.cmd('silent! bd#')
 end, { desc = 'Close current buffer after switching to previous buffer' })

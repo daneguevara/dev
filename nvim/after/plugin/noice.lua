@@ -44,6 +44,6 @@ vim.keymap.set("c", "<s-cr>", function()
   noice.redirect(vim.fn.getcmdline())
 end, { desc = "Redirect Cmdline" })
 
-vim.keymap.set("n", "<leader>q", function()
+vim.keymap.set("n", "<s-cr>", function()
   vim.cmd("Noice dismiss")
 end, { desc = "Dismiss Noice" })

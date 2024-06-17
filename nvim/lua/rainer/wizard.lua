@@ -175,7 +175,6 @@ settings = {
       vim.keymap.set('n', 'qq', function()
         print('Girl bye!')
         vim.cmd('bd')
-        vim.cmd('q')
       end, { noremap = true, silent = true, buffer = true })
 
       -- hide statuslines when switching to startup buffer (startup plugin unsets when leaving)
