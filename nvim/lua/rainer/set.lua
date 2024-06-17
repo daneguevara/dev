@@ -13,8 +13,8 @@ vim.opt.modelines = 0
 -- ignore node_modules directory in wildmenu
 vim.opt.wildignore:append('*/node_modules')
 
--- set wildmenu to display longest match
-vim.opt.wildmode = 'list:longest'
+-- default wildmode
+vim.opt.wildmode = 'full'
 
 -- use spaces instead of tabs
 vim.opt.expandtab = true

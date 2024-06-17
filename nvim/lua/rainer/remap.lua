@@ -197,7 +197,7 @@ vim.keymap.set('n', '<c-.>', function()
 end, { desc = 'Edit new (vsplit if space)' })
 
 -- close windows or buffers
-vim.keymap.set('n', 'qq', function()
+vim.keymap.set('n', '<c-q>', function()
   if #windows() > 1 then
     vim.cmd('q')
   else
@@ -207,10 +207,12 @@ vim.keymap.set('n', 'qq', function()
 end, { desc = 'Close windows or buffers' })
 
 -- close current buffer after switching to previous buffer
-vim.keymap.set('n', "qb", function()
+vim.keymap.set('n', "<leader>bd", function()
   vim.cmd('silent! bp')
   vim.cmd('silent! bd#')
 end, { desc = 'Close current buffer after switching to previous buffer' })
+vim.api.nvim_set_keymap('n', '<leader>bn', '<cmd>bn<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>bp', '<cmd>bp<cr>', { noremap = true })
 
 -- fixing muscle memory
 vim.keymap.set('n', '<leader>pv', function()

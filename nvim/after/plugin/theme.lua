@@ -39,6 +39,11 @@ require('lualine').setup {
   extensions = {}
 }
 
+require('cyberdream').setup({
+  transparent = true,
+  borderless_telescope = false,
+})
+
 require('catppuccin').setup({
 
   term_colors = true,
@@ -68,6 +73,7 @@ require('catppuccin').setup({
 })
 
 vim.cmd [[colorscheme catppuccin]]
+-- vim.cmd [[colorscheme cyberdream]]
 
 -- turn off in favor of lualine
 vim.opt.showmode = false

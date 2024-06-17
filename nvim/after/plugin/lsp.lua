@@ -192,6 +192,9 @@ require('luasnip/loaders/from_vscode').lazy_load()
 --   return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s')
 -- end
 
+-- local cmp = require('cmp')
+-- local luasnip = require('luasnip')
+
 --   פּ ﯟ   some other good icons
 local kind_icons = {
   Text = '',
@@ -231,17 +234,17 @@ cmp.setup({
     end,
   },
   mapping = {
-    ['<c-p>'] = cmp.mapping(function()
+    ['<C-p>'] = cmp.mapping(function()
       cmp.select_prev_item()
     end, {
       'i',
     }),
-    ['<c-n>'] = cmp.mapping(function()
+    ['<C-n>'] = cmp.mapping(function()
       cmp.select_next_item()
     end, {
       'i',
     }),
-    ['<c-w>'] = cmp.mapping(function(fallback)
+    ['<C-w>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.close()
       else
@@ -250,45 +253,27 @@ cmp.setup({
     end, {
       'i',
     }),
-    ['<c-e>'] = {
-      i = function(fallback)
-        if cmp.visible() then
-          print('aborting')
-          cmp.abort()
-        else
-          fallback()
-        end
-      end,
-      c = cmp.mapping.abort(),
-    },
-    ['<c-y>'] = {
-      i = function(fallback)
-        print('yolo')
-        if cmp.visible() then
-          cmp.confirm({
-            behavior = cmp.ConfirmBehavior.Insert,
-            select = true,
-          })
-        else
-          fallback()
-        end
-      end,
-      c = function()
+    ['<C-e>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.abort()
+      else
+        fallback()
+      end
+    end, {
+      'i',
+    }),
+    ['<C-y>'] = cmp.mapping(function(fallback)
+      local suggestion = require('copilot.suggestion')
 
-        print('c-y')
-        if cmp.visible() then
-          print('visible')
-          cmp.confirm({
-            behavior = cmp.ConfirmBehavior.Insert,
-            select = true,
-          })
-        else
-          print('not visible')
-          cmp.complete()
-        end
-      end,
-    },
-    ['<c-h>'] = cmp.mapping(function(fallback)
+      if suggestion.is_visible() then
+        suggestion.accept_word()
+      else
+        fallback()
+      end
+    end, {
+      'i',
+    }),
+    ['<C-h>'] = cmp.mapping(function(fallback)
       local suggestion = require('copilot.suggestion')
 
       if suggestion.is_visible() then
@@ -299,7 +284,7 @@ cmp.setup({
     end, {
       'i',
     }),
-    ['<c-l>'] = cmp.mapping(function(fallback)
+    ['<C-l>'] = cmp.mapping(function(fallback)
       local suggestion = require('copilot.suggestion')
 
       if suggestion.is_visible() then
@@ -323,7 +308,7 @@ cmp.setup({
       'i',
       'c',
     }),
-    ['<c-cr>'] = cmp.mapping(function(fallback)
+    ['<C-cr>'] = cmp.mapping(function(fallback)
       local suggestion = require('copilot.suggestion')
 
       if suggestion.is_visible() then
@@ -334,7 +319,7 @@ cmp.setup({
     end, {
       'i',
     }),
-    ['<c-k>'] = cmp.mapping(function(fallback)
+    ['<C-k>'] = cmp.mapping(function(fallback)
       if luasnip.expandable() then
         luasnip.expand()
       elseif luasnip.jumpable(1) then
@@ -346,7 +331,7 @@ cmp.setup({
       'i',
       's',
     }),
-    ['<c-j>'] = cmp.mapping(function(fallback)
+    ['<C-j>'] = cmp.mapping(function(fallback)
       if luasnip.jumpable(-1) then
         luasnip.jump(-1)
       else
@@ -356,7 +341,7 @@ cmp.setup({
       'i',
       's',
     }),
-    ['<c-tab>'] = cmp.mapping(function(fallback)
+    ['<C-tab>'] = cmp.mapping(function(fallback)
       local suggestion = require('copilot.suggestion')
 
       if suggestion.is_visible() then
@@ -367,7 +352,7 @@ cmp.setup({
     end, {
       'i',
     }),
-    ['<c-u>'] = cmp.mapping(function(fallback)
+    ['<C-u>'] = cmp.mapping(function(fallback)
       if not require('noice.lsp').scroll(-4) then
         fallback()
       end
@@ -376,7 +361,7 @@ cmp.setup({
       'i',
       's',
     }),
-    ['<c-d>'] = cmp.mapping(function(fallback)
+    ['<C-d>'] = cmp.mapping(function(fallback)
       if not require('noice.lsp').scroll(4) then
         fallback()
       end
@@ -404,7 +389,7 @@ cmp.setup({
   },
   sources = {
     -- { name = 'copilot' },
-    { name = 'otter' },
+    -- { name = 'otter' },
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
 		{ name = 'buffer' },

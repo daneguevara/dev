@@ -88,7 +88,7 @@ telescope.setup({
 })
 
 -- quickfix bindings
-vim.keymap.set('n', '<c-q>', function()
+vim.keymap.set('n', '<leader>q', function()
   builtin.quickfix({
     attach_mappings = function(_, map)
       map('i', '<c-q>', 'close')
@@ -98,8 +98,8 @@ vim.keymap.set('n', '<c-q>', function()
     end,
   })
 end, { desc = '[F]ind [Q]uickfix' })
-vim.keymap.set('n', 'qn', function() vim.cmd('cnext') end, { desc = '[Q]uickfix [N]ext' })
-vim.keymap.set('n', 'qp', function() vim.cmd('cprev') end, { desc = '[Q]uickfix [P]rev' })
+vim.keymap.set('n', '<leader>cn', function() vim.cmd('cnext') end, { desc = '[Q]uickfix [N]ext' })
+vim.keymap.set('n', '<leader>cp', function() vim.cmd('cprev') end, { desc = '[Q]uickfix [P]rev' })
 
 -- general searches
 vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = '[F]ind [O]ld' })

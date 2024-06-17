@@ -20,7 +20,7 @@ return require('packer').startup(function(use)
     tag = '0.1.6',
     requires = {
       { 'nvim-lua/plenary.nvim' },
-      { "angkeith/telescope-terraform-doc.nvim" },
+      { 'angkeith/telescope-terraform-doc.nvim' },
     },
   })
 
@@ -81,13 +81,13 @@ return require('packer').startup(function(use)
       'nvim-lualine/lualine.nvim',
     },
   })
-  use({
-    'zbirenbaum/copilot-cmp',
-    after = { 'copilot.lua' },
-    config = function()
-      require('copilot_cmp').setup()
-    end
-  })
+  -- use({
+  --   'zbirenbaum/copilot-cmp',
+  --   after = { 'copilot.lua' },
+  --   config = function()
+  --     require('copilot_cmp').setup()
+  --   end
+  -- })
 
   use('Vimjas/vim-python-pep8-indent')
 
@@ -103,21 +103,22 @@ return require('packer').startup(function(use)
   use('jmbuhr/otter.nvim')
   use('lucasprag/simpleblack')
   use({
-    "catppuccin/nvim", as = "catppuccin"
+    'catppuccin/nvim',
+    as = 'catppuccin',
   })
-  use("MunifTanjim/nui.nvim")
-  use("rcarriga/nvim-notify")
+  use('MunifTanjim/nui.nvim')
+  use('rcarriga/nvim-notify')
 
   use({
-    "folke/noice.nvim",
+    'folke/noice.nvim',
     requires = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      "MunifTanjim/nui.nvim",
+      -- if you lazy-load any plugin below, make sure to add proper `module='...'` entries
+      'MunifTanjim/nui.nvim',
       -- OPTIONAL:
       --   `nvim-notify` is only needed, if you want to use the notification view.
       --   If not available, we use `mini` as the fallback
-      "rcarriga/nvim-notify",
-    }
+      'rcarriga/nvim-notify',
+    },
   })
   use({
     'pwntester/octo.nvim',
@@ -127,7 +128,27 @@ return require('packer').startup(function(use)
       'nvim-tree/nvim-web-devicons',
     },
     config = function()
-      -- require("octo").setup()
-    end
+      -- require('octo').setup()
+    end,
+  })
+  use('Mofiqul/dracula.nvim')
+  use('scottmckendry/cyberdream.nvim')
+  use('tpope/vim-dadbod')
+  use('kristijanhusak/vim-dadbod-completion')
+  use({
+    'kristijanhusak/vim-dadbod-ui',
+    requires = {
+      'tpope/vim-dadbod',
+      'kristijanhusak/vim-dadbod-completion',
+    },
+    cmd = {
+      'DBUI',
+      'DBUIToggle',
+      'DBUIAddConnection',
+      'DBUIFindBuffer',
+    },
+    config = function()
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
   })
 end)

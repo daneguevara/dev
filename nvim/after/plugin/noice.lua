@@ -40,10 +40,18 @@ noice.setup({
   },
 })
 
-vim.keymap.set("c", "<s-cr>", function()
+-- send it
+vim.keymap.set("c", "<c-s>", function()
   noice.redirect(vim.fn.getcmdline())
-end, { desc = "Redirect Cmdline" })
+end, { desc = "Redirect Cmdline", noremap = true })
 
-vim.keymap.set("n", "<s-cr>", function()
+-- clear notifications
+vim.keymap.set("n", "qq", function()
   vim.cmd("Noice dismiss")
 end, { desc = "Dismiss Noice" })
+
+-- open latest errors
+vim.api.nvim_set_keymap("c", "<c-e>", "<c-u>NoiceErrors<cr>", { noremap = true, })
+
+-- open latest messages
+vim.api.nvim_set_keymap("c", "<c-y>", "<c-u>NoiceLast<cr>", { noremap = true, })
