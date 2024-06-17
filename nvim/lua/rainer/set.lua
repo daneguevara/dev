@@ -128,8 +128,9 @@ vim.api.nvim_exec([[
   cnoreabbrev gb Git branch
   cnoreabbrev gg Git blame
 
+  cnoreabbrev gh Octo
+
   cnoreabbrev git Git
   cnoreabbrev packer PackerSync
-  cnoreabbrev octo Octo
-  cnoreabbrev tsp TSPlaygroundToggle
+  cnoreabbrev tsplay TSPlaygroundToggle
 ]], false)

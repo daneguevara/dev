@@ -20,7 +20,7 @@ vim.api.nvim_set_keymap('n', '<c-cr>', 'o<esc>d0', { noremap = true })
 vim.api.nvim_set_keymap('n', '<c-s-cr>', 'O<esc>d0', { noremap = true })
 
 -- remove trailing whitespace
-vim.api.nvim_set_keymap('n', '<c-s>', ':%s/\\s\\+$//e<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', 'd<space>', ':%s/\\s\\+$//e<cr>', { noremap = true })
 
 -- search cursor word
 vim.api.nvim_set_keymap('n', '<leader>/', '*N', { noremap = true })
@@ -105,11 +105,6 @@ vim.api.nvim_set_keymap('v', '<m-h>', 'b', { noremap = true })
 vim.api.nvim_set_keymap('v', '<m-j>', ':m \'>+1<cr>==gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '<m-k>', ':m \'<-2<cr>==gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '<m-l>', 'e', { noremap = true })
-
--- git bindings
-vim.keymap.set('n', '<leader>gs', function() vim.cmd('Git status') end, { desc = '[G]it [S]tatus' })
-vim.keymap.set('n', '<leader>gd', function() vim.cmd('Git diff') end, { desc = '[G]it [D]iff' })
-vim.keymap.set('n', '<leader>gb', function() vim.cmd('Git blame') end, { desc = '[G]it [B]lame' })
 
 -- toggle wrap
 vim.keymap.set('n', '<leader>twr', function()
@@ -205,3 +200,14 @@ vim.keymap.set('n', '<c-q>', function()
   end
 
 end, { desc = 'Close windows or buffers' })
+
+-- close current buffer after switching to previous buffer
+vim.keymap.set('n', "<c-'>", function()
+  vim.cmd('silent! bp')
+  vim.cmd('silent! bd#')
+end, { desc = 'Close current buffer after switching to previous buffer' })
+
+-- fixing muscle memory
+vim.keymap.set('n', '<leader>pv', function()
+  error('CALM TF DOWN')
+end, { desc = 'CALM TF DOWN' })

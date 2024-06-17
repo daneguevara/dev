@@ -231,28 +231,63 @@ cmp.setup({
     end,
   },
   mapping = {
-    ['<c-p>'] = cmp.mapping.select_prev_item(),
-    ['<c-n>'] = cmp.mapping.select_next_item(),
+    ['<c-p>'] = cmp.mapping(function()
+      cmp.select_prev_item()
+    end, {
+      'i',
+    }),
+    ['<c-n>'] = cmp.mapping(function()
+      cmp.select_next_item()
+    end, {
+      'i',
+    }),
     ['<c-w>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.abort()
+        cmp.close()
       else
         fallback()
       end
     end, {
       'i',
     }),
-    ['<c-y>'] = cmp.mapping(function(fallback)
-      local suggestion = require('copilot.suggestion')
+    ['<c-e>'] = {
+      i = function(fallback)
+        if cmp.visible() then
+          print('aborting')
+          cmp.abort()
+        else
+          fallback()
+        end
+      end,
+      c = cmp.mapping.abort(),
+    },
+    ['<c-y>'] = {
+      i = function(fallback)
+        print('yolo')
+        if cmp.visible() then
+          cmp.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
+          })
+        else
+          fallback()
+        end
+      end,
+      c = function()
 
-      if suggestion.is_visible() then
-        suggestion.accept_word()
-      else
-        fallback()
-      end
-    end, {
-      'i',
-    }),
+        print('c-y')
+        if cmp.visible() then
+          print('visible')
+          cmp.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
+          })
+        else
+          print('not visible')
+          cmp.complete()
+        end
+      end,
+    },
     ['<c-h>'] = cmp.mapping(function(fallback)
       local suggestion = require('copilot.suggestion')
 
@@ -286,6 +321,7 @@ cmp.setup({
       end
     end, {
       'i',
+      'c',
     }),
     ['<c-cr>'] = cmp.mapping(function(fallback)
       local suggestion = require('copilot.suggestion')
@@ -298,7 +334,7 @@ cmp.setup({
     end, {
       'i',
     }),
-    ['<tab>'] = cmp.mapping(function(fallback)
+    ['<c-k>'] = cmp.mapping(function(fallback)
       if luasnip.expandable() then
         luasnip.expand()
       elseif luasnip.jumpable(1) then
@@ -310,7 +346,7 @@ cmp.setup({
       'i',
       's',
     }),
-    ['<s-tab>'] = cmp.mapping(function(fallback)
+    ['<c-j>'] = cmp.mapping(function(fallback)
       if luasnip.jumpable(-1) then
         luasnip.jump(-1)
       else
