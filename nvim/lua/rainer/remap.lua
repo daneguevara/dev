@@ -1,8 +1,5 @@
 vim.g.mapleader = ','
 
--- open explorer for current buffer
-vim.keymap.set('n', '<leader>ls', vim.cmd.Ex, { desc = '[L]isting[s] View' })
-
 -- note: configure a new macro keybind before this if i ever decide to use them
 vim.api.nvim_set_keymap('n', 'q', '<nop>', { noremap = true })
 
@@ -13,7 +10,6 @@ vim.api.nvim_set_keymap('n', '<leader>w', '<cmd>w!<cr>', { noremap = true })
 
 -- fast commands
 vim.api.nvim_set_keymap('n', ';', ':', { noremap = true })
-vim.api.nvim_set_keymap('n', 'q;', 'q:', { noremap = true })
 
 -- ctrl enter, ctrl shift enter new lines - stay in normal mode
 vim.api.nvim_set_keymap('n', '<c-cr>', 'o<esc>d0', { noremap = true })
@@ -107,7 +103,7 @@ vim.api.nvim_set_keymap('v', '<m-k>', ':m \'<-2<cr>==gv', { noremap = true })
 vim.api.nvim_set_keymap('v', '<m-l>', 'e', { noremap = true })
 
 -- toggle wrap
-vim.keymap.set('n', '<leader>twr', function()
+vim.keymap.set('n', '<s-cr>', function()
   vim.cmd('set wrap!')
   print('Wrap ' .. (vim.opt.wrap:get() and 'enabled' or 'disabled'))
 end, { desc = 'Toggle Wrap' })
@@ -115,8 +111,8 @@ end, { desc = 'Toggle Wrap' })
 -- WINDOW MANAGEMEMENT
 
 -- window scroll bind, unbind
-vim.api.nvim_set_keymap('n', '<leader>tsb', ':windo set scrollbind<cr>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>tso', ':windo set noscrollbind<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>sb', ':windo set scrollbind<cr>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>so', ':windo set noscrollbind<cr>', { noremap = true })
 
 -- ctrl-tab to switch windows
 vim.api.nvim_set_keymap('n', '<c-tab>', '<c-w>w', { noremap = true })
@@ -207,14 +203,10 @@ vim.keymap.set('n', '<c-q>', function()
 end, { desc = 'Close windows or buffers' })
 
 -- close current buffer after switching to previous buffer
-vim.keymap.set('n', "<leader>bd", function()
+vim.keymap.set('n', "<leader>q", function()
   vim.cmd('silent! bp')
   vim.cmd('silent! bd#')
 end, { desc = 'Close current buffer after switching to previous buffer' })
-vim.api.nvim_set_keymap('n', '<leader>bn', '<cmd>bn<cr>', { noremap = true })
-vim.api.nvim_set_keymap('n', '<leader>bp', '<cmd>bp<cr>', { noremap = true })
 
--- fixing muscle memory
-vim.keymap.set('n', '<leader>pv', function()
-  error('CALM TF DOWN')
-end, { desc = 'CALM TF DOWN' })
+-- open explorer for current buffer
+vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = 'Project View' })

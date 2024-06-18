@@ -172,7 +172,7 @@ settings = {
       end, { noremap = true, silent = true, buffer = true })
 
       -- girl bye q.q
-      vim.keymap.set('n', 'qq', function()
+      vim.keymap.set('n', '<leader>q', function()
         print('Girl bye!')
         vim.cmd('bd')
       end, { noremap = true, silent = true, buffer = true })

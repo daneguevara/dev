@@ -88,18 +88,9 @@ telescope.setup({
 })
 
 -- quickfix bindings
-vim.keymap.set('n', '<leader>q', function()
-  builtin.quickfix({
-    attach_mappings = function(_, map)
-      map('i', '<c-q>', 'close')
-      map('n', '<c-q>', 'close')
-
-      return true
-    end,
-  })
-end, { desc = '[F]ind [Q]uickfix' })
-vim.keymap.set('n', '<leader>cn', function() vim.cmd('cnext') end, { desc = '[Q]uickfix [N]ext' })
-vim.keymap.set('n', '<leader>cp', function() vim.cmd('cprev') end, { desc = '[Q]uickfix [P]rev' })
+vim.keymap.set('n', 'qq', builtin.quickfix, { desc = '[F]ind [Q]uickfix' })
+vim.keymap.set('n', 'qn', function() vim.cmd('cnext') end, { desc = '[Q]uickfix [N]ext' })
+vim.keymap.set('n', 'qp', function() vim.cmd('cprev') end, { desc = '[Q]uickfix [P]rev' })
 
 -- general searches
 vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = '[F]ind [O]ld' })
@@ -153,9 +144,7 @@ vim.keymap.set('n', '<c-b>', function()
   builtin.buffers({
     sort_mru = true,
     attach_mappings = function(_, map)
-      map('i', '<c-d>', 'delete_buffer')
-      map('i', '<c-8>', 'delete_buffer')
-      map('n', 'd', 'delete_buffer')
+      map('i', '<c-q>', 'delete_buffer')
       map('i', '<c-b>', 'close')
       map('n', '<c-b>', 'close')
 

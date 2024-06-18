@@ -14,7 +14,7 @@ vim.opt.modelines = 0
 vim.opt.wildignore:append('*/node_modules')
 
 -- default wildmode
-vim.opt.wildmode = 'full'
+vim.opt.wildmode = 'longest:list,full'
 
 -- use spaces instead of tabs
 vim.opt.expandtab = true

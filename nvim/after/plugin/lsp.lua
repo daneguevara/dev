@@ -33,6 +33,16 @@ require('mason-lspconfig').setup({
       })
     end,
 
+    ['sqlls'] = function()
+      lspconfig.sqlls.setup({
+        cmd = { 'sql-language-server', 'up', '--method', 'stdio' },
+        filetypes = { 'sql' },
+        root_dir = function()
+          return vim.loop.cwd()
+        end,
+      })
+    end,
+
     ['lua_ls'] = function()
       lspconfig.lua_ls.setup({
         on_init = function(client)
@@ -173,7 +183,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-
 local cmp_status_ok, cmp = pcall(require, 'cmp')
 
 if not cmp_status_ok then
@@ -191,9 +200,6 @@ require('luasnip/loaders/from_vscode').lazy_load()
 --   local col = vim.fn.col('.') - 1
 --   return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s')
 -- end
-
--- local cmp = require('cmp')
--- local luasnip = require('luasnip')
 
 --   פּ ﯟ   some other good icons
 local kind_icons = {
@@ -235,12 +241,20 @@ cmp.setup({
   },
   mapping = {
     ['<C-p>'] = cmp.mapping(function()
-      cmp.select_prev_item()
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        cmp.complete()
+      end
     end, {
       'i',
     }),
     ['<C-n>'] = cmp.mapping(function()
-      cmp.select_next_item()
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        cmp.complete()
+      end
     end, {
       'i',
     }),
@@ -253,22 +267,18 @@ cmp.setup({
     end, {
       'i',
     }),
-    ['<C-e>'] = cmp.mapping(function(fallback)
+    ['<C-e>'] = cmp.mapping(function()
       if cmp.visible() then
         cmp.abort()
-      else
-        fallback()
       end
     end, {
       'i',
     }),
-    ['<C-y>'] = cmp.mapping(function(fallback)
-      local suggestion = require('copilot.suggestion')
-
-      if suggestion.is_visible() then
-        suggestion.accept_word()
+    ['<C-y>'] = cmp.mapping(function()
+      if cmp.visible() then
+        cmp.complete_common_string()
       else
-        fallback()
+        cmp.complete()
       end
     end, {
       'i',
@@ -306,7 +316,6 @@ cmp.setup({
       end
     end, {
       'i',
-      'c',
     }),
     ['<C-cr>'] = cmp.mapping(function(fallback)
       local suggestion = require('copilot.suggestion')
@@ -341,7 +350,7 @@ cmp.setup({
       'i',
       's',
     }),
-    ['<C-tab>'] = cmp.mapping(function(fallback)
+    ['<C-Tab>'] = cmp.mapping(function(fallback)
       local suggestion = require('copilot.suggestion')
 
       if suggestion.is_visible() then
@@ -369,6 +378,17 @@ cmp.setup({
       'n',
       'i',
       's',
+    }),
+    ['<C-.>'] = cmp.mapping(function()
+      local suggestion = require('copilot.suggestion')
+
+      if suggestion.is_visible() then
+        suggestion.next()
+      else
+        suggestion.next()
+      end
+    end, {
+      'i',
     }),
   },
   formatting = {
@@ -415,4 +435,11 @@ cmp.setup({
 		ghost_text = false,
 		native_menu = false,
 	},
+})
+
+cmp.setup.filetype({ 'sql' }, {
+  sources = {
+    { name = 'vim-dadbod-completion' },
+    { name = 'buffer' },
+  },
 })
