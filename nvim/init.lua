@@ -5,5 +5,11 @@ for _, arg in pairs(vim.v.argv) do
 end
 
 require('rainer')
-require('local')
 
+local isdir = function(path)
+  return vim.fn.filereadable(path) == 'directory'
+end
+
+if isdir('local') then
+  require('local')
+end
