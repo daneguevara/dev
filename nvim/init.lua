@@ -6,10 +6,12 @@ end
 
 require('rainer')
 
-local isdir = function(path)
-  return vim.fn.filereadable(path) == 'directory'
+function import_local()
+  require('local')
 end
 
-if isdir('local') then
-  require('local')
+if pcall(import_local) then
+  print('Local config loaded')
+else
+  print('No local config found')
 end
