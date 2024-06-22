@@ -34,6 +34,27 @@ require('mason-lspconfig').setup({
     end,
 
     ['sqlls'] = function()
+      -- filter buffer lines to external sql-formatter commmand
+      -- v:lnum = line number to start
+      -- v:count = number of lines to format
+      -- local sql_format = function()
+        -- TODO
+      --   -- get lines from v:lnum to v:lnum + v:count
+      --   local lines = vim.api.nvim_buf_get_lines(0, vim.v.lnum - 1, vim.v.lnum + vim.v.count - 1, false)
+
+      --   -- filter through external sql-formatter command
+      --   vim.fn.execute
+
+
+      -- end
+
+      -- -- set formatexpr for sql buffers to execute !sql-formatter --config ~/.config/sql-formatter/config.json
+      -- vim.api.nvim_create_autocmd('BufEnter', { pattern = '*.sql',
+      --   callback = function()
+      --     vim.bo.formatexpr = 'system("sql-formatter --config ~/.config/sql-formatter/config.json", v:fname)'
+      --   end,
+      -- })
+
       lspconfig.sqlls.setup({
         cmd = { 'sql-language-server', 'up', '--method', 'stdio' },
         filetypes = { 'sql' },

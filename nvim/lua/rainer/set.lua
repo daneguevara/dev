@@ -117,6 +117,19 @@ vim.api.nvim_exec([[
   autocmd FileType terraform setlocal commentstring=#\ %s
 ]], false)
 
+-- vim.api.nvim_create_autocmd('BufWritePre', {
+--   pattern = 'sql',
+--   command = '%!sql-formatter --config ~/.config/sql-formatter/config.json',
+-- })
+
+vim.api.nvim_exec([[
+  function! FormatSql()
+    execute '%!sql-formatter --config ~/.config/sql-formatter/config.json'
+  endfunction
+
+  autocmd FileType sql setlocal formatprg=sql-formatter\ --config\ ~/.config/sql-formatter/config.json
+]], false)
+
 -- alias commands
 vim.api.nvim_exec([[
   cnoreabbrev gs Git status

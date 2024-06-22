@@ -6,6 +6,9 @@ vim.api.nvim_set_keymap('n', 'q', '<nop>', { noremap = true })
 -- force write (only needed for nfs shared drive wonkiness)
 vim.api.nvim_set_keymap('n', '<leader>w', '<cmd>w!<cr>', { noremap = true })
 
+vim.api.nvim_set_keymap('n', '<c-_>', '<c-bs>', { noremap = true })
+vim.api.nvim_set_keymap('i', '<c-_>', '<c-bs>', { noremap = true })
+
 -- NORMAL MODE REMAPS
 
 -- fast commands
@@ -74,10 +77,10 @@ vim.api.nvim_set_keymap('i', '<c-l>', '<end>', { noremap = true })
 vim.api.nvim_set_keymap('i', '<c-cr>', '<c-o>o', { noremap = true })
 vim.api.nvim_set_keymap('i', '<c-s-cr>', '<c-o>O', { noremap = true })
 
-vim.api.nvim_set_keymap('i', '<m-h>', '<c-o>b', { noremap = true })
+vim.api.nvim_set_keymap('i', '<m-h>', '<cmd>normal b<cr>', { noremap = true })
 vim.api.nvim_set_keymap('i', '<m-j>', '<esc>`^:m .+1<cr>==gi', { noremap = true })
 vim.api.nvim_set_keymap('i', '<m-k>', '<esc>`^:m .-2<cr>==gi', { noremap = true })
-vim.api.nvim_set_keymap('i', '<m-l>', '<c-o>e<right>', { noremap = true })
+vim.api.nvim_set_keymap('i', '<m-l>', '<cmd>normal e<cr>', { noremap = true })
 
 -- VISUAL MODE REMAPS
 
@@ -203,7 +206,7 @@ vim.keymap.set('n', '<c-q>', function()
 end, { desc = 'Close windows or buffers' })
 
 -- close current buffer after switching to previous buffer
-vim.keymap.set('n', "<leader>q", function()
+vim.keymap.set('n', "<m-q>", function()
   vim.cmd('silent! bp')
   vim.cmd('silent! bd#')
 end, { desc = 'Close current buffer after switching to previous buffer' })
