@@ -112,16 +112,13 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
 vim.g.python_host_prog = os.getenv('HOME') .. '/.pyenv/versions/py2nvim/bin/python'
 vim.g.python3_host_prog = os.getenv('HOME') .. '/.pyenv/versions/py3nvim/bin/python'
 
+-- vim-commentary
 vim.api.nvim_exec([[
   autocmd FileType sql setlocal commentstring=--\ %s
   autocmd FileType terraform setlocal commentstring=#\ %s
 ]], false)
 
--- vim.api.nvim_create_autocmd('BufWritePre', {
---   pattern = 'sql',
---   command = '%!sql-formatter --config ~/.config/sql-formatter/config.json',
--- })
-
+-- add sql formatter for sql files
 vim.api.nvim_exec([[
   function! FormatSql()
     execute '%!sql-formatter --config ~/.config/sql-formatter/config.json'
