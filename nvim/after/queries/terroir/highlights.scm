@@ -1,5 +1,5 @@
 ; extends
-((statement_body) @python)
+; ((statement_body) @python)
 
-((text) @terraform
- (#set! injections.combined))
+; ((text) @terraform
+;  (#set! injections.combined))

@@ -116,8 +116,8 @@ vim.keymap.set('n', '<leader>gg', function()
 end, { noremap = true, silent = true, buffer = 0 })
 
 -- search without highlights
-vim.api.nvim_set_keymap('n', 'n', 'n:noh<cr>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', 'N', 'N:noh<cr>', { noremap = true, silent = true })
+vim.api.nvim_buf_set_keymap(0, 'n', 'n', 'n:noh<cr>', { noremap = true, silent = true })
+vim.api.nvim_buf_set_keymap(0, 'n', 'N', 'N:noh<cr>', { noremap = true, silent = true })
 
 vim.keymap.set('n', 'tn', function()
   vim.cmd([[silent! /- \[.\] \zs\(.*\)]])

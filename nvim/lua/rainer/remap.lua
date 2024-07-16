@@ -188,7 +188,7 @@ end, { desc = 'Move to right window or move single window right' })
 
 -- edit new buffer, with vertical split if single window and wide screen
 vim.keymap.set('n', '<c-.>', function()
-  if current_window_width() > 200 then
+  if current_window_width() > 190 then
     vim.cmd('vnew')
   else
     vim.cmd('enew')

@@ -35,12 +35,12 @@ configs.setup({
 ---@diagnostic disable-next-line: inject-field
 parsers.get_parser_configs().terroir = {
   install_info = {
-    url = "~/projects/tree-sitter-terroir",
+    url = '~/projects/tree-sitter-terroir',
     files = {
-      "src/parser.c",
-      "src/tree_sitter/parser.h",
+      'src/parser.c',
+      'src/tree_sitter/parser.h',
     },
-    branch = "main",
+    branch = 'main',
     generate_requires_npm = false,
     requires_generate_from_grammar = false,
 
@@ -48,3 +48,5 @@ parsers.get_parser_configs().terroir = {
     filetype = 'tf',
   }
 }
+
+vim.api.nvim_set_keymap('n', 'gt', ':TSHighlightCapturesUnderCursor<cr>', { noremap = true, silent = true })
