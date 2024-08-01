@@ -141,6 +141,5 @@ vim.api.nvim_exec([[
   cnoreabbrev gh Octo
 
   cnoreabbrev git Git
-  cnoreabbrev packer PackerSync
   cnoreabbrev tsplay TSPlaygroundToggle
 ]], false)

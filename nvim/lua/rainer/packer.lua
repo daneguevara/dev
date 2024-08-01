@@ -100,7 +100,13 @@ return require('packer').startup(function(use)
 
   use('sunaku/tmux-navigate')
 
-  use('jmbuhr/otter.nvim')
+  use({
+    'jmbuhr/otter.nvim',
+    requires = {
+      'nvim-treesitter/nvim-treesitter',
+    },
+  })
+
   use('lucasprag/simpleblack')
   use({
     'catppuccin/nvim',
@@ -127,9 +133,6 @@ return require('packer').startup(function(use)
       'nvim-telescope/telescope.nvim',
       'nvim-tree/nvim-web-devicons',
     },
-    config = function()
-      -- require('octo').setup()
-    end,
   })
   use('Mofiqul/dracula.nvim')
   use('scottmckendry/cyberdream.nvim')

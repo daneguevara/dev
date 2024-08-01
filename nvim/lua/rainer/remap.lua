@@ -161,7 +161,7 @@ vim.keymap.set('n', '<c-9>', function() return '<c-w>h' end, { expr = true })
 
 -- move to right window or move vertical split single window to the right (useful for wide screen)
 vim.keymap.set('n', '<c-0>', function()
-  if current_window_width() < 200 or #windows() > 1 then
+  if current_window_width() < 180 or #windows() > 1 then
     vim.cmd('wincmd l')
     return
   end
@@ -188,7 +188,7 @@ end, { desc = 'Move to right window or move single window right' })
 
 -- edit new buffer, with vertical split if single window and wide screen
 vim.keymap.set('n', '<c-.>', function()
-  if current_window_width() > 185 then
+  if current_window_width() > 180 then
     vim.cmd('vnew')
   else
     vim.cmd('enew')

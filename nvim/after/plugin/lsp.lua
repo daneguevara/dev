@@ -111,20 +111,24 @@ require('mason-lspconfig').setup({
       lspconfig.tsserver.setup({})
     end,
 
-    -- ['terraformls'] = function()
-    --   lspconfig.terraformls.setup({})
+    ['otter-ls'] = function()
+      lspconfig.otter_ls.setup({})
+    end,
 
-    --   vim.api.nvim_create_autocmd({'BufWritePre'}, {
-    --     pattern = {'*.tf', '*.tfvars'},
-    --     callback = function()
-    --       vim.lsp.buf.format()
-    --     end,
-    --   })
-    -- end,
+    ['terraformls'] = function()
+      lspconfig.terraformls.setup({})
 
-    -- ['tflint'] = function()
-    --   lspconfig.tflint.setup({})
-    -- end,
+      vim.api.nvim_create_autocmd({'BufWritePre'}, {
+        pattern = {'*.tf', '*.tfvars'},
+        callback = function()
+          vim.lsp.buf.format()
+        end,
+      })
+    end,
+
+    ['tflint'] = function()
+      lspconfig.tflint.setup({})
+    end,
   },
 })
 
@@ -167,8 +171,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- Rename the variable under your cursor.
     --  Most Language Servers support renaming across files, etc.
     nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-
-    -- Execute a code action, usually your cursor needs to be on top of an error
     -- or a suggestion from your LSP for this to activate.
     nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
