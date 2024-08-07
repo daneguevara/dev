@@ -1,8 +1,12 @@
 -- set clipboard
 vim.opt.clipboard:append('unnamedplus')
 
+-- split windows below and to the right
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+
+-- no wrap
+vim.opt.wrap = false
 
 -- set mouse
 vim.opt.mouse = 'a'
