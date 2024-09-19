@@ -114,14 +114,22 @@ end, { desc = '[F]ind [L]ua Config' })
 -- git files
 vim.keymap.set('n', '<leader>gf', builtin.git_files, { desc = '[G]it [F]iles' })
 
--- global grep (ripgrep)
+-- grep global
 vim.keymap.set('n', '<leader>gg', function()
   builtin.live_grep({
     prompt_title = 'Grep (' .. vim.cmd('pwd') .. ')',
   })
-end, { desc = '[G]lobal [G]rep' })
+end, { desc = '[G]rep [G]lobal' })
 
--- find files (local)
+-- grep open files
+vim.keymap.set('n', '<leader>go', function()
+  builtin.live_grep({
+    prompt_title = 'Grep (' .. vim.cmd('pwd') .. ')',
+    grep_open_files = true,
+  })
+end, { desc = '[G]rep [O]pen' })
+
+-- find files in buffer directory
 vim.keymap.set('n', '<leader>ff', function()
   builtin.find_files({
     prompt_title = 'Files (' .. utils.buffer_dir() .. ')',
@@ -129,7 +137,14 @@ vim.keymap.set('n', '<leader>ff', function()
   })
 end, { desc = '[F]ind [F]iles' })
 
--- grep (local)
+-- pwd files
+vim.keymap.set('n', '<leader>pf', function()
+  builtin.find_files({
+    prompt_title = 'Files (' .. vim.cmd('pwd') .. ')',
+  })
+end, { desc = '[P]wd [F]iles' })
+
+-- grep in buffer directory
 vim.keymap.set('n', '<c-/>', function()
   builtin.live_grep({
     prompt_title = 'Grep (' .. utils.buffer_dir() .. ')',
@@ -140,6 +155,11 @@ end, { desc = 'Local Grep' })
 -- local cursor word grep
 vim.keymap.set('n', '<leader>/', function()
   builtin.grep_string({ cwd = utils.buffer_dir() })
+end, { desc = 'Grep Cursor Word' })
+
+-- global cursor word grep
+vim.keymap.set('n', '<leader>?', function()
+  builtin.grep_string({ cwd = vim.cmd('pwd') })
 end, { desc = 'Grep Cursor Word' })
 
 -- buffer manager
