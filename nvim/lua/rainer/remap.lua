@@ -123,6 +123,10 @@ vim.api.nvim_set_keymap('n', '<c-tab>', '<c-w>w', { noremap = true })
 -- layout windows (non floating/relative)
 local windows = function()
   return vim.tbl_filter(function(win)
+    if not vim.api.nvim_win_is_valid(win) then
+      return false
+    end
+
     return vim.api.nvim_win_get_config(win).relative == ''
   end, vim.api.nvim_list_wins())
 end
