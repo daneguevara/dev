@@ -107,8 +107,8 @@ require('mason-lspconfig').setup({
       })
     end,
 
-    ['tsserver'] = function()
-      lspconfig.tsserver.setup({})
+    ['ts_ls'] = function()
+      lspconfig.ts_ls.setup({})
     end,
 
     ['otter-ls'] = function()

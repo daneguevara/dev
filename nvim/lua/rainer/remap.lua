@@ -170,16 +170,16 @@ vim.keymap.set('n', '<c-0>', function()
     return
   end
 
-  -- local bufnrs = vim.tbl_filter(function(bufnr)
-  --   if 1 ~= vim.fn.buflisted(bufnr) then
-  --     return false
-  --   end
-  --   if not vim.api.nvim_buf_is_loaded(bufnr) then
-  --     return false
-  --   end
+  local bufnrs = vim.tbl_filter(function(bufnr)
+    if 1 ~= vim.fn.buflisted(bufnr) then
+      return false
+    end
+    if not vim.api.nvim_buf_is_loaded(bufnr) then
+      return false
+    end
 
-  --   return true
-  -- end, vim.api.nvim_list_bufs())
+    return true
+  end, vim.api.nvim_list_bufs())
 
   if #buffers() == 1 then
     vim.cmd('enew')

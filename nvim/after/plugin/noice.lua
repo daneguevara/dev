@@ -64,6 +64,13 @@ require("noice").setup({
       },
     },
   },
+    messages = {
+      enabled = true,
+      view = "mini",
+    },
+    presets = {
+      -- long_message_to_split = true,
+    },
   commands = {
     log = {
       view = "popup",
