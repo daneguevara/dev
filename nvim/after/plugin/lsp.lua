@@ -111,10 +111,6 @@ require('mason-lspconfig').setup({
       lspconfig.ts_ls.setup({})
     end,
 
-    ['otter-ls'] = function()
-      lspconfig.otter_ls.setup({})
-    end,
-
     ['terraformls'] = function()
       lspconfig.terraformls.setup({})
 
