@@ -1,6 +1,6 @@
-local noice = require('noice')
+local noice = require("noice")
 
-require("noice").setup({
+noice.setup({
   lsp = {
     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
     override = {
@@ -64,13 +64,15 @@ require("noice").setup({
       },
     },
   },
-    messages = {
-      enabled = true,
-      view = "mini",
-    },
-    presets = {
-      -- long_message_to_split = true,
-    },
+  messages = {
+    enabled = true,
+    view = "mini",
+    view_error = "mini",
+    view_warn = "mini",
+  },
+  errors = {
+    view = "mini",
+  },
   commands = {
     log = {
       view = "popup",
@@ -87,6 +89,9 @@ require("noice").setup({
         },
       },
       filter = {},
+    },
+    errors = {
+      view = "mini",
     },
   },
 })
