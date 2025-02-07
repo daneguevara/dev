@@ -114,6 +114,8 @@ alias gd="GIT_PAGER='less -F -X' git diff"
 alias gdc="GIT_PAGER='less -F -X' git diff --cached"
 alias j="z"
 
+alias woof="git diff -z --name-only --diff-filter=ACMR origin/master... -- '*.py' ':(exclude)*/alembic_*' | xargs -0r -- ruff check"
+
 # alias vim="nvim10"
 alias vim="nvim"
 
@@ -137,3 +139,5 @@ esac
 export PATH=$PATH:$HOME/bin
 
 setopt IGNORE_EOF
+
+source ~/.iterm2_shell_integration.zsh
