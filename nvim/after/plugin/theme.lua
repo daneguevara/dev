@@ -39,10 +39,9 @@ require('lualine').setup {
   extensions = {}
 }
 
-require('cyberdream').setup({
-  transparent = true,
-  borderless_telescope = false,
-})
+-- require('cyberdream').setup({
+--   transparent = true,
+-- })
 
 require('catppuccin').setup({
 

@@ -11,7 +11,7 @@ noice.setup({
   },
   cmdline = {
     enabled = true,        -- enables the Noice cmdline UI
-    view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
+    view = "cmdline", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
     format = {
       cmdline = { pattern = "^:", icon = "", lang = "vim", title = " Command " },
       search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex" },
@@ -25,7 +25,7 @@ noice.setup({
   },
   popupmenu = {
     enabled = true, -- enables the Noice popupmenu UI
-    ---@type "nui"|"cmp"
+    ---@type 'nui'|'cmp'
     backend = "nui", -- backend to use to show regular cmdline completions
     -- Icons for completion item kinds (see defaults at noice.config.icons.kinds)
     kind_icons = {}, -- set to `false` to disable icons
@@ -41,7 +41,7 @@ noice.setup({
         col = "50%",
       },
       size = {
-        width = 60,
+        width = 75,
         height = "auto",
       },
     },
@@ -77,15 +77,15 @@ noice.setup({
     log = {
       view = "popup",
       opts = {
-        enter = true,
+        enter = details,
         format = "details",
         position = {
           row = "50%",
-          col = "98%",
+          col = "2%",
         },
         size = {
-          height = 60,
-          width = 120,
+          height = 40,
+          width = 100,
         },
       },
       filter = {},

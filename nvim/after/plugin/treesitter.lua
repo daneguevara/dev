@@ -3,7 +3,6 @@ local parsers = require('nvim-treesitter.parsers')
 
 ---@diagnostic disable-next-line: missing-fields
 configs.setup({
-
   textobjects = {
     select = {
       enable = true,
@@ -46,6 +45,7 @@ configs.setup({
       include_surrounding_whitespace = true,
     },
   },
+
   -- language parsers, not filetypes
   ensure_installed = {
     'c',

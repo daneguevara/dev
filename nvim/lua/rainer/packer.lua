@@ -75,7 +75,10 @@ return require('packer').startup(function(use)
     cmd = 'Copilot',
     event = 'InsertEnter',
     config = function()
-      require('rainer.copilot')
+      local copilot = require("rainer.copilot")
+
+      copilot.setup({})
+
     end,
     requires = {
       'nvim-lualine/lualine.nvim',
@@ -112,6 +115,7 @@ return require('packer').startup(function(use)
     'catppuccin/nvim',
     as = 'catppuccin',
   })
+  use { "scottmckendry/cyberdream.nvim" }
   use('MunifTanjim/nui.nvim')
   use('rcarriga/nvim-notify')
 
@@ -135,7 +139,6 @@ return require('packer').startup(function(use)
     },
   })
   use('Mofiqul/dracula.nvim')
-  use('scottmckendry/cyberdream.nvim')
   use('tpope/vim-dadbod')
   use('kristijanhusak/vim-dadbod-completion')
   use({
