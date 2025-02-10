@@ -11,7 +11,7 @@ noice.setup({
   },
   cmdline = {
     enabled = true,        -- enables the Noice cmdline UI
-    view = "cmdline", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
+    view = "cmdline_popup", -- view for rendering the cmdline. Change to `cmdline` to get a classic cmdline at the bottom
     format = {
       cmdline = { pattern = "^:", icon = "", lang = "vim", title = " Command " },
       search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex" },
@@ -33,6 +33,7 @@ noice.setup({
   presets = {
     inc_rename = false,   -- enables an input dialog for inc-rename.nvim
     lsp_doc_border = true, -- add a border to hover docs and signature help
+    bottom_search = true, -- use a classic bottom cmdline for search
   },
   views = {
     cmdline_popup = {
