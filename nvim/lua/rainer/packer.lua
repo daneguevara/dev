@@ -76,9 +76,6 @@ return require('packer').startup(function(use)
     event = 'InsertEnter',
     config = function()
       local copilot = require("rainer.copilot")
-
-      copilot.setup({})
-
     end,
     requires = {
       'nvim-lualine/lualine.nvim',

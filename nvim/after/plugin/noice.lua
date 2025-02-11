@@ -69,30 +69,24 @@ noice.setup({
     enabled = true,
     view = "mini",
     view_error = "mini",
-    view_warn = "mini",
-  },
-  errors = {
-    view = "mini",
+    -- view_warn = "mini",
   },
   commands = {
     log = {
       view = "popup",
       opts = {
-        enter = details,
-        format = "details",
+        enter = "details",
+        -- format = "notify",
         position = {
           row = "50%",
           col = "2%",
         },
         size = {
-          height = 40,
-          width = 100,
+          height = 60,
+          width = 120,
         },
       },
       filter = {},
-    },
-    errors = {
-      view = "mini",
     },
   },
 })
