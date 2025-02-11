@@ -117,8 +117,8 @@ end, { desc = 'Toggle Wrap' })
 vim.api.nvim_set_keymap('n', '<leader>sb', ':windo set scrollbind<cr>', { noremap = true })
 vim.api.nvim_set_keymap('n', '<leader>so', ':windo set noscrollbind<cr>', { noremap = true })
 
--- ctrl-tab to switch windows
-vim.api.nvim_set_keymap('n', '<c-tab>', '<c-w>w', { noremap = true })
+-- ctrl-` to switch windows
+vim.api.nvim_set_keymap('n', '<c-`>', '<c-w>w', { noremap = true })
 
 -- layout windows (non floating/relative)
 local windows = function()
