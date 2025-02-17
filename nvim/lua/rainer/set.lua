@@ -1,5 +1,5 @@
 -- set clipboard
-vim.opt.clipboard:append('unnamedplus')
+vim.opt.clipboard:append("unnamedplus")
 
 -- split windows below and to the right
 vim.opt.splitright = true
@@ -9,16 +9,16 @@ vim.opt.splitbelow = true
 vim.opt.wrap = false
 
 -- set mouse
-vim.opt.mouse = 'a'
+vim.opt.mouse = "a"
 
 -- disable modelines
 vim.opt.modelines = 0
 
 -- ignore node_modules directory in wildmenu
-vim.opt.wildignore:append('*/node_modules')
+vim.opt.wildignore:append("*/node_modules")
 
 -- default wildmode
-vim.opt.wildmode = 'longest:list,full'
+vim.opt.wildmode = "longest:list,full"
 
 -- use spaces instead of tabs
 vim.opt.expandtab = true
@@ -29,7 +29,7 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 
 -- set encoding to utf-8
-vim.opt.encoding = 'utf-8'
+vim.opt.encoding = "utf-8"
 
 -- enable autoindent
 vim.opt.autoindent = true
@@ -96,25 +96,25 @@ vim.api.nvim_exec([[
 ]], false)
 
 -- dynamically open help window based on window height and width
-vim.api.nvim_create_autocmd('BufWinEnter', {
-  group = vim.api.nvim_create_augroup('help_window', {}),
-  pattern = 'help,*.txt',
+vim.api.nvim_create_autocmd("BufWinEnter", {
+  group = vim.api.nvim_create_augroup("help_window", {}),
+  pattern = "help,*.txt",
   callback = function()
     local width = vim.api.nvim_win_get_width(0)
     local height = vim.api.nvim_win_get_height(0)
 
-    if vim.o.buftype == 'help' then
-      vim.cmd.set('filetype=help')
+    if vim.o.buftype == "help" then
+      vim.cmd.set("filetype=help")
     end
 
-    if width > 120 and vim.o.buftype == 'help' then
-      vim.cmd.wincmd('L')
+    if width > 120 and vim.o.buftype == "help" then
+      vim.cmd.wincmd("L")
     end
   end,
 })
 
-vim.g.python_host_prog = os.getenv('HOME') .. '/.pyenv/versions/py2nvim/bin/python'
-vim.g.python3_host_prog = os.getenv('HOME') .. '/.pyenv/versions/py3nvim/bin/python'
+vim.g.python_host_prog = os.getenv("HOME") .. "/.pyenv/versions/py2nvim/bin/python"
+vim.g.python3_host_prog = os.getenv("HOME") .. "/.pyenv/versions/py3nvim/bin/python"
 
 -- vim-commentary
 vim.api.nvim_exec([[
@@ -125,7 +125,7 @@ vim.api.nvim_exec([[
 -- add sql formatter for sql files
 vim.api.nvim_exec([[
   function! FormatSql()
-    execute '%!sql-formatter --config ~/.config/sql-formatter/config.json'
+    execute "%!sql-formatter --config ~/.config/sql-formatter/config.json"
   endfunction
 
   autocmd FileType sql setlocal formatprg=sql-formatter\ --config\ ~/.config/sql-formatter/config.json
