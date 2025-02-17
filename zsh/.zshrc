@@ -142,4 +142,4 @@ setopt IGNORE_EOF
 
 source ~/.iterm2_shell_integration.zsh
 
-export PS1="ツ $PS1"
+export PS1="$PS1ツ "

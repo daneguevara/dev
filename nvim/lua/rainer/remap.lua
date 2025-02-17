@@ -217,3 +217,11 @@ end, { desc = 'Close current buffer after switching to previous buffer' })
 
 -- open explorer for current buffer
 vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = 'Project View' })
+
+-- turn diagnostics on/off
+vim.keymap.set("n", "<leader>do", "<cmd>lua vim.diagnostic.enable()<cr>")
+vim.keymap.set("n", "<leader>df", "<cmd>lua vim.diagnostic.disable()<cr>")
+
+-- terminal escape, window switch
+vim.keymap.set('t', '<esc>', '<c-\\><c-n>', { noremap = true })
+vim.keymap.set('t', '<c-`>', '<c-\\><c-n><c-w>w', { noremap = true })

@@ -18,6 +18,8 @@ local oldfile_size = 6
 -- end
 
 local open_today = function()
+  vim.cmd('bd')
+  vim.cmd('Explore')
   vim.cmd('vsplit ~/todo/' .. os.date('%Y-%m-%d') .. '.md')
 end
 
@@ -64,12 +66,9 @@ settings = {
       '         ¶¶££££££££££££££££££££¶¶¶¶££££££¶¶            ',
       '          ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶    ¶¶¶¶¶¶¶             ',
       '                                                       ',
-      ' ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ██╗ ███╗   ███╗',
-      ' ████╗  ██║ ██╔════╝██╔═══██╗ ██║   ██║ ██║ ████╗ ████║',
-      ' ██╔██╗ ██║ █████╗  ██║   ██║ ██║   ██║ ██║ ██╔████╔██║',
-      ' ██║╚██╗██║ ██╔══╝  ██║   ██║ ╚██╗ ██╔╝ ██║ ██║╚██╔╝██║',
-      ' ██║ ╚████║ ███████╗╚██████╔╝  ╚████╔╝  ██║ ██║ ╚═╝ ██║',
-      ' ╚═╝  ╚═══╝ ╚══════╝ ╚═════╝    ╚═══╝   ╚═╝ ╚═╝     ╚═╝',
+      '       t - todo  | o - open  | m-q - close             ',
+      '       p - list  | v - vert  | c-q - quit              ',
+      '                                                       ',
     },
     highlight = 'Statement',
   },
@@ -161,7 +160,7 @@ settings = {
         vim.cmd('noh')
       end, { noremap = true, silent = true, buffer = true })
 
-      -- t to open shenanigans for today
+      -- t to open todo
       vim.keymap.set('n', 't', function()
         open_today()
       end, { noremap = true, silent = true, buffer = true })
@@ -171,10 +170,15 @@ settings = {
         vim.cmd.Vexplore({ bang = true })
       end, { noremap = true, silent = true, buffer = true })
 
-      -- girl bye q.q
-      vim.keymap.set('n', '<leader>q', function()
+      -- q to close startup
+      vim.keymap.set('n', 'q', function()
         print('Girl bye!')
         vim.cmd('bd')
+      end, { noremap = true, silent = true, buffer = true })
+
+      -- ctrl-q to close vim
+      vim.keymap.set('n', '<c-q>', function()
+        vim.cmd('qa')
       end, { noremap = true, silent = true, buffer = true })
 
       -- hide statuslines when switching to startup buffer (startup plugin unsets when leaving)

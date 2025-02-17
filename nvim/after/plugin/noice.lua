@@ -82,8 +82,8 @@ noice.setup({
           col = "2%",
         },
         size = {
-          height = 60,
-          width = 120,
+          height = 40,
+          width = 80,
         },
       },
       filter = {},
