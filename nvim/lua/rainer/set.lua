@@ -147,3 +147,7 @@ vim.api.nvim_exec([[
   cnoreabbrev git Git
   cnoreabbrev tsplay TSPlaygroundToggle
 ]], false)
+
+vim.api.nvim_exec([[
+  set titlestring=%{progname}\ %t\ #%{TmuxNavigateDirections()}
+]], false)
