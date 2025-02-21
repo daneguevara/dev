@@ -167,10 +167,6 @@ local current_window_width = function()
   return vim.api.nvim_win_get_width(0)
 end
 
-local current_window_height = function()
-  return vim.api.nvim_win_get_height(0)
-end
-
 -- edit new buffer, with vertical split if single window and wide screen
 vim.keymap.set("n", "<c-.>", function()
   if current_window_width() < 160 then
@@ -182,7 +178,7 @@ end, { desc = "Edit new (vsplit if space)" })
 
 -- edit new buffer, with horizontal split if single window
 vim.keymap.set("n", "<c-'>", function()
-  if current_window_height < 60 then
+  if vim.api.nvim_win_get_height(0) < 60 then
     return
   end
 
