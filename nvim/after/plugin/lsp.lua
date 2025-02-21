@@ -266,36 +266,6 @@ cmp.setup({
     end, {
       "i",
     }),
-    ["<c-u>"] = cmp.mapping(function(fallback)
-      local lsp = require("noice.lsp")
-
-      if lsp.scroll(-4) then
-        return
-      elseif cmp.visible() then
-        cmp.scroll_docs(-4)
-      else
-        fallback()
-      end
-    end, {
-      "n",
-      "i",
-      "s",
-    }),
-    ["<c-d>"] = cmp.mapping(function(fallback)
-      local lsp = require("noice.lsp")
-
-      if lsp.scroll(4) then
-        return
-      elseif cmp.visible() then
-        cmp.scroll_docs(4)
-      else
-        fallback()
-      end
-    end, {
-      "n",
-      "i",
-      "s",
-    }),
     ["<c-q>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.abort()
@@ -385,6 +355,15 @@ cmp.setup({
         suggestion.next()
       else
         suggestion.next()
+      end
+    end, {
+      "i",
+    }),
+    ["<c-space>"] = cmp.mapping(function()
+      local suggestion = require("copilot.suggestion")
+
+      if suggestion.is_visible() then
+        suggestion.toggle_auto_trigger()
       end
     end, {
       "i",

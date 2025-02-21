@@ -13,7 +13,7 @@ vim.api.nvim_set_keymap("n", ";", ":", { noremap = true })
 
 -- ctrl enter, ctrl shift enter new lines - stay in normal mode
 vim.api.nvim_set_keymap("n", "<c-cr>", "o<esc>d0", { noremap = true })
-vim.api.nvim_set_keymap("n", "<c-s-cr>", "O<esc>d0", { noremap = true })
+vim.api.nvim_set_keymap("n", "<c-bs>", "O<esc>d0", { noremap = true })
 
 -- windows
 vim.api.nvim_set_keymap("n", "<c-left>", "<c-w>h", { desc = "Move to left window" })
@@ -48,8 +48,8 @@ vim.api.nvim_set_keymap("n", "<c-l>", "<end>", { noremap = true })
 
 -- meta (alt) hl side word jumps, jk line swapping
 vim.api.nvim_set_keymap("n", "<m-h>", "b", { noremap = true })
-vim.api.nvim_set_keymap("n", "<m-j>", ":m .+1<cr>==", { noremap = true })
-vim.api.nvim_set_keymap("n", "<m-k>", ":m .-2<cr>==", { noremap = true })
+vim.api.nvim_set_keymap("n", "<m-j>", "<cmd>m .+1<cr>==", { noremap = true })
+vim.api.nvim_set_keymap("n", "<m-k>", "<cmd>m .-2<cr>==", { noremap = true })
 vim.api.nvim_set_keymap("n", "<m-l>", "e", { noremap = true })
 
 -- TERMINAL MODE REMAPS
@@ -85,8 +85,8 @@ vim.api.nvim_set_keymap("i", "<c-cr>", "<c-o>o", { noremap = true })
 vim.api.nvim_set_keymap("i", "<c-s-cr>", "<c-o>O", { noremap = true })
 
 vim.api.nvim_set_keymap("i", "<m-h>", "<cmd>normal b<cr>", { noremap = true })
-vim.api.nvim_set_keymap("i", "<m-j>", "<esc>`^:m .+1<cr>==gi", { noremap = true })
-vim.api.nvim_set_keymap("i", "<m-k>", "<esc>`^:m .-2<cr>==gi", { noremap = true })
+vim.api.nvim_set_keymap("i", "<m-j>", "<esc>`^<cmd>m .+1<cr>==gi", { noremap = true })
+vim.api.nvim_set_keymap("i", "<m-k>", "<esc>`^<cmd>m .-2<cr>==gi", { noremap = true })
 vim.api.nvim_set_keymap("i", "<m-l>", "<cmd>normal e<cr>", { noremap = true })
 
 -- VISUAL MODE REMAPS
@@ -108,22 +108,31 @@ vim.api.nvim_set_keymap("v", "<c-k>", "kzz", { noremap = true })
 vim.api.nvim_set_keymap("v", "<c-l>", "$", { noremap = true })
 
 vim.api.nvim_set_keymap("v", "<m-h>", "b", { noremap = true })
-vim.api.nvim_set_keymap("v", "<m-k>", ":m '<-2<cr>==gv", { noremap = true })
-vim.api.nvim_set_keymap("v", "<m-j>", ":m '>+1<cr>==gv", { noremap = true })
+vim.api.nvim_set_keymap("v", "<m-k>", "<cmd>m '<-2<cr>==gv", { noremap = true })
+vim.api.nvim_set_keymap("v", "<m-j>", "<cmd>m '>+1<cr>==gv", { noremap = true })
 vim.api.nvim_set_keymap("v", "<m-l>", "e", { noremap = true })
 
 -- toggle wrap
-vim.keymap.set("n", "<s-cr>", function()
-  vim.cmd("set wrap!")
+vim.keymap.set("n", "<leader><cr>", function()
+  vim.wo.wrap = not vim.wo.wrap
 
-  print("Wrap " .. (vim.opt.wrap:get() and "enabled" or "disabled"))
+  print("Wrap " .. (vim.wo.wrap and "enabled" or "disabled"))
 end, { desc = "Toggle Wrap" })
 
 -- WINDOW MANAGEMEMENT
 
 -- window scroll bind, unbind
-vim.api.nvim_set_keymap("n", "<leader>sb", ":windo set scrollbind<cr>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>so", ":windo set noscrollbind<cr>", { noremap = true })
+vim.keymap.set("n", "<leader>sb", function()
+  vim.cmd("windo set scrollbind")
+
+  print("Scroll Bind enabled")
+end, { desc = "Scroll Bind" })
+
+vim.keymap.set("n", "<leader>so", function()
+  vim.cmd("windo set noscrollbind")
+
+  print("Scroll Bind disabled")
+end, { desc = "Scroll Unbind" })
 
 -- ctrl-` to switch windows
 vim.api.nvim_set_keymap("n", "<c-`>", "<c-w>w", { noremap = true })
@@ -158,45 +167,9 @@ local current_window_width = function()
   return vim.api.nvim_win_get_width(0)
 end
 
--- previous buffer
-vim.keymap.set("n", "<c-8>", function()
-  vim.cmd("bp")
-end, { desc = "Next Buffer" })
-
--- next buffer
-vim.keymap.set("n", "<c-*>", function()
-  vim.cmd("bn")
-end, { desc = "Previous Buffer" })
-
--- move to left window
-vim.keymap.set("n", "<c-9>", function() return "<c-w>h" end, { expr = true })
-
--- move to right window or move vertical split single window to the right (useful for wide screen)
-vim.keymap.set("n", "<c-0>", function()
-  if current_window_width() < 140 or #windows() > 1 then
-    vim.cmd("wincmd l")
-    return
-  end
-
-  vim.tbl_filter(function(bufnr)
-    if 1 ~= vim.fn.buflisted(bufnr) then
-      return false
-    end
-    if not vim.api.nvim_buf_is_loaded(bufnr) then
-      return false
-    end
-
-    return true
-  end, vim.api.nvim_list_bufs())
-
-  if #buffers() == 1 then
-    vim.cmd("enew")
-  else
-    vim.cmd("bp")
-  end
-
-  vim.cmd("vert sbn")
-end, { desc = "Move to right window or move single window right" })
+local current_window_height = function()
+  return vim.api.nvim_win_get_height(0)
+end
 
 -- edit new buffer, with vertical split if single window and wide screen
 vim.keymap.set("n", "<c-.>", function()
@@ -209,7 +182,7 @@ end, { desc = "Edit new (vsplit if space)" })
 
 -- edit new buffer, with horizontal split if single window
 vim.keymap.set("n", "<c-'>", function()
-  if vim.api.nvim_win_get_height(0) < 60 then
+  if current_window_height < 60 then
     return
   end
 
@@ -244,6 +217,8 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "Project View" })
 -- turn diagnostics on/off
 vim.keymap.set("n", "<leader>dd", function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+
+  print("Diagnostics " .. (vim.diagnostic.is_enabled() and "enabled" or "disabled"))
 end)
 
 -- terminal escape, window switch
