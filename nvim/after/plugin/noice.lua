@@ -100,6 +100,8 @@ end, { desc = "Redirect Cmdline", noremap = true })
 vim.keymap.set("n", "<leader><space>", function()
   vim.cmd("noh")
   vim.cmd("Noice dismiss")
+
+  print("Search highlight cleared")
 end, { desc = "Clear highlights, notices" })
 
 -- show messages

@@ -6,9 +6,6 @@ vim.api.nvim_set_keymap("n", "q", "<nop>", { noremap = true })
 -- force write (only needed for nfs shared drive wonkiness)
 vim.api.nvim_set_keymap("n", "<leader>w", "<cmd>w!<cr>", { noremap = true })
 
-vim.api.nvim_set_keymap("n", "<c-_>", "<c-bs>", { noremap = true })
-vim.api.nvim_set_keymap("i", "<c-_>", "<c-bs>", { noremap = true })
-
 -- NORMAL MODE REMAPS
 
 -- fast commands
@@ -18,8 +15,17 @@ vim.api.nvim_set_keymap("n", ";", ":", { noremap = true })
 vim.api.nvim_set_keymap("n", "<c-cr>", "o<esc>d0", { noremap = true })
 vim.api.nvim_set_keymap("n", "<c-s-cr>", "O<esc>d0", { noremap = true })
 
--- remove trailing whitespace
-vim.api.nvim_set_keymap("n", "d<space>", ":%s/\\s\\+$//e<cr>", { noremap = true })
+-- windows
+vim.api.nvim_set_keymap("n", "<c-left>", "<c-w>h", { desc = "Move to left window" })
+vim.api.nvim_set_keymap("n", "<c-right>", "<c-w>l", { desc = "Move to right window" })
+vim.api.nvim_set_keymap("n", "<c-up>", "<c-w>k", { desc = "Move to top window" })
+vim.api.nvim_set_keymap("n", "<c-down>", "<c-w>j", { desc = "Move to bottom window" })
+
+vim.keymap.set("n", "<leader><bs>", function()
+  vim.cmd("silent! %s/\\s\\+$//e")
+
+  print("Trailing whitespace removed")
+end, { desc = "Remove trailing whitespace" })
 
 -- search cursor word
 vim.api.nvim_set_keymap("n", "<leader>/", "*N", { noremap = true })
@@ -27,6 +33,7 @@ vim.api.nvim_set_keymap("n", "<leader>/", "*N", { noremap = true })
 -- clear search highlight, echo
 vim.keymap.set("n", "<leader><space>", function()
   vim.cmd("nohlsearch")
+
   print("Search highlight cleared")
 end, { desc = "[C]lear [H]ighlight" })
 
@@ -108,6 +115,7 @@ vim.api.nvim_set_keymap("v", "<m-l>", "e", { noremap = true })
 -- toggle wrap
 vim.keymap.set("n", "<s-cr>", function()
   vim.cmd("set wrap!")
+
   print("Wrap " .. (vim.opt.wrap:get() and "enabled" or "disabled"))
 end, { desc = "Toggle Wrap" })
 
@@ -192,27 +200,42 @@ end, { desc = "Move to right window or move single window right" })
 
 -- edit new buffer, with vertical split if single window and wide screen
 vim.keymap.set("n", "<c-.>", function()
-  if current_window_width() > 140 then
-    vim.cmd("vnew")
-  else
+  if current_window_width() < 160 then
     vim.cmd("enew")
+  else
+    vim.cmd("vnew")
   end
 end, { desc = "Edit new (vsplit if space)" })
+
+-- edit new buffer, with horizontal split if single window
+vim.keymap.set("n", "<c-'>", function()
+  if vim.api.nvim_win_get_height(0) < 60 then
+    return
+  end
+
+  vim.cmd("new")
+end, { desc = "Edit new (split if space)" })
 
 -- close windows or buffers
 vim.keymap.set("n", "<c-q>", function()
   if #windows() > 1 then
     vim.cmd("q")
-  else
+  elseif #buffers() > 1 then
     vim.cmd("bd")
+  else
+    vim.cmd("q")
   end
 
 end, { desc = "Close windows or buffers" })
 
 -- close current buffer after switching to previous buffer
 vim.keymap.set("n", "<m-q>", function()
-  vim.cmd("silent! bp")
-  vim.cmd("silent! bd#")
+  if #buffers() > 1 then
+    vim.cmd("silent! bp")
+    vim.cmd("silent! bd#")
+  else
+    vim.cmd("q")
+  end
 end, { desc = "Close current buffer after switching to previous buffer" })
 
 -- open explorer for current buffer
