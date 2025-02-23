@@ -44,44 +44,19 @@ telescope.setup({
     sorting_strategy = "ascending",
     mappings = {
       i = {
+        ["<c-\\>"] = "close",
         ["<c-/>"] = "close",
-        ["<c-e>"] = "close",
         ["<c-f>"] = "close",
-        ["<c-l>"] = false,
-        ["<c-x>"] = false,
-        ["<c-s>"] = toggle_preview,
         ["<c-j>"] = preview_scroll_j,
         ["<c-k>"] = preview_scroll_k,
-        ["<m-q>"] = false,
-        ["<c-q>"] = actions.smart_send_to_qflist,
-        ["<c-a>"] = function()
-          local selected_entry = state.get_selected_entry()
-
-          -- -- check if the selected entry is a file
-          -- local file = io.open(selected_entry.value, "r")
-          -- if file then
-          if selected_entry then
-            file:close()
-
-            print("setting on 󰈸: " .. selected_entry.value)
-
-            harpoon:list():add({
-              value = selected_entry.value,
-              context = {
-                row = 1,
-                col = 0,
-              },
-            })
-            harpoon:sync()
-          else
-            print("cannot set on 󰈸: " .. selected_entry.value)
-          end
-        end,
+        ["<c-q>"] = "close",
+        ["<c-s>"] = toggle_preview,
       },
       n = {
+        ["<c-\\>"] = "close",
         ["<c-/>"] = "close",
-        ["<c-e>"] = "close",
         ["<c-f>"] = "close",
+        ["<c-q>"] = "close",
         ["<c-s>"] = function()
           layout.toggle_preview(vim.api.nvim_get_current_buf())
         end,
@@ -91,9 +66,9 @@ telescope.setup({
 })
 
 -- quickfix bindings
-vim.keymap.set("n", "qq", builtin.quickfix, { desc = "[F]ind [Q]uickfix" })
-vim.keymap.set("n", "qn", function() vim.cmd("cnext") end, { desc = "[Q]uickfix [N]ext" })
-vim.keymap.set("n", "qp", function() vim.cmd("cprev") end, { desc = "[Q]uickfix [P]rev" })
+vim.keymap.set("n", "<leader>fq", builtin.quickfix, { desc = "[F]ind [Q]uickfix" })
+vim.keymap.set("n", "<leader>fn", function() vim.cmd("cnext") end, { desc = "[Q]uickfix [N]ext" })
+vim.keymap.set("n", "<leader>fp", function() vim.cmd("cprev") end, { desc = "[Q]uickfix [P]rev" })
 
 -- general searches
 vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "[F]ind [O]ld" })
@@ -130,15 +105,15 @@ vim.keymap.set("n", "<leader>go", function()
 end, { desc = "[G]rep [O]pen" })
 
 -- find files in buffer directory
-vim.keymap.set("n", "<leader>ff", function()
+vim.keymap.set("n", "<leader>ls", function()
   builtin.find_files({
     prompt_title = "Files (" .. utils.buffer_dir() .. ")",
     cwd = utils.buffer_dir(),
   })
-end, { desc = "[F]ind [F]iles" })
+end, { desc = is_git and git_files_desc or find_files_desc })
 
 -- pwd files
-vim.keymap.set("n", "<leader>pf", function()
+vim.keymap.set("n", "<leader>ff", function()
   builtin.find_files({
     prompt_title = "Files (" .. vim.cmd("pwd") .. ")",
   })
@@ -193,5 +168,5 @@ vim.keymap.set("n", "<leader>h", function()
   })
 end, { desc = "[H]elp" })
 
-vim.keymap.set("n", "<c-f>", builtin.resume, { desc = "Resume [F]inder" })
+vim.keymap.set("n", "<c-\\>", builtin.resume, { desc = "Resume [\\]ast Finder" })
 vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "[G]it [F]iles" })

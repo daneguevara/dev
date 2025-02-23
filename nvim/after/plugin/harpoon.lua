@@ -36,7 +36,7 @@ harpoon:setup({})
 --   }):find()
 -- end
 
-vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
+vim.keymap.set("n", "<c-s>", function() harpoon:list():add() end)
 -- vim.keymap.set("n", "<c-e>", function()
 --   toggle_telescope(harpoon:list())
 -- end, { desc = "󰈸 this is fine 󰈸" })
@@ -49,6 +49,6 @@ vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end)
 -- fast navigation!!
 vim.keymap.set("n", "<c-p>", function() harpoon:list():prev() end)
 vim.keymap.set("n", "<c-n>", function() harpoon:list():next() end)
-vim.keymap.set("n", "<c-a>", function()
+vim.keymap.set("n", "<c-f>", function()
   harpoon.ui:toggle_quick_menu(harpoon:list(), { title = " 󰈸 󰈸 fires 󰈸 󰈸 " })
 end)

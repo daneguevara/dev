@@ -3,19 +3,12 @@ local quote = require('rainer.quotes')
 
 local oldfile_size = 6
 
--- local open_oldfile = function(n)
---   vim.fn.search('\\[' .. n .. '\\]', 'w')
+local open_oldfile = function(n)
+  vim.fn.search('\\[' .. n .. '\\]', 'w')
 
---   startup.open_file()
---   vim.cmd('noh')
--- end
-
--- local open_oldfile_vsplit = function(n)
---   vim.fn.search('\\[' .. n .. '\\]', 'w')
-
---   startup.open_file_vsplit()
---   vim.cmd('noh')
--- end
+  startup.open_file()
+  vim.cmd('noh')
+end
 
 local open_today = function()
   vim.cmd('bd')
@@ -167,13 +160,26 @@ settings = {
 
       -- p to open vertical explorer
       vim.keymap.set('n', 'p', function()
+        vim.cmd('bd')
         vim.cmd.Vexplore({ bang = true })
       end, { noremap = true, silent = true, buffer = true })
 
       -- q to close startup
       vim.keymap.set('n', 'q', function()
-        print('Girl bye!')
         vim.cmd('bd')
+        vim.cmd('normal j')
+      end, { noremap = true, silent = true, buffer = true })
+
+      -- i to close startup and insert mode
+      vim.keymap.set('n', 'i', function()
+        vim.cmd('bd')
+        vim.cmd('startinsert')
+      end, { noremap = true, silent = true, buffer = true })
+
+      -- a to close startup and append mode
+      vim.keymap.set('n', 'a', function()
+        vim.cmd('bd')
+        vim.cmd('startinsert!')
       end, { noremap = true, silent = true, buffer = true })
 
       -- ctrl-q to close vim

@@ -1,10 +1,13 @@
 vim.g.mapleader = ","
 
 -- note: configure a new macro keybind before this if i ever decide to use them
-vim.api.nvim_set_keymap("n", "q", "<nop>", { noremap = true })
+-- vim.api.nvim_set_keymap("n", "q", "<nop>", { noremap = true })
 
 -- force write (only needed for nfs shared drive wonkiness)
 vim.api.nvim_set_keymap("n", "<leader>w", "<cmd>w!<cr>", { noremap = true })
+
+-- sad quit all
+vim.api.nvim_set_keymap("n", "<leader>qq", "<cmd>qa!<cr>", { noremap = true })
 
 -- NORMAL MODE REMAPS
 
@@ -108,9 +111,15 @@ vim.api.nvim_set_keymap("v", "<c-k>", "kzz", { noremap = true })
 vim.api.nvim_set_keymap("v", "<c-l>", "$", { noremap = true })
 
 vim.api.nvim_set_keymap("v", "<m-h>", "b", { noremap = true })
-vim.api.nvim_set_keymap("v", "<m-k>", "<cmd>m '<-2<cr>==gv", { noremap = true })
-vim.api.nvim_set_keymap("v", "<m-j>", "<cmd>m '>+1<cr>==gv", { noremap = true })
+vim.api.nvim_set_keymap("v", "<m-k>", ":m '<-2<cr>==gv", { noremap = true })
+vim.api.nvim_set_keymap("v", "<m-j>", ":m '>+1<cr>==gv", { noremap = true })
 vim.api.nvim_set_keymap("v", "<m-l>", "e", { noremap = true })
+
+vim.keymap.set("v", "<leader>k", function()
+  vim.cmd("'<,'>m '<-2<cr>==gv")
+
+  print("Moved selection up")
+end, { desc = "Move selection up" })
 
 -- toggle wrap
 vim.keymap.set("n", "<leader><cr>", function()
@@ -208,7 +217,7 @@ vim.keymap.set("n", "<m-q>", function()
 end, { desc = "Close current buffer after switching to previous buffer" })
 
 -- open explorer for current buffer
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, { desc = "Project View" })
+vim.keymap.set("n", "<c-_>", vim.cmd.Ex, { desc = "Open Explorer" })
 
 -- turn diagnostics on/off
 vim.keymap.set("n", "<leader>dd", function()
@@ -219,4 +228,3 @@ end)
 
 -- terminal escape, window switch
 vim.keymap.set("t", "<esc>", "<c-\\><c-n>", { noremap = true })
-vim.keymap.set("t", "<c-`>", "<c-\\><c-n><c-w>w", { noremap = true })

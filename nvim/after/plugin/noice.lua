@@ -73,7 +73,7 @@ noice.setup({
   },
   commands = {
     log = {
-      view = "popup",
+      view = "mini",
       opts = {
         enter = "details",
         -- format = "notify",
@@ -92,7 +92,7 @@ noice.setup({
 })
 
 -- send command
-vim.keymap.set("c", "<c-s>", function()
+vim.keymap.set("c", "<c-cr>", function()
   noice.redirect(vim.fn.getcmdline())
 end, { desc = "Redirect Cmdline", noremap = true })
 
@@ -103,8 +103,3 @@ vim.keymap.set("n", "<leader><space>", function()
 
   print("Search highlight cleared")
 end, { desc = "Clear highlights, notices" })
-
--- show messages
-vim.keymap.set("n", "<c-s>", function()
-  vim.cmd("NoiceLog")
-end, { desc = "Messages" })
