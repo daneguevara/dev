@@ -86,9 +86,6 @@ vim.keymap.set("n", "<leader>fl", function()
   })
 end, { desc = "[F]ind [L]ua Config" })
 
--- git files
-vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "[G]it [F]iles" })
-
 -- grep global
 vim.keymap.set("n", "<leader>gg", function()
   builtin.live_grep({
@@ -110,14 +107,21 @@ vim.keymap.set("n", "<leader>ls", function()
     prompt_title = "Files (" .. utils.buffer_dir() .. ")",
     cwd = utils.buffer_dir(),
   })
-end, { desc = is_git and git_files_desc or find_files_desc })
+end, { desc = "[L]i[S]t Files" })
+
+local is_git = io.open(".git") ~= nil
 
 -- pwd files
 vim.keymap.set("n", "<leader>ff", function()
-  builtin.find_files({
-    prompt_title = "Files (" .. vim.cmd("pwd") .. ")",
-  })
-end, { desc = "[P]wd [F]iles" })
+
+  if is_git then
+    builtin.git_files()
+  else
+    builtin.find_files({
+      prompt_title = "Files (" .. vim.cmd("pwd") .. ")",
+    })
+  end
+end, { desc = "[F]ind [F]iles" })
 
 -- grep in buffer directory
 vim.keymap.set("n", "<c-/>", function()
@@ -169,4 +173,3 @@ vim.keymap.set("n", "<leader>h", function()
 end, { desc = "[H]elp" })
 
 vim.keymap.set("n", "<c-\\>", builtin.resume, { desc = "Resume [\\]ast Finder" })
-vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "[G]it [F]iles" })
