@@ -107,4 +107,4 @@ nvim/plugin
 
 nvim/lua/local
 
-tmux/.tmux.remote.conf
+.tmux.remote.conf
