@@ -106,3 +106,5 @@ dist
 nvim/plugin
 
 nvim/lua/local
+
+tmux/.tmux.remote.conf
