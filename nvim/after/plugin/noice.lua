@@ -17,8 +17,10 @@ noice.setup({
       search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex" },
       search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex" },
       filter = { pattern = "^:%s*!", icon = "$", lang = "bash" },
-      lua = { pattern = { "^:%s*lua%s+" }, icon = "", lang = "lua", title = " Lua " },
-      lua_print = { pattern = { "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "=", lang = "lua", title = " Lua Print " },
+      lua = false,
+      lua_print = false,
+      -- lua = { pattern = { "^:%s*lua%s+" }, icon = "", lang = "lua", title = " Lua " },
+      -- lua_print = { pattern = { "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "=", lang = "lua", title = " Lua Print " },
       help = { pattern = "^:%s*he?l?p?%s+", icon = "" },
       input = { view = "cmdline_input" },  -- Used by input()
     },
@@ -69,37 +71,66 @@ noice.setup({
     enabled = true,
     view = "mini",
     view_error = "mini",
-    -- view_warn = "mini",
+    view_warn = "mini",
+    opts = {
+      format = "details",
+    },
   },
   commands = {
-    log = {
-      view = "mini",
+    history = {
+      view = "popup",
       opts = {
-        enter = "details",
-        -- format = "notify",
-        position = {
-          row = "50%",
-          col = "2%",
-        },
-        size = {
-          height = 40,
-          width = 80,
-        },
+        enter = true,
+        format = "details",
+      },
+    },
+    log = {
+      view = "popup",
+      opts = {
+        enter = true,
+        format = "details",
       },
       filter = {},
     },
+    last = {
+      view = "popup",
+      opts = {
+        enter = true,
+        format = "details",
+      },
+      filter = { event = "msg_show" },
+    },
   },
+  -- status = {
+  --   ruler = { event = require("noice.ui.msg").events.ruler },
+  --   message = { event = require("noice.ui.msg").events.show },
+  --   cmdline = { event = require("noice.ui.msg").events.showcmd },
+  --   mode = { event = require("noice.ui.msg").events.showmode },
+  --   search = { event = require("noice.ui.msg").events.show, kind = require("noice.ui.msg").kinds.search_count },
+  -- },
 })
 
 -- send command
-vim.keymap.set("c", "<c-cr>", function()
-  noice.redirect(vim.fn.getcmdline())
-end, { desc = "Redirect Cmdline", noremap = true })
+-- vim.keymap.set("c", "<c-cr>", function()
+--   noice.redirect(vim.fn.getcmdline())
+-- end, { desc = "Redirect Cmdline", noremap = true })
 
--- clear screen
-vim.keymap.set("n", "<leader><space>", function()
-  vim.cmd("noh")
-  vim.cmd("Noice dismiss")
+---- clear screen
+--vim.keymap.set("n", "<leader><space>", function()
+--  vim.cmd("noh")
+--  vim.cmd("Noice dismiss")
 
-  print("Search highlight cleared")
-end, { desc = "Clear highlights, notices" })
+--  print("Search highlight cleared")
+--end, { desc = "Clear highlights, notices" })
+
+vim.keymap.set("n", "<leader>no", function()
+  noice.cmd("log")
+end, { desc = "Noice log" })
+
+vim.keymap.set("n", "<leader>nl", function()
+  noice.cmd("last")
+end, { desc = "Noice last message" })
+
+vim.keymap.set("n", "<leader>np", function()
+  noice.cmd("pick")
+end, { desc = "Noice pick message" })

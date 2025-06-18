@@ -132,21 +132,21 @@ vim.api.nvim_exec([[
 ]], false)
 
 -- alias commands
-vim.api.nvim_exec([[
-  cnoreabbrev gs Git status
-  cnoreabbrev gc Git ++curwin commit
-  cnoreabbrev ga Git ++curwin add
-  cnoreabbrev gd Git ++curwin diff
-  cnoreabbrev gdc Git ++curwin diff --cached
-  cnoreabbrev go Git checkout
-  cnoreabbrev gb Git branch
-  cnoreabbrev gg Git blame
+-- vim.api.nvim_exec([[
+--   cnoreabbrev gs Git status
+--   cnoreabbrev gc Git ++curwin commit
+--   cnoreabbrev ga Git ++curwin add
+--   cnoreabbrev gd Git ++curwin diff
+--   cnoreabbrev gdc Git ++curwin diff --cached
+--   cnoreabbrev go Git checkout
+--   cnoreabbrev gb Git branch
+--   cnoreabbrev gg Git blame
 
-  cnoreabbrev gh Octo
+--   cnoreabbrev gh Octo
 
-  cnoreabbrev git Git
-  cnoreabbrev tsplay TSPlaygroundToggle
-]], false)
+--   cnoreabbrev git Git
+--   cnoreabbrev tsplay TSPlaygroundToggle
+-- ]], false)
 
 vim.api.nvim_exec([[
   set titlestring=%{progname}\ %t\ #%{TmuxNavigateDirections()}

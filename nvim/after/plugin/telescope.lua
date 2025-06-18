@@ -29,6 +29,15 @@ end
 
 telescope.setup({
   defaults = {
+    vimgrep_arguments = {
+      "rg",
+      "--color=never",
+      "--no-heading",
+      "--with-filename",
+      "--line-number",
+      "--column",
+      "--smart-case",
+    },
     path_display = {
       "truncate",
     },
@@ -39,7 +48,6 @@ telescope.setup({
       flex = {
         flip_columns = 160
       },
-      prompt_position = "top",
     },
     sorting_strategy = "ascending",
     mappings = {
@@ -49,17 +57,29 @@ telescope.setup({
         ["<c-f>"] = "close",
         ["<c-j>"] = preview_scroll_j,
         ["<c-k>"] = preview_scroll_k,
-        ["<c-q>"] = "close",
         ["<c-s>"] = toggle_preview,
       },
       n = {
         ["<c-\\>"] = "close",
         ["<c-/>"] = "close",
         ["<c-f>"] = "close",
-        ["<c-q>"] = "close",
         ["<c-s>"] = function()
           layout.toggle_preview(vim.api.nvim_get_current_buf())
         end,
+      },
+    },
+  },
+  pickers = {
+    live_grep = {
+      vimgrep_arguments = {
+        "rg",
+        "--color=never",
+        "--no-heading",
+        "--with-filename",
+        "--line-number",
+        "--column",
+        "--smart-case",
+        "-l",
       },
     },
   },
@@ -87,19 +107,19 @@ vim.keymap.set("n", "<leader>fl", function()
 end, { desc = "[F]ind [L]ua Config" })
 
 -- grep global
-vim.keymap.set("n", "<leader>gg", function()
+vim.keymap.set("n", "<leader>fg", function()
   builtin.live_grep({
     prompt_title = "Grep (" .. vim.cmd("pwd") .. ")",
   })
-end, { desc = "[G]rep [G]lobal" })
+end, { desc = "[F]ull [G]rep" })
 
 -- grep open files
-vim.keymap.set("n", "<leader>go", function()
+vim.keymap.set("n", "<c-\\>", function()
   builtin.live_grep({
     prompt_title = "Grep (" .. vim.cmd("pwd") .. ")",
     grep_open_files = true,
   })
-end, { desc = "[G]rep [O]pen" })
+end, { desc = "Grep Open" })
 
 -- find files in buffer directory
 vim.keymap.set("n", "<leader>ls", function()
@@ -158,9 +178,6 @@ end, { desc = "Buffers" })
 -- halp
 vim.keymap.set("n", "<leader>h", function()
   builtin.help_tags({
-    cache_picker = {
-      num_pickers = 1,
-    },
     layout_strategy = "flex",
     layout_config = {
       width = 0.75,
@@ -171,5 +188,3 @@ vim.keymap.set("n", "<leader>h", function()
     },
   })
 end, { desc = "[H]elp" })
-
-vim.keymap.set("n", "<c-\\>", builtin.resume, { desc = "Resume [\\]ast Finder" })

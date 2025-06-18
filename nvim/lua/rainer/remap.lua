@@ -3,12 +3,6 @@ vim.g.mapleader = ","
 -- note: configure a new macro keybind before this if i ever decide to use them
 -- vim.api.nvim_set_keymap("n", "q", "<nop>", { noremap = true })
 
--- force write (only needed for nfs shared drive wonkiness)
-vim.api.nvim_set_keymap("n", "<leader>w", "<cmd>w!<cr>", { noremap = true })
-
--- sad quit all
-vim.api.nvim_set_keymap("n", "<leader>qq", "<cmd>qa!<cr>", { noremap = true })
-
 -- NORMAL MODE REMAPS
 
 -- fast commands
@@ -95,7 +89,7 @@ vim.api.nvim_set_keymap("i", "<m-l>", "<cmd>normal e<cr>", { noremap = true })
 -- VISUAL MODE REMAPS
 
 -- use q to quit visual mode
-vim.api.nvim_set_keymap("v", "q", "<esc>", { noremap = true })
+-- vim.api.nvim_set_keymap("v", "q", "<esc>", { noremap = true })
 
 -- range ex command
 vim.api.nvim_set_keymap("v", ";", ":", { noremap = true })
@@ -203,7 +197,6 @@ vim.keymap.set("n", "<c-q>", function()
   else
     vim.cmd("q")
   end
-
 end, { desc = "Close windows or buffers" })
 
 -- close current buffer after switching to previous buffer
@@ -217,10 +210,15 @@ vim.keymap.set("n", "<m-q>", function()
 end, { desc = "Close current buffer after switching to previous buffer" })
 
 -- open explorer for current buffer
-vim.keymap.set("n", "<c-_>", vim.cmd.Ex, { desc = "Open Explorer" })
+vim.keymap.set("n", "<c-_>", function()
+  local cur_file = vim.fn.expand('%:t')
+
+  vim.cmd.Ex()
+  vim.fn.search('^'..cur_file..'$')
+end, { desc = "Open Explorer for current file" })
 
 -- turn diagnostics on/off
-vim.keymap.set("n", "<leader>dd", function()
+vim.keymap.set("n", "<F12>", function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
 
   print("Diagnostics " .. (vim.diagnostic.is_enabled() and "enabled" or "disabled"))

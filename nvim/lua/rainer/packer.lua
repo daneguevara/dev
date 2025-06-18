@@ -7,6 +7,7 @@ return require("packer").startup(function(use)
   -- Packer can manage itself
   use("wbthomason/packer.nvim")
 
+  use({ "NStefan002/screenkey.nvim", tag = "*" })
   use("nvim-lua/plenary.nvim")
 
   use({
@@ -17,7 +18,7 @@ return require("packer").startup(function(use)
 
   use({
     "nvim-telescope/telescope.nvim",
-    tag = "0.1.6",
+    tag = "0.1.8",
     requires = {
       { "nvim-lua/plenary.nvim" },
       { "angkeith/telescope-terraform-doc.nvim" },
@@ -28,14 +29,13 @@ return require("packer").startup(function(use)
     "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
-    opts = {}
+    opts = {},
   })
 
   use({ "nvim-tree/nvim-web-devicons" })
-
   use({
     "nvim-lualine/lualine.nvim",
-    requires = { "nvim-tree/nvim-web-devicons", opt = true }
+    requires = { "nvim-tree/nvim-web-devicons", opt = true },
   })
 
   use({
@@ -43,10 +43,17 @@ return require("packer").startup(function(use)
     requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
     config = function()
       require("startup").setup(require("rainer.wizard"))
-    end
+    end,
   })
 
-  use("nvim-treesitter/nvim-treesitter", { run = ":TSUpdate" })
+  use({
+    "nvim-treesitter/nvim-treesitter",
+    run = function()
+      local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+      ts_update()
+    end,
+  })
+
 
   use({
     "nvim-treesitter/nvim-treesitter-textobjects",
@@ -81,31 +88,14 @@ return require("packer").startup(function(use)
       "nvim-lualine/lualine.nvim",
     },
   })
-  -- use({
-  --   "zbirenbaum/copilot-cmp",
-  --   after = { "copilot.lua" },
-  --   config = function()
-  --     require("copilot_cmp").setup()
-  --   end
-  -- })
 
   use("Vimjas/vim-python-pep8-indent")
-
-  -- use("Vigemus/iron.nvim")
-
   use("tpope/vim-commentary")
   use("tpope/vim-fugitive")
   use("tpope/vim-surround")
   use("tpope/vim-repeat")
 
   use("sunaku/tmux-navigate")
-
-  use({
-    "jmbuhr/otter.nvim",
-    requires = {
-      "nvim-treesitter/nvim-treesitter",
-    },
-  })
 
   use("lucasprag/simpleblack")
   use({
@@ -127,6 +117,7 @@ return require("packer").startup(function(use)
       "rcarriga/nvim-notify",
     },
   })
+
   use({
     "pwntester/octo.nvim",
     requires = {
@@ -135,7 +126,7 @@ return require("packer").startup(function(use)
       "nvim-tree/nvim-web-devicons",
     },
   })
-  use("Mofiqul/dracula.nvim")
+
   use("tpope/vim-dadbod")
   use("kristijanhusak/vim-dadbod-completion")
   use({
@@ -154,6 +145,4 @@ return require("packer").startup(function(use)
       vim.g.db_ui_use_nerd_fonts = 1
     end,
   })
-
-  use("itchyny/calendar.vim")
 end)
