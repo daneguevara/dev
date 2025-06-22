@@ -15,6 +15,14 @@ vim.api.nvim_buf_set_keymap(0, "n", "tE", "O  ", { noremap = true, silent = t
 vim.api.nvim_buf_set_keymap(0, "n", "te", "o  ", { noremap = true, silent = true })
 
 local function line_prefix(line)
+  if string.match(line, "## ") then
+    return "## "
+  end
+
+  if string.match(line, "  ") then
+    return "  "
+  end
+
   if string.match(line, "- %[.%] ") then
     return "- [ ] "
   end
@@ -23,13 +31,6 @@ local function line_prefix(line)
     return "- "
   end
 
-  if string.match(line, "## ") then
-    return "## "
-  end
-
-  if string.match(line, "  ") then
-    return "  "
-  end
 
   return ""
 end
@@ -106,7 +107,6 @@ local skeleton = {
   "",
   "## NOTES",
 }
--- TEMPLATE
 
 -- lfg
 vim.keymap.set("n", "<leader>gg", function()

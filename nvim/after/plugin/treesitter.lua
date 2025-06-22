@@ -31,7 +31,7 @@ configs.setup({
       selection_modes = {
         ["@parameter.outer"] = "v", -- charwise
         ["@function.outer"] = "V", -- linewise
-        ["@class.outer"] = "<c-v>", -- blockwise
+        ["@class.outer"] = "V", -- blockwise
       },
       -- If you set this to `true` (default is `false`) then any textobject is
       -- extended to include preceding or succeeding whitespace. Succeeding
