@@ -36,19 +36,19 @@ harpoon:setup({})
 --   }):find()
 -- end
 
-vim.keymap.set("n", "<c-s>", function() harpoon:list():add() end)
--- vim.keymap.set("n", "<c-e>", function()
---   toggle_telescope(harpoon:list())
--- end, { desc = "󰈸 this is fine 󰈸" })
-
 vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
 vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end)
 vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end)
 vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end)
+vim.keymap.set("n", "<leader>5", function() harpoon:list():select(4) end)
+vim.keymap.set("n", "<leader>6", function() harpoon:list():select(4) end)
+vim.keymap.set("n", "<leader>7", function() harpoon:list():select(4) end)
+vim.keymap.set("n", "<leader>8", function() harpoon:list():select(4) end)
 
 -- fast navigation!!
+vim.keymap.set("n", "<c-s>", function() harpoon:list():add() end)
 vim.keymap.set("n", "<c-p>", function() harpoon:list():prev() end)
 vim.keymap.set("n", "<c-n>", function() harpoon:list():next() end)
 vim.keymap.set("n", "<c-f>", function()
-  harpoon.ui:toggle_quick_menu(harpoon:list(), { title = " 󰈸 󰈸 fires 󰈸 󰈸 " })
+  harpoon.ui:toggle_quick_menu(harpoon:list(), { title = " 󰈸 󰈸 firaga 󰈸 󰈸 " })
 end)

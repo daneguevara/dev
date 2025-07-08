@@ -1,18 +1,8 @@
+-- command/leader remaps, use <c-,> and <c-;> for repeat last left-right motion
 vim.g.mapleader = ","
-
--- note: configure a new macro keybind before this if i ever decide to use them
--- vim.api.nvim_set_keymap("n", "q", "<nop>", { noremap = true })
-
--- NORMAL MODE REMAPS
-
--- fast commands
 vim.api.nvim_set_keymap("n", ";", ":", { noremap = true })
 
--- ctrl enter, ctrl shift enter new lines - stay in normal mode
-vim.api.nvim_set_keymap("n", "<c-cr>", "o<esc>d0", { noremap = true })
-vim.api.nvim_set_keymap("n", "<c-bs>", "O<esc>d0", { noremap = true })
-
--- windows
+-- window swaps
 vim.api.nvim_set_keymap("n", "<c-left>", "<c-w>h", { desc = "Move to left window" })
 vim.api.nvim_set_keymap("n", "<c-right>", "<c-w>l", { desc = "Move to right window" })
 vim.api.nvim_set_keymap("n", "<c-up>", "<c-w>k", { desc = "Move to top window" })
@@ -21,75 +11,37 @@ vim.api.nvim_set_keymap("n", "<c-down>", "<c-w>j", { desc = "Move to bottom wind
 vim.keymap.set("n", "<leader><bs>", function()
   vim.cmd("silent! %s/\\s\\+$//e")
 
-  print("Trailing whitespace removed")
+  print("trailing whitespace")
 end, { desc = "Remove trailing whitespace" })
-
--- search cursor word
-vim.api.nvim_set_keymap("n", "<leader>/", "*N", { noremap = true })
 
 -- clear search highlight, echo
 vim.keymap.set("n", "<leader><space>", function()
   vim.cmd("nohlsearch")
 
-  print("Search highlight cleared")
+  print("nol")
 end, { desc = "[C]lear [H]ighlight" })
 
--- shift tab to pair reverse jumplist with tab-jumplist
-vim.api.nvim_set_keymap("n", "<s-tab>", "<c-o>", { noremap = true })
-
--- ctrl hl side jumps, single line jumps
-vim.api.nvim_set_keymap("n", "<c-h>", "^", { noremap = true })
-vim.api.nvim_set_keymap("n", "<c-j>", "j<c-e>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<c-k>", "k<c-y>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<c-l>", "<end>", { noremap = true })
+-- whitespace jumps
+vim.api.nvim_set_keymap("n", "<c-h>", "B", { noremap = true })
+vim.api.nvim_set_keymap("n", "<c-j>", "}", { noremap = true })
+vim.api.nvim_set_keymap("n", "<c-k>", "{", { noremap = true })
+vim.api.nvim_set_keymap("n", "<c-l>", "E", { noremap = true })
 
 -- meta (alt) hl side word jumps, jk line swapping
-vim.api.nvim_set_keymap("n", "<m-h>", "b", { noremap = true })
+vim.api.nvim_set_keymap("n", "<m-h>", "<<", { noremap = true })
 vim.api.nvim_set_keymap("n", "<m-j>", "<cmd>m .+1<cr>==", { noremap = true })
 vim.api.nvim_set_keymap("n", "<m-k>", "<cmd>m .-2<cr>==", { noremap = true })
-vim.api.nvim_set_keymap("n", "<m-l>", "e", { noremap = true })
+vim.api.nvim_set_keymap("n", "<m-l>", ">>", { noremap = true })
 
--- TERMINAL MODE REMAPS
+-- escape to normal mode
 vim.api.nvim_set_keymap("t", "<c-esc>", "<c-\\><c-n>", { noremap = true })
 
--- COMMAND LINE MODE REMAPS
-
--- bash like movements (move c-f to c-q first)
-vim.api.nvim_set_keymap("c", "<c-q>", "<c-f>", { noremap = true })
-vim.api.nvim_set_keymap("c", "<c-f>", "<right>", { noremap = true })
-vim.api.nvim_set_keymap("c", "<c-b>", "<left>", { noremap = true })
-
-vim.api.nvim_set_keymap("c", "<c-h>", "<home>", { noremap = true })
-vim.api.nvim_set_keymap("c", "<c-l>", "<end>", { noremap = true })
-
--- INSERT MODE REMAPS
+-- command mode remaps
+vim.api.nvim_set_keymap("c", "<c-k>", "<c-f>", { noremap = true })
+vim.api.nvim_set_keymap("c", "<c-l>", "<tab>", { noremap = true })
 
 -- alternate escapes insert mode
-vim.api.nvim_set_keymap("i", "jk", "<esc>`^", { noremap = true })
-
--- bash like movements
-vim.api.nvim_set_keymap("i", "<c-f>", "<right>", { noremap = true })
-vim.api.nvim_set_keymap("i", "<c-b>", "<left>", { noremap = true })
-
--- ctrl hjkl movements insert mode
-vim.api.nvim_set_keymap("i", "<c-h>", "<cmd>normal ^<cr>", { noremap = true })
-vim.api.nvim_set_keymap("i", "<c-j>", "<down>", { noremap = true })
-vim.api.nvim_set_keymap("i", "<c-k>", "<up>", { noremap = true })
-vim.api.nvim_set_keymap("i", "<c-l>", "<end>", { noremap = true })
-
--- ctrl-cr ctrl-s-cr new lines
-vim.api.nvim_set_keymap("i", "<c-cr>", "<c-o>o", { noremap = true })
-vim.api.nvim_set_keymap("i", "<c-s-cr>", "<c-o>O", { noremap = true })
-
-vim.api.nvim_set_keymap("i", "<m-h>", "<cmd>normal b<cr>", { noremap = true })
-vim.api.nvim_set_keymap("i", "<m-j>", "<esc>`^<cmd>m .+1<cr>==gi", { noremap = true })
-vim.api.nvim_set_keymap("i", "<m-k>", "<esc>`^<cmd>m .-2<cr>==gi", { noremap = true })
-vim.api.nvim_set_keymap("i", "<m-l>", "<cmd>normal e<cr>", { noremap = true })
-
--- VISUAL MODE REMAPS
-
--- use q to quit visual mode
--- vim.api.nvim_set_keymap("v", "q", "<esc>", { noremap = true })
+vim.api.nvim_set_keymap("i", "jk", "<esc>", { noremap = true })
 
 -- range ex command
 vim.api.nvim_set_keymap("v", ";", ":", { noremap = true })
@@ -99,21 +51,15 @@ vim.api.nvim_set_keymap("v", "<", "<gv", { noremap = true })
 vim.api.nvim_set_keymap("v", ">", ">gv", { noremap = true })
 
 -- ctrl hjkl movements visual mode
-vim.api.nvim_set_keymap("v", "<c-h>", "^", { noremap = true })
-vim.api.nvim_set_keymap("v", "<c-j>", "jzz", { noremap = true })
-vim.api.nvim_set_keymap("v", "<c-k>", "kzz", { noremap = true })
-vim.api.nvim_set_keymap("v", "<c-l>", "$", { noremap = true })
+vim.api.nvim_set_keymap("v", "<c-h>", "B", { noremap = true })
+vim.api.nvim_set_keymap("v", "<c-j>", "}", { noremap = true })
+vim.api.nvim_set_keymap("v", "<c-k>", "{", { noremap = true })
+vim.api.nvim_set_keymap("v", "<c-l>", "E", { noremap = true })
 
-vim.api.nvim_set_keymap("v", "<m-h>", "b", { noremap = true })
+vim.api.nvim_set_keymap("v", "<m-h>", "<", { noremap = true })
 vim.api.nvim_set_keymap("v", "<m-k>", ":m '<-2<cr>==gv", { noremap = true })
 vim.api.nvim_set_keymap("v", "<m-j>", ":m '>+1<cr>==gv", { noremap = true })
-vim.api.nvim_set_keymap("v", "<m-l>", "e", { noremap = true })
-
-vim.keymap.set("v", "<leader>k", function()
-  vim.cmd("'<,'>m '<-2<cr>==gv")
-
-  print("Moved selection up")
-end, { desc = "Move selection up" })
+vim.api.nvim_set_keymap("v", "<m-l>", ">", { noremap = true })
 
 -- toggle wrap
 vim.keymap.set("n", "<leader><cr>", function()
@@ -121,8 +67,6 @@ vim.keymap.set("n", "<leader><cr>", function()
 
   print("Wrap " .. (vim.wo.wrap and "enabled" or "disabled"))
 end, { desc = "Toggle Wrap" })
-
--- WINDOW MANAGEMEMENT
 
 -- window scroll bind, unbind
 vim.keymap.set("n", "<leader>sb", function()
@@ -136,9 +80,6 @@ vim.keymap.set("n", "<leader>so", function()
 
   print("Scroll Bind disabled")
 end, { desc = "Scroll Unbind" })
-
--- ctrl-` to switch windows
-vim.api.nvim_set_keymap("n", "<c-`>", "<c-w>w", { noremap = true })
 
 -- layout windows (non floating/relative)
 local windows = function()
@@ -209,13 +150,27 @@ vim.keymap.set("n", "<m-q>", function()
   end
 end, { desc = "Close current buffer after switching to previous buffer" })
 
--- open explorer for current buffer
-vim.keymap.set("n", "<c-_>", function()
+local current_file_explorer = function()
   local cur_file = vim.fn.expand('%:t')
 
   vim.cmd.Ex()
   vim.fn.search('^'..cur_file..'$')
+end
+
+-- open explorer for current buffer
+vim.keymap.set("n", "<c-_>", function()
+  current_file_explorer()
 end, { desc = "Open Explorer for current file" })
+
+-- open next buffer file
+vim.keymap.set("n", "<m-n>", function()
+  vim.cmd.bnext()
+end, { desc = "Open next buffer file" })
+
+-- open previous buffer file
+vim.keymap.set("n", "<m-p>", function()
+  vim.cmd.bprevious()
+end, { desc = "Open previous buffer file" })
 
 -- turn diagnostics on/off
 vim.keymap.set("n", "<F12>", function()

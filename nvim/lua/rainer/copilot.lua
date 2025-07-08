@@ -16,14 +16,14 @@ require("copilot").setup({
   },
   suggestion = {
     enabled = true,
-    auto_trigger = true,
+    auto_trigger = false,
     debounce = 75,
     keymap = {
       accept = false,
       accept_word = false,
       accept_line = false,
-      next = "<C-.>",
-      prev = "<C-,>",
+      next = false,
+      prev = false,
       dismiss = false,
     },
   },

@@ -66,6 +66,11 @@ noice.setup({
         winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
       },
     },
+    mini = {
+      position = {
+        row = "90%",
+      },
+    },
   },
   messages = {
     enabled = true,
@@ -101,31 +106,15 @@ noice.setup({
       filter = { event = "msg_show" },
     },
   },
-  -- status = {
-  --   ruler = { event = require("noice.ui.msg").events.ruler },
-  --   message = { event = require("noice.ui.msg").events.show },
-  --   cmdline = { event = require("noice.ui.msg").events.showcmd },
-  --   mode = { event = require("noice.ui.msg").events.showmode },
-  --   search = { event = require("noice.ui.msg").events.show, kind = require("noice.ui.msg").kinds.search_count },
-  -- },
 })
 
--- send command
--- vim.keymap.set("c", "<c-cr>", function()
---   noice.redirect(vim.fn.getcmdline())
--- end, { desc = "Redirect Cmdline", noremap = true })
-
----- clear screen
---vim.keymap.set("n", "<leader><space>", function()
---  vim.cmd("noh")
---  vim.cmd("Noice dismiss")
-
---  print("Search highlight cleared")
---end, { desc = "Clear highlights, notices" })
+vim.keymap.set("c", "<c-j>", function()
+  noice.redirect(vim.fn.getcmdline())
+end, { desc = "Noice command", noremap = true })
 
 vim.keymap.set("n", "<leader>no", function()
   noice.cmd("log")
-end, { desc = "Noice log" })
+end, { desc = "Noice log message" })
 
 vim.keymap.set("n", "<leader>nl", function()
   noice.cmd("last")

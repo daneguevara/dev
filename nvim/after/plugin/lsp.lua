@@ -65,27 +65,27 @@ require("mason-lspconfig").setup({
                 -- "~/.local/share/nvim/site/pack/packer/start/LuaSnip",
                 "~/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
                 "~/.local/share/nvim/site/pack/packer/start/harpoon",
-                -- "~/.local/share/nvim/site/pack/packer/start/lsp-zero.nvim",
-                -- "~/.local/share/nvim/site/pack/packer/start/lualine.nvim",
-                -- "~/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
-                -- "~/.local/share/nvim/site/pack/packer/start/mason.nvim",
+                "~/.local/share/nvim/site/pack/packer/start/lsp-zero.nvim",
+                "~/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+                "~/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
+                "~/.local/share/nvim/site/pack/packer/start/mason.nvim",
                 "~/.local/share/nvim/site/pack/packer/start/nvim-cmp",
                 "~/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
                 "~/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
                 -- "~/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
-                -- "~/.local/share/nvim/site/pack/packer/start/packer.nvim",
+                "~/.local/share/nvim/site/pack/packer/start/packer.nvim",
                 "~/.local/share/nvim/site/pack/packer/start/playground",
                 "~/.local/share/nvim/site/pack/packer/start/plenary.nvim",
                 "~/.local/share/nvim/site/pack/packer/start/telescope.nvim",
-                -- "~/.local/share/nvim/site/pack/packer/start/undotree",
-                -- "~/.local/share/nvim/site/pack/packer/start/vim-commentary",
+                "~/.local/share/nvim/site/pack/packer/start/undotree",
+                "~/.local/share/nvim/site/pack/packer/start/vim-commentary",
                 -- "~/.local/share/nvim/site/pack/packer/start/vim-fugitive",
                 "~/.local/share/nvim/site/pack/packer/start/vim-python-pep8-indent",
                 "~/.local/share/nvim/site/pack/packer/start/vim-repeat",
                 "~/.local/share/nvim/site/pack/packer/start/vim-surround",
                 "~/.local/share/nvim/site/pack/packer/opt/copilot-cmp",
                 "~/.local/share/nvim/site/pack/packer/opt/copilot.lua",
-                -- "~/.local/share/nvim/site/pack/packer/opt/nvim-treesitter-textobjects",
+                "~/.local/share/nvim/site/pack/packer/opt/nvim-treesitter-textobjects",
                 -- "/usr/local/lib/nvim",
                 "~/.config/nvim/after",
                 -- Depending on the usage, you might want to add additional paths here.
@@ -275,15 +275,6 @@ cmp.setup({
     end, {
       "i",
     }),
-    ["<c-`>"] = cmp.mapping(function()
-      if cmp.visible() then
-        cmp.complete_common_string()
-      else
-        cmp.complete()
-      end
-    end, {
-      "i",
-    }),
     ["<cr>"] = cmp.mapping(function(fallback)
       if cmp.visible() and cmp.get_active_entry() then
         cmp.confirm({
@@ -348,13 +339,25 @@ cmp.setup({
     end, {
       "i",
     }),
-    ["<c-.>"] = cmp.mapping(function()
+    ["<c-;>"] = cmp.mapping(function()
       local suggestion = require("copilot.suggestion")
 
       if suggestion.is_visible() then
         suggestion.next()
       else
         suggestion.next()
+
+      end
+    end, {
+      "i",
+    }),
+    ["<c-,>"] = cmp.mapping(function()
+      local suggestion = require("copilot.suggestion")
+
+      if suggestion.is_visible() then
+        suggestion.prev()
+      else
+        suggestion.prev()
       end
     end, {
       "i",

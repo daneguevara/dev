@@ -4,7 +4,6 @@ local utils = require("telescope.utils")
 local layout = require("telescope.actions.layout")
 local state = require("telescope.actions.state")
 local actions = require("telescope.actions")
-local harpoon = require("harpoon")
 
 local preview_scroll = function(n)
   local current_picker = state.get_current_picker(vim.api.nvim_get_current_buf())
@@ -52,17 +51,12 @@ telescope.setup({
     sorting_strategy = "ascending",
     mappings = {
       i = {
-        ["<c-\\>"] = "close",
-        ["<c-/>"] = "close",
-        ["<c-f>"] = "close",
         ["<c-j>"] = preview_scroll_j,
         ["<c-k>"] = preview_scroll_k,
         ["<c-s>"] = toggle_preview,
+        ["<esc>"] = actions.close,
       },
       n = {
-        ["<c-\\>"] = "close",
-        ["<c-/>"] = "close",
-        ["<c-f>"] = "close",
         ["<c-s>"] = function()
           layout.toggle_preview(vim.api.nvim_get_current_buf())
         end,

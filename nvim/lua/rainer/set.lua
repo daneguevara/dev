@@ -107,7 +107,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
       vim.cmd.set("filetype=help")
     end
 
-    if width > 120 and vim.o.buftype == "help" then
+    if width > 160 and vim.o.buftype == "help" then
       vim.cmd.wincmd("L")
     end
   end,
@@ -130,23 +130,6 @@ vim.api.nvim_exec([[
 
   autocmd FileType sql setlocal formatprg=sql-formatter\ --config\ ~/.config/sql-formatter/config.json
 ]], false)
-
--- alias commands
--- vim.api.nvim_exec([[
---   cnoreabbrev gs Git status
---   cnoreabbrev gc Git ++curwin commit
---   cnoreabbrev ga Git ++curwin add
---   cnoreabbrev gd Git ++curwin diff
---   cnoreabbrev gdc Git ++curwin diff --cached
---   cnoreabbrev go Git checkout
---   cnoreabbrev gb Git branch
---   cnoreabbrev gg Git blame
-
---   cnoreabbrev gh Octo
-
---   cnoreabbrev git Git
---   cnoreabbrev tsplay TSPlaygroundToggle
--- ]], false)
 
 vim.api.nvim_exec([[
   set titlestring=%{progname}\ %t\ #%{TmuxNavigateDirections()}
