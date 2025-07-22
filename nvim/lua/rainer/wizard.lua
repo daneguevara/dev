@@ -159,7 +159,7 @@ settings = {
       end, { noremap = true, silent = true, buffer = true })
 
       -- t to open today
-      vim.keymap.set('n', 't', function()
+      vim.keymap.set('n', 's', function()
         open_today()
       end, { noremap = true, silent = true, buffer = true })
 
