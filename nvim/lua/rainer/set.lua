@@ -116,6 +116,12 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 vim.g.python_host_prog = os.getenv("HOME") .. "/.pyenv/versions/py2nvim/bin/python"
 vim.g.python3_host_prog = os.getenv("HOME") .. "/.pyenv/versions/py3nvim/bin/python"
 
+-- nerdtree like netrw
+vim.api.nvim_exec([[
+  let g:netrw_liststyle = 3
+  let g:netrw_winsize = 75
+]], false)
+
 -- vim-commentary
 vim.api.nvim_exec([[
   autocmd FileType sql setlocal commentstring=--\ %s
@@ -131,6 +137,7 @@ vim.api.nvim_exec([[
   autocmd FileType sql setlocal formatprg=sql-formatter\ --config\ ~/.config/sql-formatter/config.json
 ]], false)
 
+-- tmux nav
 vim.api.nvim_exec([[
   set titlestring=%{progname}\ %t\ #%{TmuxNavigateDirections()}
 ]], false)

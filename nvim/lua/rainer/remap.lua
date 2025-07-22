@@ -154,7 +154,7 @@ local current_file_explorer = function()
   local cur_file = vim.fn.expand('%:t')
 
   vim.cmd.Ex()
-  vim.fn.search('^'..cur_file..'$')
+  vim.fn.search(cur_file..'$')
 end
 
 -- open explorer for current buffer

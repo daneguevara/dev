@@ -3,17 +3,16 @@ local quote = require('rainer.quotes')
 
 local oldfile_size = 6
 
-local open_oldfile = function(n)
-  vim.fn.search('\\[' .. n .. '\\]', 'w')
+local quest_dir = '~/todo/'
 
-  startup.open_file()
-  vim.cmd('noh')
+local open_main = function()
+  vim.cmd('bd')
+  vim.cmd('e ' .. quest_dir .. 'main.md')
 end
 
 local open_today = function()
   vim.cmd('bd')
-  vim.cmd('Explore')
-  vim.cmd('vsplit ~/todo/' .. os.date('%Y-%m-%d') .. '.md')
+  vim.cmd('e ' .. quest_dir .. os.date('%Y-%m-%d') .. '.md')
 end
 
 local cast_spell = function()
@@ -59,8 +58,8 @@ settings = {
       '         ¶¶££££££££££££££££££££¶¶¶¶££££££¶¶            ',
       '          ¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶    ¶¶¶¶¶¶¶             ',
       '                                                       ',
-      '       t - todo  | o - open  | m-q - close             ',
-      '       p - list  | v - vert  | c-q - quit              ',
+      '       m - main quests | o - open  |   q - close       ',
+      '       s - side quests | v - vert  | c-q - quit        ',
       '                                                       ',
     },
     highlight = 'Statement',
@@ -124,10 +123,11 @@ settings = {
 
           -- clear highlights
           vim.cmd('noh')
+          startup.open_file()
         end, { noremap = true, silent = true, buffer = true })
       end
 
-      -- o to open oldfile
+      -- -- o to open oldfile
       vim.keymap.set('n', 'o', function()
         local line_ref_id = string.match(vim.fn.getline('.'), '%[(%d+)%]')
 
@@ -140,7 +140,7 @@ settings = {
         vim.cmd('noh')
       end, { noremap = true, silent = true, buffer = true })
 
-      -- v to open oldfile in vertical split
+      -- -- v to open oldfile in vertical split
       vim.keymap.set('n', 'v', function()
         local line_ref_id = string.match(vim.fn.getline('.'), '%[(%d+)%]')
 
@@ -153,7 +153,12 @@ settings = {
         vim.cmd('noh')
       end, { noremap = true, silent = true, buffer = true })
 
-      -- t to open todo
+      -- m to open todo
+      vim.keymap.set('n', 'm', function()
+        open_main()
+      end, { noremap = true, silent = true, buffer = true })
+
+      -- t to open today
       vim.keymap.set('n', 't', function()
         open_today()
       end, { noremap = true, silent = true, buffer = true })

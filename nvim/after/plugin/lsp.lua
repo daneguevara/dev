@@ -266,15 +266,6 @@ cmp.setup({
     end, {
       "i",
     }),
-    ["<c-q>"] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.abort()
-      else
-        fallback()
-      end
-    end, {
-      "i",
-    }),
     ["<cr>"] = cmp.mapping(function(fallback)
       if cmp.visible() and cmp.get_active_entry() then
         cmp.confirm({
@@ -346,7 +337,6 @@ cmp.setup({
         suggestion.next()
       else
         suggestion.next()
-
       end
     end, {
       "i",
@@ -358,15 +348,6 @@ cmp.setup({
         suggestion.prev()
       else
         suggestion.prev()
-      end
-    end, {
-      "i",
-    }),
-    ["<c-space>"] = cmp.mapping(function()
-      local suggestion = require("copilot.suggestion")
-
-      if suggestion.is_visible() then
-        suggestion.toggle_auto_trigger()
       end
     end, {
       "i",

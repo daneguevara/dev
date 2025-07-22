@@ -1,36 +1,31 @@
--- add a new task: - [ ] task name
-vim.api.nvim_buf_set_keymap(0, "n", "tT", "O- [ ] ", { noremap = true, silent = true })
-vim.api.nvim_buf_set_keymap(0, "n", "tt", "o- [ ] ", { noremap = true, silent = true })
+-- add a new task: -  task name
+vim.api.nvim_buf_set_keymap(0, "n", "tT", "O-  ", { noremap = true, silent = true })
+vim.api.nvim_buf_set_keymap(0, "n", "tt", "o-  ", { noremap = true, silent = true })
 
--- add a new item: - item name
-vim.api.nvim_buf_set_keymap(0, "n", "tM", "O- ", { noremap = true, silent = true })
-vim.api.nvim_buf_set_keymap(0, "n", "tm", "o- ", { noremap = true, silent = true })
+-- add a new item: -  item name
+vim.api.nvim_buf_set_keymap(0, "n", "t?", "O-  ", { noremap = true, silent = true })
+vim.api.nvim_buf_set_keymap(0, "n", "t/", "o-  ", { noremap = true, silent = true })
 
--- add a new header: ## header name
-vim.api.nvim_buf_set_keymap(0, "n", "tH", "O## ", { noremap = true, silent = true })
-vim.api.nvim_buf_set_keymap(0, "n", "th", "o## ", { noremap = true, silent = true })
-
--- add a new event :   event name
-vim.api.nvim_buf_set_keymap(0, "n", "tE", "O  ", { noremap = true, silent = true })
-vim.api.nvim_buf_set_keymap(0, "n", "te", "o  ", { noremap = true, silent = true })
+-- add a new event: -   event name
+vim.api.nvim_buf_set_keymap(0, "n", "tE", "O-  ", { noremap = true, silent = true })
+vim.api.nvim_buf_set_keymap(0, "n", "te", "o-  ", { noremap = true, silent = true })
 
 local function line_prefix(line)
-  if string.match(line, "## ") then
-    return "## "
+  if string.match(line, "- ") then
+    return "-  "
   end
 
-  if string.match(line, "  ") then
-    return "  "
+  if string.match(line, "- ") then
+    return "-  "
   end
 
-  if string.match(line, "- %[.%] ") then
-    return "- [ ] "
+  if string.match(line, "- ") then
+    return "-  "
   end
 
-  if string.match(line, "- ") then
-    return "- "
+  if string.match(line, "- ") then
+    return "-  "
   end
-
 
   return ""
 end
@@ -43,54 +38,46 @@ vim.keymap.set("i", "<cr>", function()
   return "<cr>" .. prefix
 end, { noremap = true, expr = true, buffer = 0 })
 
-vim.keymap.set("n", "O", function()
-  local line = vim.fn.getline(".")
-  local prefix = line_prefix(line)
-
-  return "O" .. prefix
-end, { noremap = true, expr = true, buffer = 0 })
-
 vim.keymap.set("n", "o", function()
   local line = vim.fn.getline(".")
   local prefix = line_prefix(line)
 
-  return "o" .. prefix
+  return "o" .. prefix .. "<esc>"
 end, { noremap = true, expr = true, buffer = 0 })
 
--- keymap to mark/unmark task on current line as done: - [x] task name
+-- keymap to mark/unmark task on current line as done: -  task name
 vim.keymap.set("n", "x", function()
   local line = vim.fn.getline(".")
 
-  if string.match(line, "- %[ %]") then
-    vim.fn.setline(".", tostring(string.gsub(line, "- %[ %]", "- [x]")))
+  if string.match(line, "- ") then
+    vim.fn.setline(".", tostring(string.gsub(line, "- ", "- ")))
   else
-    vim.fn.setline(".", tostring(string.gsub(line, "- %[x]", "- [ ]")))
+    vim.fn.setline(".", tostring(string.gsub(line, "- ", "- ")))
   end
 end, { noremap = true, silent = true, buffer = 0 })
 
 local function in_place_edit()
   local line = vim.fn.getline(".")
-  local task = string.match(line, "%s*- %[ %] ")
-  local done = string.match(line, "%s*- %[x%] ")
-  local note = string.match(line, "%s*- ")
-  local header = string.match(line, "## ")
-  local event = string.match(line, "  ")
+  local task = string.match(line, "%s*- ")
+  local done = string.match(line, "%s*- ")
+  local item = string.match(line, "%s*- ")
+  local event = string.match(line, "%s*- ")
+  local header = string.match(line, "#+")
 
   if done then
     vim.api.nvim_err_writeln("Cannot edit completed task")
     return
   end
 
-  for _, match in ipairs({ task, note, header, event }) do
-    if match then
-      vim.fn.setline(".", tostring(match))
-      vim.cmd("startinsert!")
-      return
-    end
+  local match = task or item or event or header
+
+  if match then
+    vim.fn.setline(".", tostring(match .. " "))
+    vim.cmd("startinsert!")
+    return
   end
 
-  vim.cmd([[.s/\(.*[#-] \).*/\1/g]])
-  vim.cmd("noh")
+  vim.fn.setline(".", "")
   vim.cmd("startinsert!")
 end
 
@@ -100,19 +87,13 @@ vim.keymap.set("n", "cc", in_place_edit, { noremap = true, buffer = 0 })
 -- TEMPLATE
 local skeleton = {
   "# " .. os.date("%m/%d/%Y"),
-  "",
-  "## TODAY",
-  "",
-  "## TODO",
-  "",
-  "## NOTES",
 }
 
 -- lfg
 vim.keymap.set("n", "<leader>gg", function()
   vim.fn.append(0, skeleton)
 
-  print("LET'S F*CKING GO!")
+  print("Daily")
 end, { noremap = true, silent = true, buffer = 0 })
 
 -- search without highlights
