@@ -113,7 +113,7 @@ end
 
 -- edit new buffer, with vertical split if single window and wide screen
 vim.keymap.set("n", "<c-.>", function()
-  if current_window_width() < 160 then
+  if current_window_width() < 120 then
     vim.cmd("enew")
   else
     vim.cmd("vnew")
@@ -122,7 +122,7 @@ end, { desc = "Edit new (vsplit if space)" })
 
 -- edit new buffer, with horizontal split if single window
 vim.keymap.set("n", "<c-'>", function()
-  if vim.api.nvim_win_get_height(0) < 60 then
+  if vim.api.nvim_win_get_height(0) < 40 then
     return
   end
 

@@ -6,7 +6,7 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 
 -- no wrap
-vim.opt.wrap = false
+vim.opt.wrap = true
 
 -- set mouse
 vim.opt.mouse = "a"
@@ -101,7 +101,6 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   pattern = "help,*.txt",
   callback = function()
     local width = vim.api.nvim_win_get_width(0)
-    local height = vim.api.nvim_win_get_height(0)
 
     if vim.o.buftype == "help" then
       vim.cmd.set("filetype=help")
@@ -115,12 +114,6 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
 
 vim.g.python_host_prog = os.getenv("HOME") .. "/.pyenv/versions/py2nvim/bin/python"
 vim.g.python3_host_prog = os.getenv("HOME") .. "/.pyenv/versions/py3nvim/bin/python"
-
--- nerdtree like netrw
-vim.api.nvim_exec([[
-  let g:netrw_liststyle = 3
-  let g:netrw_winsize = 75
-]], false)
 
 -- vim-commentary
 vim.api.nvim_exec([[

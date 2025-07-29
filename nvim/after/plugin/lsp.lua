@@ -1,132 +1,86 @@
-local lsp = require("lsp-zero")
-local lspconfig = require("lspconfig")
+require("mason").setup({})
+local lsp_zero = require("lsp-zero")
 
-lsp.on_attach(function(_, buff)
-  lsp.default_keymaps({ buffer = buff })
+lsp_zero.on_attach(function(_, buff)
+  lsp_zero.default_keymaps({ buffer = buff })
 end)
 
-require("mason").setup({})
-require("mason-lspconfig").setup({
-  ensure_installed = { "lua_ls", "rust_analyzer" },
+vim.lsp.enable("lua_ls", require'lspconfig'.lua_ls.setup {
+  on_init = function(client)
+    local path = client.workspace_folders[1].name
+    if vim.loop.fs_stat(path..'/.luarc.json') or vim.loop.fs_stat(path..'/.luarc.jsonc') then
+      return
+    end
 
-  handlers = {
-    ["pylsp"] = function()
-      lspconfig.pylsp.setup({
-        settings = {
-          pylsp = {
-            configurationSources = { "flake8" },
-            plugins = {
-              pycodestyle = {
-                enabled = false,
-              },
-            },
-            flake8 = {
-              enabled = true,
-              --["hang-closing"] = true,
-              config = "flake8",
-            },
-            ruff = {
-              enabled = true,
-            },
-          },
+    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+      runtime = {
+        -- Tell the language server which version of Lua you're using
+        -- (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT'
+      },
+      -- Make the server aware of Neovim runtime files
+      workspace = {
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME
+          -- Depending on the usage, you might want to add additional paths here.
+          -- "${3rd}/luv/library"
+          -- "${3rd}/busted/library",
+        }
+        -- or pull in all of 'runtimepath'. NOTE: this is a lot slower
+        -- library = vim.api.nvim_get_runtime_file("", true)
+      }
+    })
+  end,
+  settings = {
+    Lua = {}
+  }
+})
+
+vim.lsp.enable("rust_analyzer")
+
+vim.lsp.enable("pylsp", {
+  settings = {
+    pylsp = {
+      configurationSources = { "flake8" },
+      plugins = {
+        pycodestyle = {
+          enabled = false,
         },
-      })
-    end,
-
-    ["sqlls"] = function()
-      lspconfig.sqlls.setup({
-        cmd = { "sql-language-server", "up", "--method", "stdio" },
-        filetypes = { "sql" },
-        root_dir = function()
-          return vim.loop.cwd()
-        end,
-      })
-    end,
-
-    ["lua_ls"] = function()
-      lspconfig.lua_ls.setup({
-        on_init = function(client)
-          local path = client.workspace_folders[1].name
-          if vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc") then
-            return
-          end
-
-          client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
-            runtime = {
-              -- Tell the language server which version of Lua you're using
-              -- (most likely LuaJIT in the case of Neovim)
-              version = "LuaJIT"
-            },
-            -- Make the server aware of Neovim runtime files
-            workspace = {
-              checkThirdParty = false,
-              library = {
-                vim.env.VIMRUNTIME,
-                -- "~/.local/share/nvim/site/pack/packer/start/LuaSnip",
-                "~/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
-                "~/.local/share/nvim/site/pack/packer/start/harpoon",
-                "~/.local/share/nvim/site/pack/packer/start/lsp-zero.nvim",
-                "~/.local/share/nvim/site/pack/packer/start/lualine.nvim",
-                "~/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
-                "~/.local/share/nvim/site/pack/packer/start/mason.nvim",
-                "~/.local/share/nvim/site/pack/packer/start/nvim-cmp",
-                "~/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
-                "~/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
-                -- "~/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
-                "~/.local/share/nvim/site/pack/packer/start/packer.nvim",
-                "~/.local/share/nvim/site/pack/packer/start/playground",
-                "~/.local/share/nvim/site/pack/packer/start/plenary.nvim",
-                "~/.local/share/nvim/site/pack/packer/start/telescope.nvim",
-                "~/.local/share/nvim/site/pack/packer/start/undotree",
-                "~/.local/share/nvim/site/pack/packer/start/vim-commentary",
-                -- "~/.local/share/nvim/site/pack/packer/start/vim-fugitive",
-                "~/.local/share/nvim/site/pack/packer/start/vim-python-pep8-indent",
-                "~/.local/share/nvim/site/pack/packer/start/vim-repeat",
-                "~/.local/share/nvim/site/pack/packer/start/vim-surround",
-                "~/.local/share/nvim/site/pack/packer/opt/copilot-cmp",
-                "~/.local/share/nvim/site/pack/packer/opt/copilot.lua",
-                "~/.local/share/nvim/site/pack/packer/opt/nvim-treesitter-textobjects",
-                -- "/usr/local/lib/nvim",
-                "~/.config/nvim/after",
-                -- Depending on the usage, you might want to add additional paths here.
-                -- "${3rd}/luv/library"
-                -- "${3rd}/busted/library",
-              }
-              -- or pull in all of "runtimepath". NOTE: this is a lot slower
-              -- library = vim.api.nvim_get_runtime_file("", true)
-            }
-          })
-        end,
-        settings = {
-          Lua = {
-            diagnostics = {
-              globals = { "vim" },
-            },
-          },
-        },
-      })
-    end,
-
-    ["ts_ls"] = function()
-      lspconfig.ts_ls.setup({})
-    end,
-
-    ["terraformls"] = function()
-      lspconfig.terraformls.setup({})
-
-      vim.api.nvim_create_autocmd({"BufWritePre"}, {
-        pattern = {"*.tf", "*.tfvars"},
-        callback = function()
-          vim.lsp.buf.format()
-        end,
-      })
-    end,
-
-    ["tflint"] = function()
-      lspconfig.tflint.setup({})
-    end,
+      },
+      flake8 = {
+        enabled = true,
+        --["hang-closing"] = true,
+        config = "flake8",
+      },
+      ruff = {
+        enabled = true,
+      },
+    },
   },
 })
+
+
+vim.lsp.enable("sqlls", {
+  cmd = { "sql-language-server", "up", "--method", "stdio" },
+  filetypes = { "sql" },
+  root_dir = function()
+    return vim.loop.cwd()
+  end,
+})
+
+vim.lsp.enable("ts_ls", {})
+
+vim.lsp.enable("terraformls", {})
+
+vim.api.nvim_create_autocmd({"BufWritePre"}, {
+  pattern = {"*.tf", "*.tfvars"},
+  callback = function()
+    vim.lsp.buf.format()
+  end,
+})
+
+vim.lsp.enable("tflint", {})
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("rainer-lsp-attach", { clear = true }),
@@ -181,23 +135,28 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
-local cmp_status_ok, cmp = pcall(require, "cmp")
+-- local cmp_status_ok, cmp = pcall(require, "cmp")
 
-if not cmp_status_ok then
-  return
-end
+-- if not cmp_status_ok then
+--   return
+-- end
 
-local snip_status_ok, luasnip = pcall(require, "luasnip")
-if not snip_status_ok then
-  return
-end
+-- local snip_status_ok, luasnip = pcall(require, "luasnip")
+-- if not snip_status_ok then
+--   return
+-- end
 
-require("luasnip/loaders/from_vscode").lazy_load()
+-- require("luasnip/loaders/from_vscode").lazy_load()
 
 -- local check_backspace = function()
 --   local col = vim.fn.col(".") - 1
 --   return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
 -- end
+
+local cmp = require("cmp")
+local luasnip = require("luasnip")
+
+require("luasnip/loaders/from_vscode").lazy_load()
 
 --   פּ ﯟ   some other good icons
 local kind_icons = {

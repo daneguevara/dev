@@ -10,6 +10,12 @@ vim.api.nvim_buf_set_keymap(0, "n", "t/", "o-  ", { noremap = true, silent = 
 vim.api.nvim_buf_set_keymap(0, "n", "tE", "O-  ", { noremap = true, silent = true })
 vim.api.nvim_buf_set_keymap(0, "n", "te", "o-  ", { noremap = true, silent = true })
 
+local quest_dir = '~/todo/'
+
+local open_today = function()
+  vim.cmd('e ' .. quest_dir .. os.date('%Y-%m-%d') .. '.md')
+end
+
 local function line_prefix(line)
   if string.match(line, "- ") then
     return "-  "
@@ -38,11 +44,18 @@ vim.keymap.set("i", "<cr>", function()
   return "<cr>" .. prefix
 end, { noremap = true, expr = true, buffer = 0 })
 
+vim.keymap.set("n", "O", function()
+  local line = vim.fn.getline(".")
+  local prefix = line_prefix(line)
+
+  return "O" .. prefix
+end, { noremap = true, expr = true, buffer = 0 })
+
 vim.keymap.set("n", "o", function()
   local line = vim.fn.getline(".")
   local prefix = line_prefix(line)
 
-  return "o" .. prefix .. "<esc>"
+  return "o" .. prefix
 end, { noremap = true, expr = true, buffer = 0 })
 
 -- keymap to mark/unmark task on current line as done: -  task name
@@ -89,7 +102,8 @@ local skeleton = {
   "# " .. os.date("%m/%d/%Y"),
 }
 
--- lfg
+vim.keymap.set("n", "<leader>qq", open_today, { noremap = true, buffer = 0 })
+
 vim.keymap.set("n", "<leader>gg", function()
   vim.fn.append(0, skeleton)
 
