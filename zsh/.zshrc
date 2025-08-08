@@ -70,7 +70,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vscode z)
+plugins=(git python vscode z)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -100,6 +100,11 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# TeX Live
+export MANPATH="/usr/local/texlive/2023/texmf-dist/doc/man:$MANPATH"
+export INFOPATH="/usr/local/texlive/2023/texmf-dist/doc/info:$INFOPATH"
+export PATH="/usr/local/texlive/2023/bin/universal-darwin:$PATH"
+
 # nvm
 export NVM_DIR="$HOME/.nvm"
   [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
@@ -107,39 +112,48 @@ export NVM_DIR="$HOME/.nvm"
 
 # custom git aliases
 alias gs="git status"
-alias go="git checkout"
+alias gco="git checkout"
 alias gcb="git checkout -b"
 alias gl="git log --oneline --decorate"
 alias gd="GIT_PAGER='less -F -X' git diff"
 alias gdc="GIT_PAGER='less -F -X' git diff --cached"
 alias j="z"
 
-alias woof="git diff -z --name-only --diff-filter=ACMR origin/master... -- '*.py' ':(exclude)*/alembic_*' | xargs -0r -- ruff check"
-
-# alias vim="nvim10"
 alias vim="nvim"
 
+# homebrew
+export HOMEBREW_PREFIX="/opt/homebrew"
+export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+export HOMEBREW_REPOSITORY="/opt/homebrew"
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}"
+export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:"
+export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
+
+# nvm
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh
+
+# pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(pyenv virtualenv-init -)"
 
 # pnpm
-export PNPM_HOME="~/Library/pnpm"
+export PNPM_HOME="/Users/dane/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
 
-# osx user bin
-export PATH=$PATH:$HOME/bin
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-setopt IGNORE_EOF
-
-source ~/.iterm2_shell_integration.zsh
+# Generated for envman. Do not edit.
+[ -s "$HOME/.config/envman/load.sh" ] && source "$HOME/.config/envman/load.sh"
 
 export PS1="$PS1ツ "
+
+unsetopt autocd
+
+eval "$(direnv hook zsh)"
