@@ -265,9 +265,7 @@ cmp.setup({
     ["<c-k>"] = cmp.mapping(function(fallback)
       local suggestion = require("copilot.suggestion")
 
-      if luasnip.expandable() then
-        luasnip.expand()
-      elseif luasnip.jumpable(-1) then
+      if luasnip.jumpable(-1) then
         luasnip.jump(-1)
       elseif suggestion.is_visible() then
         suggestion.accept_word()

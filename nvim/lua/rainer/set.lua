@@ -132,5 +132,37 @@ vim.api.nvim_exec([[
 
 -- tmux nav
 vim.api.nvim_exec([[
-  set titlestring=%{progname}\ %t\ #%{TmuxNavigateDirections()}
+  function! IsFloating(id) abort
+      let l:cfg = nvim_win_get_config(a:id)
+      return !empty(l:cfg.relative) || l:cfg.external
+  endfunction
+
+  function! TmuxNavigateDirections() abort
+    let [y, x] = win_screenpos('.')
+    let h = winheight('.')
+    let w = winwidth('.')
+
+    let can_go_up    = y > 2 " +1 for the tabline
+    let can_go_down  = y + h < &lines - &laststatus
+    let can_go_left  = x > 1
+    let can_go_right = x + w < &columns
+
+    if IsFloating(0)
+      return ''
+    endif
+
+    return
+          \ (can_go_up    ? 'U' : '') .
+          \ (can_go_down  ? 'D' : '') .
+          \ (can_go_left  ? 'L' : '') .
+          \ (can_go_right ? 'R' : '')
+  endfunction
+
+  let progname = substitute($VIM, '.*[/\\]', '', '')
+  set title titlestring=%{progname}\ %t\ #%{TmuxNavigateDirections()}
+
+  " enable support for setting the window title in regular Vim under tmux
+  if &term =~ '^screen' && !has('nvim')
+    execute "set t_ts=\e]2; t_fs=\7"
+  endif
 ]], false)

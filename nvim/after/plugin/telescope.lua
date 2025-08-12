@@ -57,6 +57,8 @@ telescope.setup({
         ["<esc>"] = actions.close,
       },
       n = {
+        ["<c-n>"] = false,
+        ["<c-p>"] = false,
         ["<c-s>"] = function()
           layout.toggle_preview(vim.api.nvim_get_current_buf())
         end,

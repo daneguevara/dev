@@ -57,8 +57,8 @@ vim.api.nvim_set_keymap("v", "<c-k>", "{", { noremap = true })
 vim.api.nvim_set_keymap("v", "<c-l>", "E", { noremap = true })
 
 vim.api.nvim_set_keymap("v", "<m-h>", "<", { noremap = true })
-vim.api.nvim_set_keymap("v", "<m-k>", ":m '<-2<cr>==gv", { noremap = true })
 vim.api.nvim_set_keymap("v", "<m-j>", ":m '>+1<cr>==gv", { noremap = true })
+vim.api.nvim_set_keymap("v", "<m-k>", ":m '<-2<cr>==gv", { noremap = true })
 vim.api.nvim_set_keymap("v", "<m-l>", ">", { noremap = true })
 
 -- toggle wrap

@@ -95,14 +95,22 @@ return require("packer").startup(function(use)
   use("tpope/vim-surround")
   use("tpope/vim-repeat")
 
-  use("sunaku/tmux-navigate")
+  use {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    config = function()
+      require("nvim-autopairs").setup {}
+    end
+  }
+
+  -- modified and configured in set.lua
+  -- use("sunaku/tmux-navigate")
 
   use("lucasprag/simpleblack")
   use({
     "catppuccin/nvim",
     as = "catppuccin",
   })
-  use { "scottmckendry/cyberdream.nvim" }
   use("MunifTanjim/nui.nvim")
   use("rcarriga/nvim-notify")
 
