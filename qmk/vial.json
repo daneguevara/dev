@@ -309,7 +309,7 @@
         "KC_TRNS"
       ],
       [
-        "LSFT_T(KC_ESCAPE)",
+        "KC_TRNS",
         "LSFT(KC_A)",
         "LSFT(KC_S)",
         "LSFT(KC_D)",
@@ -318,7 +318,7 @@
         "KC_TRNS"
       ],
       [
-        "KC_TRNS",
+        "KC_LGUI",
         "LSFT(KC_Z)",
         "LSFT(KC_X)",
         "LSFT(KC_C)",
