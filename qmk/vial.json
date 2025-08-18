@@ -13,7 +13,7 @@
         "RGB_MOD"
       ],
       [
-        "LCTL_T(KC_ESCAPE)",
+        "LSFT_T(KC_ESCAPE)",
         "KC_A",
         "KC_S",
         "KC_D",
@@ -22,7 +22,7 @@
         "RGB_RMOD"
       ],
       [
-        "KC_LSHIFT",
+        "KC_LCTRL",
         "KC_Z",
         "KC_X",
         "KC_C",
@@ -309,7 +309,7 @@
         "KC_TRNS"
       ],
       [
-        "LGUI_T(KC_ESCAPE)",
+        "LSFT_T(KC_ESCAPE)",
         "LSFT(KC_A)",
         "LSFT(KC_S)",
         "LSFT(KC_D)",
@@ -383,7 +383,7 @@
         "KC_TRNS"
       ],
       [
-        "KC_LCTRL",
+        "KC_LSHIFT",
         "KC_TRNS",
         "KC_TRNS",
         "KC_TRNS",
@@ -392,7 +392,7 @@
         "KC_TRNS"
       ],
       [
-        "KC_LSHIFT",
+        "KC_LCTRL",
         "KC_TRNS",
         "KC_TRNS",
         "KC_TRNS",
