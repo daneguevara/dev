@@ -29,9 +29,9 @@ configs.setup({
       -- and should return the mode ("v", "V", or "<c-v>") or a table
       -- mapping query_strings to modes.
       selection_modes = {
-        ["@parameter.outer"] = "v", -- charwise
-        ["@function.outer"] = "V", -- linewise
-        ["@class.outer"] = "V", -- blockwise
+        ["@parameter.outer"] = "v",
+        ["@function.outer"] = "V",
+        ["@class.outer"] = "V",
       },
       -- If you set this to `true` (default is `false`) then any textobject is
       -- extended to include preceding or succeeding whitespace. Succeeding

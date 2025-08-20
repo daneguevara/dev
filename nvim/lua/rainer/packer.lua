@@ -82,7 +82,7 @@ return require("packer").startup(function(use)
     cmd = "Copilot",
     event = "InsertEnter",
     config = function()
-      local copilot = require("rainer.copilot")
+      require("rainer.copilot")
     end,
     requires = {
       "nvim-lualine/lualine.nvim",
@@ -94,6 +94,7 @@ return require("packer").startup(function(use)
   use("tpope/vim-fugitive")
   use("tpope/vim-surround")
   use("tpope/vim-repeat")
+  use("JoosepAlviste/nvim-ts-context-commentstring");
 
   use {
     "windwp/nvim-autopairs",
