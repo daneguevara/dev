@@ -1,12 +1,12 @@
 # DEV ENVIRONMENT
--  iterm2
-    -  osx keybinds
--  zsh
-    -  ohmyzsh
--  tmux
-    -  tpm
-    -  local + remote config
-    -  nested sessions toggle
-    -  vim navigation
--  neovim
-    -  packer
+- iterm2
+    - osx keybinds
+- zsh
+    - ohmyzsh
+- tmux
+    - tpm
+    - local + remote config
+    - nested sessions toggle
+    - vim navigation
+- neovim
+    - packer
