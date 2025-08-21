@@ -1,4 +1,4 @@
-# DEV ENVIRONMENT
+# dotfiles
 - iterm2
     - osx keybinds
 - zsh
