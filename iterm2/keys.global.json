@@ -1,11 +1,5 @@
 {
   "Key Mappings": {
-    "0x7f-0x20000-0x33": {
-      "Version": 1,
-      "Label": "",
-      "Text": "08",
-      "Action": 11
-    },
     "0xf703-0x3c0000-0x7c": {
       "Version": 1,
       "Label": "",
@@ -30,22 +24,22 @@
       "Text": "",
       "Action": 24
     },
+    "0x7f-0x40000-0x33": {
+      "Version": 2,
+      "Apply Mode": 0,
+      "Action": 11,
+      "Text": "0x15",
+      "Escaping": 2
+    },
     "0xf72b-0x100000": {
-      "Text": "",
-      "Action": 4
+      "Action": 4,
+      "Text": ""
     },
     "0xf700-0x300000-0x7e": {
       "Version": 1,
       "Label": "",
       "Text": "",
       "Action": 24
-    },
-    "0x7f-0x100000-0x33": {
-      "Version": 2,
-      "Apply Mode": 0,
-      "Action": 22,
-      "Text": "",
-      "Escaping": 2
     },
     "0xf702-0x300000-0x7b": {
       "Version": 1,
@@ -83,6 +77,13 @@
       "Text": "",
       "Action": 22
     },
+    "0x7f-0x80000-0x33": {
+      "Version": 2,
+      "Apply Mode": 0,
+      "Action": 11,
+      "Text": "0x17",
+      "Escaping": 2
+    },
     "0xf701-0x300000-0x7d": {
       "Version": 1,
       "Label": "",
@@ -90,8 +91,8 @@
       "Action": 24
     },
     "0xf729-0x100000": {
-      "Text": "",
-      "Action": 5
+      "Action": 5,
+      "Text": ""
     },
     "0x43-0x60000-0x8": {
       "Version": 1,
