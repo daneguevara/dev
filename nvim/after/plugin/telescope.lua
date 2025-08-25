@@ -83,8 +83,8 @@ telescope.setup({
 
 -- quickfix bindings
 vim.keymap.set("n", "<leader>fq", builtin.quickfix, { desc = "[F]ind [Q]uickfix" })
-vim.keymap.set("n", "<leader>fn", function() vim.cmd("cnext") end, { desc = "[Q]uickfix [N]ext" })
-vim.keymap.set("n", "<leader>fp", function() vim.cmd("cprev") end, { desc = "[Q]uickfix [P]rev" })
+vim.keymap.set("n", "<m-n>", function() vim.cmd("cnext") end, { desc = "[Q]uickfix [N]ext" })
+vim.keymap.set("n", "<m-p>", function() vim.cmd("cprev") end, { desc = "[Q]uickfix [P]rev" })
 
 -- general searches
 vim.keymap.set("n", "<leader>fo", builtin.oldfiles, { desc = "[F]ind [O]ld" })
@@ -144,6 +144,12 @@ vim.keymap.set("n", "<c-/>", function()
   builtin.live_grep({
     prompt_title = "Grep (" .. utils.buffer_dir() .. ")",
     cwd = utils.buffer_dir(),
+    attach_mappings = function(_, map)
+      map("i", "<c-/>", "close")
+      map("n", "<c-/>", "close")
+
+      return true
+    end,
   })
 end, { desc = "Local Grep" })
 
@@ -158,13 +164,11 @@ vim.keymap.set("n", "<leader>?", function()
 end, { desc = "Grep Cursor Word" })
 
 -- buffer manager
-vim.keymap.set("n", "<c-b>", function()
+vim.keymap.set("n", "<leader>fb", function()
   builtin.buffers({
     sort_mru = true,
     attach_mappings = function(_, map)
       map("i", "<c-q>", "delete_buffer")
-      map("i", "<c-b>", "close")
-      map("n", "<c-b>", "close")
 
       return true
     end,

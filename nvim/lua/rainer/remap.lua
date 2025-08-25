@@ -162,16 +162,6 @@ vim.keymap.set("n", "<c-_>", function()
   current_file_explorer()
 end, { desc = "Open Explorer for current file" })
 
--- open next buffer file
-vim.keymap.set("n", "<m-n>", function()
-  vim.cmd.bnext()
-end, { desc = "Open next buffer file" })
-
--- open previous buffer file
-vim.keymap.set("n", "<m-p>", function()
-  vim.cmd.bprevious()
-end, { desc = "Open previous buffer file" })
-
 -- turn diagnostics on/off
 vim.keymap.set("n", "<F12>", function()
   vim.diagnostic.enable(not vim.diagnostic.is_enabled())
